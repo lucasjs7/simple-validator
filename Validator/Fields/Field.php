@@ -22,7 +22,6 @@ class Field {
 		return $this->required;
 	}
 
-
 	// !!!
 	// validar o param $value, para ver se está dentro da
 	// lista suportada no método validateType

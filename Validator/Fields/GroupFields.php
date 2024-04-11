@@ -27,7 +27,7 @@ class GroupFields {
 
 		foreach ($fields as $fieldName => $fieldData) {
 			if (array_key_exists($fieldName, $this->dataFields)) {
-				$this->errorMsg = "O campo \"$fieldName\" já foi declarado.";
+				$this->setError("O campo \"$fieldName\" já foi declarado.");
 				return false;
 			}
 
@@ -71,7 +71,7 @@ class GroupFields {
 			$validate = $pField->validate($this->data);
 
 			if (!$validate['status']) {
-				$this->errorMsg = $validate['message'];
+				$this->setError($validate['message']);
 				return false;
 			}
 		}
