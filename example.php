@@ -2,9 +2,9 @@
 
 ini_set('display_errors', '1');
 
-include 'Validator\Fields\GroupFields.php';
-include 'Validator\Fields\Field.php';
-include 'Validator\Fields\ExceptionField.php';
+include 'Validator/Fields/GroupFields.php';
+include 'Validator/Fields/Field.php';
+include 'Validator/Fields/ExceptionField.php';
 
 use Validator\Fields\GroupFields as vFields;
 use Validator\Fields\ExceptionField;
@@ -19,8 +19,6 @@ try {
 	]);
 
 	$vFields->validate();
-
-	var_dump($vFields);
 
 	echo 'sucesso';
 } catch (ExceptionField $e) {
