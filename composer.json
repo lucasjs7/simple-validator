@@ -3,5 +3,8 @@
 		"psr-4": {
 			"Lib\\": "Lib/"
 		}
+	},
+	"require": {
+		"lucasjs7/simple-cli-table": "^1.03"
 	}
 }

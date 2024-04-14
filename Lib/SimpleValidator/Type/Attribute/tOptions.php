@@ -5,16 +5,16 @@ namespace Lib\SimpleValidator\Type\Attribute;
 trait tOptions {
 
 	public function options(string ...$values) {
-		array_push($this->options, ...$values);
+		$this->attr->options->setValue($values);
 
 		return $this;
 	}
 
 	public function validateOptions(mixed $value): bool {
-		if (!isset($this->options)) {
+		if ($this->attr->options->getValue() === null) {
 			return true;
 		}
 
-		return (is_string($value) && in_array($value, $this->options));
+		return (is_string($value) && in_array($value, $this->attr->options->getValue()));
 	}
 }

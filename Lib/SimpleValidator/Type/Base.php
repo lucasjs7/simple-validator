@@ -2,16 +2,18 @@
 
 namespace Lib\SimpleValidator\Type;
 
+use Lib\SimpleValidator\Type\Attribute\AttrError;
+use Lib\SimpleValidator\Type\Attribute\Attribute as Attribute;
+
 abstract class Base implements iBase {
 
-	protected float $min;
-	protected float $max;
-	protected array $options;
-	protected array $format;
-	protected bool $required = false;
-
+	protected readonly Attribute $attr;
 	protected string $errorMsg = '';
 	protected bool $exception = true;
+
+	public function __construct() {
+		$this->attr = new Attribute;
+	}
 
 	protected function setError(string $message): void {
 		$this->errorMsg = $message;
@@ -26,7 +28,7 @@ abstract class Base implements iBase {
 	}
 
 	public function required(bool $value = true): Base {
-		$this->required = $value;
+		$this->attr->required->setValue($value);
 		return $this;
 	}
 
@@ -34,8 +36,7 @@ abstract class Base implements iBase {
 		$this->exception = $exception;
 
 		if (!$this->checkAttributes()) {
-			$this->setError('Está sendo usado atributos conflitantes.');
-			return false;
+			AttrError::buildError($this->attr, 'Está sendo usado atributos conflitantes.');
 		}
 
 		return true;
@@ -44,9 +45,9 @@ abstract class Base implements iBase {
 	protected function checkAttributes(): bool {
 		$validGroups = [];
 
-		$validGroups[] = (!empty($this->max) || !empty($this->min));
-		$validGroups[] = (!empty($this->options));
-		$validGroups[] = (!empty($this->format));
+		$validGroups[] = ($this->attr->max->getValue() !== null || $this->attr->min->getValue() !== null);
+		$validGroups[] = ($this->attr->options->getValue() !== null);
+		$validGroups[] = ($this->attr->format->getValue() !== null);
 
 		return (array_sum($validGroups) <= 1);
 	}

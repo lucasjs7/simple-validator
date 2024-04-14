@@ -7,10 +7,16 @@ require_once 'vendor/autoload.php';
 
 // use Lib\SimpleValidator\Struct;
 use Lib\SimpleValidator\Type\_String;
+use Lib\SimpleValidator\Type\TypeException;
 
-$string = new _String;
+try {
 
-var_dump($string->min(2)->max(1));
+	$vString = (new _String)->min(3)->max(2);
+
+	var_dump($vString->validate(3));
+} catch (TypeException $e) {
+	echo "Error: {$e->getMessage()}";
+}
 
 // try {
 // 	Struct::new([
