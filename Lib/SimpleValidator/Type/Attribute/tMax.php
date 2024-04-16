@@ -12,13 +12,16 @@ trait tMax {
 		return $this;
 	}
 
-	public function validateMax(mixed $value): bool {
+	public function validateMax(mixed $value): array {
 		if ($this->attr->max->getValue() === null) {
-			return true;
-		} elseif ($this->attr->min->getValue() > $this->attr->max->getValue()) {
-			AttrError::buildError($this->attr, 'O atributo "min" não pode ser superior ao atributo "max".');
+			return [true, 'ok'];
 		}
 
-		return (filter_var($value, FILTER_VALIDATE_FLOAT) !== false && $value <= $this->attr->max->getValue());
+		$isValid = (filter_var($value, FILTER_VALIDATE_FLOAT) !== false && $value <= $this->attr->max->getValue());
+
+		return match ($isValid) {
+			true  => [true, 'ok'],
+			false => [false, 'O atributo "max" é inválido.'],
+		};
 	}
 }

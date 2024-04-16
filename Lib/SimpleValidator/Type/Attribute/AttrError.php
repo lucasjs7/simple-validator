@@ -21,15 +21,27 @@ class AttrError {
 		$attrTable->add(['Attribute', 'Value', 'Error']);
 
 		foreach ($attr as $kAttr => $vAttr) {
+			$attrValeu = match (gettype($vAttr->getValue())) {
+				'array', 'object' => json_encode($vAttr->getValue()),
+				'NULL' 			  => '',
+				default => $vAttr->getValue(),
+			};
+
 			$attrTable->add([
 				$kAttr,
-				$vAttr->getValue() ?? '',
-				$vAttr->getError(),
+				$attrValeu,
+				$vAttr->getError() ? '*' : '',
 			]);
 		}
 
 		$exception = new Exception();
-		$bkData = explode("\n", $exception->getTraceAsString());
+		$strTrace = $exception->getTraceAsString();
+
+		if (!ini_get('display_errors')) {
+			error_log("AttrError: $errorMessage\n$strTrace");
+		}
+
+		$bkData = explode("\n", $strTrace);
 		$penultBkData = (array_key_last($bkData) - 1);
 		$bkTable = new SimpleCliTable;
 
@@ -45,8 +57,8 @@ class AttrError {
 			]);
 		}
 
-		$exit = SimpleCliTable::build([["SimpleValidator - Attribute Error"], [$errorMessage]], true);
-		$exit .= $attrTable->render();
+		$exit = SimpleCliTable::build([["SimpleValidator - Attribute Error"], [$errorMessage]], true) . "\n";
+		$exit .= $attrTable->render() . "\n";
 		$exit .= $bkTable->render();
 
 		exit($exit);

@@ -12,16 +12,25 @@ class _String extends Base {
 		if (!parent::validate($value, $exception)) {
 			return false;
 		}
-		if (!$this->validateOptions($value)) {
-			$this->setError('O atributo "options" é inválido.');
+
+		[$status, $message] = $this->validateOptions($value);
+
+		if (!$status) {
+			$this->setError($message);
 			return false;
 		}
-		if (!$this->validateMin($value)) {
-			$this->setError('O atributo "min" é inválido.');
+
+		[$status, $message] = $this->validateMin($value);
+
+		if (!$status) {
+			$this->setError($message);
 			return false;
 		}
-		if (!$this->validateMax($value)) {
-			$this->setError('O atributo "max" é inválido.');
+
+		[$status, $message] = $this->validateMax($value);
+
+		if (!$status) {
+			$this->setError($message);
 			return false;
 		}
 

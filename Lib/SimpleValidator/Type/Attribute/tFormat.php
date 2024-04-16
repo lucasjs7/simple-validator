@@ -12,11 +12,16 @@ trait tFormat {
 		return $this;
 	}
 
-	public function validateFormat(mixed $value): bool {
+	public function validateFormat(mixed $value): array {
 		if ($this->attr->format->getValue() === null) {
-			return true;
+			return [true, 'ok'];
 		}
 
-		return (!is_string($value) && DateTime::createFromFormat($this->attr->format->getValue(), $value) !== false);
+		$isValid = (!is_string($value) && DateTime::createFromFormat($this->attr->format->getValue(), $value) !== false);
+
+		return match ($isValid) {
+			true  => [true, 'ok'],
+			false => [false, 'O atributo "format" é inválido.'],
+		};
 	}
 }

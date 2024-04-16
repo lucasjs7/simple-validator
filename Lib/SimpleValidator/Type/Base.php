@@ -36,6 +36,12 @@ abstract class Base implements iBase {
 		$this->exception = $exception;
 
 		if (!$this->checkAttributes()) {
+			foreach ($this->attr as $nameAttr => $attribute) {
+				if ($nameAttr != 'required' && $attribute->getValue() !== null) {
+					$attribute->setError(true);
+				}
+			}
+
 			AttrError::buildError($this->attr, 'Está sendo usado atributos conflitantes.');
 		}
 
