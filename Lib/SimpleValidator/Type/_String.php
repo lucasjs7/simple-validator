@@ -8,6 +8,10 @@ class _String extends Base {
 
 	use tOptions, tMin, tMax;
 
+	public static function new(): _String {
+		return new self;
+	}
+
 	public function validate(mixed $value, bool $exception = true): bool {
 		if (!parent::validate($value, $exception)) {
 			return false;

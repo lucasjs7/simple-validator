@@ -13,6 +13,6 @@ class Struct {
 	}
 
 	public static function new(array $map) {
-		return new Struct($map);
+		return new self($map);
 	}
 }

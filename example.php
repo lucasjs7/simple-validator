@@ -5,15 +5,15 @@ error_reporting(E_ALL);
 
 require_once 'vendor/autoload.php';
 
-// use Lib\SimpleValidator\Struct;
+use Lib\SimpleValidator\Struct;
 use Lib\SimpleValidator\Type\_String;
 use Lib\SimpleValidator\Type\TypeException;
 
 try {
 
-	$vString = (new _String)->min(3)->max(2);
+	$vString = _String::new()->options('um', 'dois', 'três');
 
-	var_dump($vString->validate(3));
+	var_dump($vString->validate('um'));
 } catch (TypeException $e) {
 	echo "Error: {$e->getMessage()}";
 }
