@@ -6,22 +6,18 @@ use Lib\SimpleValidator\Type\Attribute\{tMin, tMax};
 
 class _Int extends Base {
 
-	use tMin;
-	use tMax;
+	use tMin, tMax, tNew;
 
-	public function validate(mixed $value, bool $exception = true): bool {
-		if (!parent::validate($value, $exception)) {
-			return false;
-		}
-		if (!$this->validateMin($value)) {
-			$this->setError('O atributo "min" é inválido.');
-			return false;
-		}
-		if (!$this->validateMax($value)) {
-			$this->setError('O atributo "max" é inválido.');
-			return false;
+	public function typeValidate(mixed $value): bool {
+		return (filter_var($value, FILTER_VALIDATE_INT) !== false);
+	}
+
+	public function attrsValidate(mixed $value): void {
+		if (!self::isEmpty($value) && filter_var($value, FILTER_VALIDATE_INT) === false) {
+			throw new Error();
 		}
 
-		return true;
+		$this->validateMin($value, 'int');
+		$this->validateMax($value, 'int');
 	}
 }

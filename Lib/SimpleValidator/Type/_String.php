@@ -2,42 +2,20 @@
 
 namespace Lib\SimpleValidator\Type;
 
+use Error;
 use Lib\SimpleValidator\Type\Attribute\{tOptions, tMin, tMax};
 
 class _String extends Base {
 
-	use tOptions, tMin, tMax;
+	use tOptions, tMin, tMax, tNew;
 
-	public static function new(): _String {
-		return new self;
+	public function typeValidate(mixed $value): bool {
+		return is_string($value);
 	}
 
-	public function validate(mixed $value, bool $exception = true): bool {
-		if (!parent::validate($value, $exception)) {
-			return false;
-		}
-
-		[$status, $message] = $this->validateOptions($value);
-
-		if (!$status) {
-			$this->setError($message);
-			return false;
-		}
-
-		[$status, $message] = $this->validateMin($value);
-
-		if (!$status) {
-			$this->setError($message);
-			return false;
-		}
-
-		[$status, $message] = $this->validateMax($value);
-
-		if (!$status) {
-			$this->setError($message);
-			return false;
-		}
-
-		return true;
+	public function attrsValidate(mixed $value): void {
+		$this->validateOptions($value);
+		$this->validateMin($value, 'string');
+		$this->validateMax($value, 'string');
 	}
 }

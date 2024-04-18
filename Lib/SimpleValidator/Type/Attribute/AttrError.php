@@ -13,7 +13,7 @@ class AttrError {
 
 	public static function buildError(
 		Attribute $attr,
-		string $errorMessage,
+		string 	  $errorMessage,
 	): void {
 		$attrTable = new SimpleCliTable;
 

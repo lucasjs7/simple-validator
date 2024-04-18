@@ -2,26 +2,28 @@
 
 namespace Lib\SimpleValidator\Type\Attribute;
 
-use Lib\SimpleValidator\Type\BuildException;
+use Error;
 
 trait tMax {
 
-	public function max(float $value) {
+	public function max(float $value): static {
 		$this->attr->max->setValue($value);
 
 		return $this;
 	}
 
-	public function validateMax(mixed $value): array {
+	public function validateMax(mixed $value, string $type): void {
 		if ($this->attr->max->getValue() === null) {
-			return [true, 'ok'];
+			return;
 		}
 
-		$isValid = (filter_var($value, FILTER_VALIDATE_FLOAT) !== false && $value <= $this->attr->max->getValue());
+		$isValid = match ($type) {
+			'int', 'float'  => ($value <= $this->attr->max->getValue()),
+			'string' 		=> (mb_strlen($value) <= $this->attr->max->getValue()),
+		};
 
-		return match ($isValid) {
-			true  => [true, 'ok'],
-			false => [false, 'O atributo "max" é inválido.'],
+		if (!$isValid) {
+			throw new Error('O valor é inválido para o atributo "max".');
 		};
 	}
 }

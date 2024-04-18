@@ -6,17 +6,21 @@ use Lib\SimpleValidator\Type\Attribute\tFormat;
 
 class _Date extends Base {
 
-	use tFormat;
+	use tFormat, tNew;
 
-	public function validate(mixed $value, bool $exception = true): bool {
-		if (!parent::validate($value, $exception)) {
-			return false;
-		}
-		if (!$this->validateFormat($value)) {
-			$this->setError('O atributo "format" é inválido.');
-			return false;
-		}
+	public function __construct() {
+		parent::__construct();
 
-		return true;
+		if ($this->attr->format->getValue() === null) {
+			$this->attr->format->setValue('Y-m-d');
+		}
+	}
+
+	public function typeValidate(mixed $value): bool {
+		return is_string($value);
+	}
+
+	public function attrsValidate(mixed $value): void {
+		$this->validateFormat($value);
 	}
 }

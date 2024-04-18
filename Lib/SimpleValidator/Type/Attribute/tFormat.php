@@ -3,25 +3,25 @@
 namespace Lib\SimpleValidator\Type\Attribute;
 
 use DateTime;
+use Error;
 
 trait tFormat {
 
-	public function format(string $value) {
+	public function format(string $value): static {
 		$this->attr->format->setValue($value);
 
 		return $this;
 	}
 
-	public function validateFormat(mixed $value): array {
+	public function validateFormat(string $value): void {
 		if ($this->attr->format->getValue() === null) {
-			return [true, 'ok'];
+			return;
 		}
 
-		$isValid = (!is_string($value) && DateTime::createFromFormat($this->attr->format->getValue(), $value) !== false);
+		$isValid = (DateTime::createFromFormat($this->attr->format->getValue(), $value) !== false);
 
-		return match ($isValid) {
-			true  => [true, 'ok'],
-			false => [false, 'O atributo "format" é inválido.'],
+		if (!$isValid) {
+			throw new Error('O valor é inválido para o atributo "format".');
 		};
 	}
 }
