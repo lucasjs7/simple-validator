@@ -7,7 +7,9 @@ use Lib\SimpleValidator\Type\Attribute\{tOptions, tMin, tMax};
 
 class _String extends Base {
 
-	use tOptions, tMin, tMax, tNew;
+	private static array $patterns;
+
+	use tOptions, tMin, tMax, tNew, tPattern;
 
 	public function typeValidate(mixed $value): bool {
 		return is_string($value);

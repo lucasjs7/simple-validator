@@ -8,8 +8,6 @@ use Lib\SimpleValidator\Type\Attribute\Attribute as Attribute;
 
 abstract class Base implements iBase {
 
-	protected static array $patterns;
-
 	protected readonly Attribute $attr;
 	protected string $errorMsg = '';
 	protected bool $exception = true;
@@ -85,13 +83,5 @@ abstract class Base implements iBase {
 		$validGroups[] = ($this->attr->format->getValue() !== null);
 
 		return (array_sum($validGroups) <= 1);
-	}
-
-	public function save(string $name): void {
-		self::$patterns[$name] = serialize($this);
-	}
-
-	public static function pattern(string $name): static {
-		return unserialize(self::$patterns[$name]);
 	}
 }

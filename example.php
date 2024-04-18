@@ -17,8 +17,9 @@ try {
 		'idade' 	=> _Int::new()->max(1)->min(2)->required(),
 		'veiculos'  => [
 			[
-				'tipo' 	   			  => _String::new()->options('carro', 'moto', 'bicicleta')->required(),
-				'sinistro' 			  => _Bool::new()->required(),
+				'tipo' 	   => _String::new()->options('carro', 'moto', 'bicicleta')->required(),
+				'sinistro' => _Bool::new()->required(),
+				'fipe' 	   => _Float::new()->min(0)->required(),
 				// 'descricao_detalhada' => Type::$bigString,
 				'donos' => [
 					[
@@ -32,6 +33,6 @@ try {
 	]);
 
 	// $person->validate();
-} catch (\Exception $e) {
+} catch (TypeException $e) {
 	echo $e->getMessage();
 }

@@ -6,7 +6,9 @@ use Lib\SimpleValidator\Type\Attribute\tFormat;
 
 class _Date extends Base {
 
-	use tFormat, tNew;
+	private static array $patterns;
+
+	use tFormat, tNew, tPattern;
 
 	public function __construct() {
 		parent::__construct();
