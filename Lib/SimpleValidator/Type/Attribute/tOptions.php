@@ -2,7 +2,7 @@
 
 namespace Lib\SimpleValidator\Type\Attribute;
 
-use Error;
+use Lib\SimpleValidator\ValidatorException;
 
 trait tOptions {
 
@@ -20,7 +20,7 @@ trait tOptions {
 		$isValid = in_array($value, $this->attr->options->getValue());
 
 		if (!$isValid) {
-			throw new Error('O valor é inválido para o atributo "options".');
+			throw new ValidatorException('O valor é inválido para o atributo "options".');
 		};
 	}
 }

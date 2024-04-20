@@ -5,16 +5,22 @@ error_reporting(E_ALL);
 
 require_once 'vendor/autoload.php';
 
-use Lib\SimpleValidator\Struct;
-use Lib\SimpleValidator\Type\{_String, _Date, _Int, _Float, _Bool, TypeException};
+use Lib\SimpleValidator\{Struct, ValidatorException};
+use Lib\SimpleValidator\Type\{_String, _Date, _Int, _Float, _Bool};
+
 
 try {
+
+	$field = _Int::new()->unsigned();
+
+	exit((int) $field->validate(-1));
+
 	_Date::new()->format('d-m-Y')->save('br');
 
 	$person = Struct::new([
 		'nome' 		=> _String::new()->max(10)->min(5)->required(),
 		'sobrenome' => _String::new()->max(16)->min(4),
-		'idade' 	=> _Int::new()->max(1)->min(2)->required(),
+		'idade' 	=> _Int::new()->max(150)->unsigned()->required(),
 		'veiculos'  => [
 			[
 				'tipo' 	   => _String::new()->options('carro', 'moto', 'bicicleta')->required(),
@@ -33,6 +39,6 @@ try {
 	]);
 
 	// $person->validate();
-} catch (TypeException $e) {
+} catch (ValidatorException $e) {
 	echo $e->getMessage();
 }

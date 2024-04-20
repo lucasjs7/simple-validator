@@ -3,7 +3,7 @@
 namespace Lib\SimpleValidator\Type\Attribute;
 
 use DateTime;
-use Error;
+use Lib\SimpleValidator\ValidatorException;
 
 trait tFormat {
 
@@ -21,7 +21,7 @@ trait tFormat {
 		$isValid = (DateTime::createFromFormat($this->attr->format->getValue(), $value) !== false);
 
 		if (!$isValid) {
-			throw new Error('O valor é inválido para o atributo "format".');
+			throw new ValidatorException('O valor é inválido para o atributo "format".');
 		};
 	}
 }

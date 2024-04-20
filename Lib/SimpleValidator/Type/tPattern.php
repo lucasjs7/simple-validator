@@ -11,8 +11,4 @@ trait tPattern {
 	public static function pattern(string $name): static {
 		return unserialize(static::$patterns[$name]);
 	}
-
-	public static function testPatterns() {
-		print_r(static::$patterns) . PHP_EOL;
-	}
 }

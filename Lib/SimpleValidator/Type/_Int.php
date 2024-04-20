@@ -2,24 +2,20 @@
 
 namespace Lib\SimpleValidator\Type;
 
-use Error;
-use Lib\SimpleValidator\Type\Attribute\{tMin, tMax};
+use Lib\SimpleValidator\Type\Attribute\{tMin, tMax, tUnsigned};
 
 class _Int extends Base {
 
 	private static array $patterns;
 
-	use tMin, tMax, tNew, tPattern;
+	use tMin, tMax, tNew, tPattern, tUnsigned;
 
 	public function typeValidate(mixed $value): bool {
 		return (filter_var($value, FILTER_VALIDATE_INT) !== false);
 	}
 
 	public function attrsValidate(mixed $value): void {
-		if (!self::isEmpty($value) && filter_var($value, FILTER_VALIDATE_INT) === false) {
-			throw new Error();
-		}
-
+		$this->validateUnsigned($value);
 		$this->validateMin($value, 'int');
 		$this->validateMax($value, 'int');
 	}

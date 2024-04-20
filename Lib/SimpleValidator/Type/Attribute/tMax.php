@@ -2,7 +2,7 @@
 
 namespace Lib\SimpleValidator\Type\Attribute;
 
-use Error;
+use Lib\SimpleValidator\ValidatorException;
 
 trait tMax {
 
@@ -23,7 +23,7 @@ trait tMax {
 		};
 
 		if (!$isValid) {
-			throw new Error('O valor é inválido para o atributo "max".');
+			throw new ValidatorException('O valor é inválido para o atributo "max".');
 		};
 	}
 }

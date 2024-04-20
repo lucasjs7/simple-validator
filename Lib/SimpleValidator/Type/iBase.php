@@ -14,5 +14,4 @@ interface iBase {
 
 	public function save(string $name): void;
 
-	public static function pattern(string $name): static;
 }

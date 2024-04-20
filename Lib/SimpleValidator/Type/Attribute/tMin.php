@@ -2,7 +2,7 @@
 
 namespace Lib\SimpleValidator\Type\Attribute;
 
-use Error;
+use Lib\SimpleValidator\ValidatorException;
 
 trait tMin {
 
@@ -27,7 +27,7 @@ trait tMin {
 		};
 
 		if (!$isValid) {
-			throw new Error('O valor é inválido para o atributo "min".');
+			throw new ValidatorException('O valor é inválido para o atributo "min".');
 		};
 	}
 }

@@ -2,7 +2,6 @@
 
 namespace Lib\SimpleValidator\Type;
 
-use Error;
 use Lib\SimpleValidator\Type\Attribute\{tOptions, tMin, tMax};
 
 class _String extends Base {

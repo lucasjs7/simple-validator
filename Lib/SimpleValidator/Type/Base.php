@@ -2,9 +2,10 @@
 
 namespace Lib\SimpleValidator\Type;
 
-use Error;
+use Exception;
+use Lib\SimpleValidator\ValidatorException;
 use Lib\SimpleValidator\Type\Attribute\AttrError;
-use Lib\SimpleValidator\Type\Attribute\Attribute as Attribute;
+use Lib\SimpleValidator\Type\Attribute\Attribute;
 
 abstract class Base implements iBase {
 
@@ -20,7 +21,7 @@ abstract class Base implements iBase {
 		$this->errorMsg = $message;
 
 		if ($this->exception) {
-			throw new TypeException($message);
+			throw new ValidatorException($message);
 		}
 	}
 
@@ -45,15 +46,15 @@ abstract class Base implements iBase {
 			$this->verifyConflicts();
 
 			if ($this->attr->required->getValue() && $isEmpty) {
-				throw new Error('Este campo é obrigatório.');
+				throw new Exception('Este campo é obrigatório.');
 			} elseif (!$isEmpty && !$this->typeValidate($value)) {
-				throw new Error('O valor passado não corresponde ao tipo esperado.');
+				throw new Exception('O valor passado não corresponde ao tipo esperado.');
 			}
 
 			$this->attrsValidate($value);
 
 			return true;
-		} catch (Error $e) {
+		} catch (Exception $e) {
 			if ($this->attr->required->getValue() || !$isEmpty) {
 				$this->setError($e->getMessage());
 				return false;
@@ -84,4 +85,6 @@ abstract class Base implements iBase {
 
 		return (array_sum($validGroups) <= 1);
 	}
+
+	abstract public static function pattern(string $name): Base;
 }
