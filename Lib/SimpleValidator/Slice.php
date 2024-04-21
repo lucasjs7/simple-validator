@@ -16,14 +16,16 @@ class Slice extends DataStructure {
 		return new static($typeValues);
 	}
 
-	public function validate(array $values): bool {
+	public function validate(array $values, bool $exception = true): bool {
+		$this->exception = $exception;
+
 		if (!array_is_list($values)) {
 			$this->setError('O valor deve conter uma lista.');
 			return false;
 		}
 
 		foreach ($values as $val) {
-			if (!$this->typeValues->validate($val)) {
+			if (!$this->typeValues->validate($val, false)) {
 				$this->setError($this->typeValues->getError());
 				return false;
 			}
