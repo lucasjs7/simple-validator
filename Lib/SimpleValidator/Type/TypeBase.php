@@ -72,6 +72,7 @@ abstract class TypeBase implements iTypeBase {
 	}
 
 	protected function checkAttributes(): bool {
+		$emptyRegex    = self::isEmpty($this->attr->regex->getValue());
 		$emptyMax 	   = self::isEmpty($this->attr->max->getValue());
 		$emptyMin 	   = self::isEmpty($this->attr->min->getValue());
 		$emptyOptions  = self::isEmpty($this->attr->options->getValue());
@@ -80,6 +81,7 @@ abstract class TypeBase implements iTypeBase {
 
 		$countGroups = 0;
 
+		$countGroups += (int) (!$emptyRegex);
 		$countGroups += (int) (!$emptyMax || !$emptyMin || !$emptyUnsigned);
 		$countGroups += (int) (!$emptyOptions);
 		$countGroups += (int) (!$emptyFormat);
@@ -89,9 +91,9 @@ abstract class TypeBase implements iTypeBase {
 		$invalidGroups += (int) (!$emptyUnsigned && !$emptyMin);
 
 		$noGroupUsed = ($countGroups == 0);
-		$validGroups = ($countGroups == 1);
+		$validGroups = ($countGroups == 1 && $invalidGroups == 0);
 
-		return (($noGroupUsed || $validGroups) && $invalidGroups == 0);
+		return ($noGroupUsed || $validGroups);
 	}
 
 	abstract public function required(bool $value = true): static;

@@ -11,9 +11,10 @@ use Lib\SimpleValidator\Type\{_String, _Date, _Int, _Float, _Bool};
 
 try {
 
-	$field = _Int::new()->max(4);
+	$field = _String::new()->regex('/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/');
 
-	exit((int) $field->validate(2));
+	var_dump($field->validate('11.111.111/1111-11'));
+	exit;
 
 	_Date::new()->format('d-m-Y')->save('br');
 
