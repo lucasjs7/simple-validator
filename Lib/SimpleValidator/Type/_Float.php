@@ -4,11 +4,11 @@ namespace Lib\SimpleValidator\Type;
 
 use Lib\SimpleValidator\Type\Attribute\{tMin, tMax, tUnsigned};
 
-class _Float extends Base {
+class _Float extends TypeBase {
 
 	private static array $patterns;
 
-	use tMin, tMax, tNew, tPattern, tUnsigned;
+	use tMin, tMax, tNew, tPattern, tUnsigned, tRequired;
 
 	public function typeValidate(mixed $value): bool {
 		return (filter_var($value, FILTER_VALIDATE_FLOAT) !== false);

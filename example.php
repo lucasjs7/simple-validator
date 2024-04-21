@@ -1,5 +1,6 @@
 <?php
 
+ini_set('error_log', 'error_log.txt');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -8,12 +9,11 @@ require_once 'vendor/autoload.php';
 use Lib\SimpleValidator\{Struct, ValidatorException};
 use Lib\SimpleValidator\Type\{_String, _Date, _Int, _Float, _Bool};
 
-
 try {
 
-	$field = _Int::new()->unsigned();
+	$field = _Int::new()->max(4);
 
-	exit((int) $field->validate(-1));
+	exit((int) $field->validate(2));
 
 	_Date::new()->format('d-m-Y')->save('br');
 

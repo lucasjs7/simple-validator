@@ -2,9 +2,7 @@
 
 namespace Lib\SimpleValidator\Type;
 
-interface iBase {
-
-	public function required(bool $value = true);
+interface iTypeBase {
 
 	public function validate(mixed $value, bool $exception = true): bool;
 
@@ -13,5 +11,4 @@ interface iBase {
 	public function typeValidate(mixed $value): bool;
 
 	public function save(string $name): void;
-
 }

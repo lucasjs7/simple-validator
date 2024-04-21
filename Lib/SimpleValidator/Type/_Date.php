@@ -4,11 +4,11 @@ namespace Lib\SimpleValidator\Type;
 
 use Lib\SimpleValidator\Type\Attribute\tFormat;
 
-class _Date extends Base {
+class _Date extends TypeBase {
 
 	private static array $patterns;
 
-	use tFormat, tNew, tPattern;
+	use tFormat, tNew, tPattern, tRequired;
 
 	public function __construct() {
 		parent::__construct();

@@ -2,11 +2,11 @@
 
 namespace Lib\SimpleValidator\Type;
 
-class _Bool extends Base {
+class _Bool extends TypeBase {
 
 	private static array $patterns;
 
-	use tNew, tPattern;
+	use tNew, tPattern, tRequired;
 
 	public function typeValidate(mixed $value): bool {
 		return (filter_var($value, FILTER_VALIDATE_BOOL) !== false);

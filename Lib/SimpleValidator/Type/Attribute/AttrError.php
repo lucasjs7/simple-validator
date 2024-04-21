@@ -15,6 +15,7 @@ class AttrError {
 		Attribute $attr,
 		string 	  $errorMessage,
 	): void {
+		$titleLib = 'SimpleValidator - Attribute Error';
 		$attrTable = new SimpleCliTable;
 
 		$attrTable->setContainsHeader(true);
@@ -35,29 +36,36 @@ class AttrError {
 		}
 
 		$exception = new Exception();
-		$strTrace = $exception->getTraceAsString();
+		$trace = $exception->getTrace();
+		$fileErrorLog = ini_get('error_log');
 
-		if (!ini_get('display_errors')) {
-			error_log("AttrError: $errorMessage\n$strTrace");
+		if (!empty($fileErrorLog)) {
+			$strTrace 	= $exception->getTraceAsString();
+			$logMessage = "$titleLib: $errorMessage\n$strTrace\n";
+			error_log($logMessage, 3, $fileErrorLog);
 		}
 
-		$bkData = explode("\n", $strTrace);
-		$penultBkData = (array_key_last($bkData) - 1);
+		$lastTrace = (array_key_last($trace));
 		$bkTable = new SimpleCliTable;
 
 		$bkTable->setContainsHeader(true);
-		$bkTable->add(['Backtrace', 'Num']);
+		$bkTable->add(['', 'Backtrace', 'Function', 'Args']);
 
-		for ($i = $penultBkData, $n = 1; $i > 0; $i--, $n++) {
-			$posNum = (strpos($bkData[$i], ' ') + 1);
+		for ($i = $lastTrace, $n = 1; $i > 0; $i--, $n++) {
+			$traceFile 	   = $trace[$i]['file'] ?? '-';
+			$traceLine 	   = $trace[$i]['line'] ?? '-';
+			$traceFunction = $trace[$i]['function'] ?? '';
+			$traceArgs 	   = $trace[$i]['args'] ?? '';
 
 			$bkTable->add([
-				substr($bkData[$i], $posNum),
 				"#$n",
+				"$traceFile:$traceLine",
+				$traceFunction,
+				json_encode($traceArgs),
 			]);
 		}
 
-		$exit = SimpleCliTable::build([["SimpleValidator - Attribute Error"], [$errorMessage]], true) . "\n";
+		$exit = SimpleCliTable::build([[$titleLib], [$errorMessage]], true) . "\n";
 		$exit .= $attrTable->render() . "\n";
 		$exit .= $bkTable->render();
 

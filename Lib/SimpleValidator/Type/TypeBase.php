@@ -7,7 +7,7 @@ use Lib\SimpleValidator\ValidatorException;
 use Lib\SimpleValidator\Type\Attribute\AttrError;
 use Lib\SimpleValidator\Type\Attribute\Attribute;
 
-abstract class Base implements iBase {
+abstract class TypeBase implements iTypeBase {
 
 	protected readonly Attribute $attr;
 	protected string $errorMsg = '';
@@ -27,11 +27,6 @@ abstract class Base implements iBase {
 
 	public function getError(): string {
 		return $this->errorMsg;
-	}
-
-	public function required(bool $value = true): Base {
-		$this->attr->required->setValue($value);
-		return $this;
 	}
 
 	protected static function isEmpty(mixed $value): bool {
@@ -77,14 +72,29 @@ abstract class Base implements iBase {
 	}
 
 	protected function checkAttributes(): bool {
-		$validGroups = [];
+		$emptyMax 	   = self::isEmpty($this->attr->max);
+		$emptyMin 	   = self::isEmpty($this->attr->min);
+		$emptyOptions  = self::isEmpty($this->attr->options);
+		$emptyFormat   = self::isEmpty($this->attr->format);
+		$emptyUnsigned = self::isEmpty($this->attr->unsigned);
 
-		$validGroups[] = ($this->attr->max->getValue() !== null || $this->attr->min->getValue() !== null);
-		$validGroups[] = ($this->attr->options->getValue() !== null);
-		$validGroups[] = ($this->attr->format->getValue() !== null);
+		$countGroups = 0;
 
-		return (array_sum($validGroups) <= 1);
+		$countGroups += (int) (!$emptyMax || !$emptyMin || !$emptyUnsigned);
+		$countGroups += (int) (!$emptyOptions);
+		$countGroups += (int) (!$emptyFormat);
+
+		$invalidGroups = 0;
+
+		$invalidGroups += (int) (!$emptyUnsigned && !$emptyMin);
+
+		$noGroupUsed = ($countGroups == 0);
+		$validGroups = ($countGroups == 1);
+
+		return (($noGroupUsed || $validGroups) && $invalidGroups == 0);
 	}
 
-	abstract public static function pattern(string $name): Base;
+	abstract public function required(bool $value = true): static;
+
+	abstract public static function pattern(string $name): static;
 }
