@@ -13,7 +13,7 @@ trait tMin {
 	}
 
 	public function validateMin(mixed $value, string $type): void {
-		if ($this->attr->min->getValue() === null) {
+		if (self::isEmpty($this->attr->min->getValue())) {
 			return;
 		} elseif ($this->attr->min->getValue() > $this->attr->max->getValue()) {
 			$this->attr->min->setError(true);

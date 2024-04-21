@@ -13,7 +13,7 @@ trait tOptions {
 	}
 
 	public function validateOptions(string $value): void {
-		if ($this->attr->options->getValue() === null) {
+		if (self::isEmpty($this->attr->options->getValue())) {
 			return;
 		}
 

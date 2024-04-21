@@ -3,30 +3,16 @@
 namespace Lib\SimpleValidator\Type;
 
 use Exception;
-use Lib\SimpleValidator\ValidatorException;
+use Lib\SimpleValidator\Core;
 use Lib\SimpleValidator\Type\Attribute\AttrError;
 use Lib\SimpleValidator\Type\Attribute\Attribute;
 
-abstract class TypeBase implements iTypeBase {
+abstract class TypeBase extends Core implements iTypeBase {
 
 	protected readonly Attribute $attr;
-	protected string $errorMsg = '';
-	protected bool $exception = true;
 
 	public function __construct() {
 		$this->attr = new Attribute;
-	}
-
-	protected function setError(string $message): void {
-		$this->errorMsg = $message;
-
-		if ($this->exception) {
-			throw new ValidatorException($message);
-		}
-	}
-
-	public function getError(): string {
-		return $this->errorMsg;
 	}
 
 	protected static function isEmpty(mixed $value): bool {
@@ -67,7 +53,7 @@ abstract class TypeBase implements iTypeBase {
 				}
 			}
 
-			AttrError::buildError($this->attr, 'Está sendo usado atributos conflitantes.');
+			AttrError::buildError($this->attr, 'Estão sendo usados atributos conflitantes.');
 		}
 	}
 
@@ -95,6 +81,8 @@ abstract class TypeBase implements iTypeBase {
 
 		return ($noGroupUsed || $validGroups);
 	}
+
+	abstract public static function new(): static;
 
 	abstract public function required(bool $value = true): static;
 

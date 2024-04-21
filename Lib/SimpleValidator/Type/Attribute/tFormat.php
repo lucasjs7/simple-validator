@@ -14,7 +14,7 @@ trait tFormat {
 	}
 
 	public function validateFormat(string $value): void {
-		if ($this->attr->format->getValue() === null) {
+		if (self::isEmpty($this->attr->format->getValue())) {
 			return;
 		}
 

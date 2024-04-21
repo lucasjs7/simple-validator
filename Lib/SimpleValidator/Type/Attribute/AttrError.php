@@ -3,6 +3,7 @@
 namespace Lib\SimpleValidator\Type\Attribute;
 
 use Exception;
+use Lib\SimpleValidator\Core;
 use Lucasjs7\SimpleCliTable;
 
 /**
@@ -15,7 +16,8 @@ class AttrError {
 		Attribute $attr,
 		string 	  $errorMessage,
 	): void {
-		$titleLib = 'SimpleValidator - Attribute Error';
+		$titleHeader = 'Attribute Error';
+		$titleLib = Core::genHeaderError($titleHeader);
 		$attrTable = new SimpleCliTable;
 
 		$attrTable->setContainsHeader(true);
@@ -37,14 +39,6 @@ class AttrError {
 
 		$exception = new Exception();
 		$trace = $exception->getTrace();
-		$fileErrorLog = ini_get('error_log');
-
-		if (!empty($fileErrorLog)) {
-			$strTrace 	= $exception->getTraceAsString();
-			$logMessage = "$titleLib: $errorMessage\n$strTrace\n";
-			error_log($logMessage, 3, $fileErrorLog);
-		}
-
 		$lastTrace = (array_key_last($trace));
 		$bkTable = new SimpleCliTable;
 
@@ -65,10 +59,12 @@ class AttrError {
 			]);
 		}
 
-		$exit = SimpleCliTable::build([[$titleLib], [$errorMessage]], true) . "\n";
-		$exit .= $attrTable->render() . "\n";
-		$exit .= $bkTable->render();
-
-		exit($exit);
+		Core::exitError(
+			$titleHeader,
+			$errorMessage,
+			$exception,
+			$attrTable,
+			$bkTable,
+		);
 	}
 }

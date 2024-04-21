@@ -6,14 +6,16 @@ error_reporting(E_ALL);
 
 require_once 'vendor/autoload.php';
 
-use Lib\SimpleValidator\{Struct, ValidatorException};
+use Lib\SimpleValidator\{Slice, Struct, ValidatorException};
 use Lib\SimpleValidator\Type\{_String, _Date, _Int, _Float, _Bool};
 
 try {
 
-	$field = _String::new()->regex('/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/');
+	$field = Slice::new(
+		_Int::new()->min(5)->max(10)
+	);
 
-	var_dump($field->validate('11.111.111/1111-11'));
+	var_dump($field->validate(['4', '7', '10']));
 	exit;
 
 	_Date::new()->format('d-m-Y')->save('br');
