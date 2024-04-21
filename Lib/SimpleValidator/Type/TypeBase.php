@@ -72,11 +72,11 @@ abstract class TypeBase implements iTypeBase {
 	}
 
 	protected function checkAttributes(): bool {
-		$emptyMax 	   = self::isEmpty($this->attr->max);
-		$emptyMin 	   = self::isEmpty($this->attr->min);
-		$emptyOptions  = self::isEmpty($this->attr->options);
-		$emptyFormat   = self::isEmpty($this->attr->format);
-		$emptyUnsigned = self::isEmpty($this->attr->unsigned);
+		$emptyMax 	   = self::isEmpty($this->attr->max->getValue());
+		$emptyMin 	   = self::isEmpty($this->attr->min->getValue());
+		$emptyOptions  = self::isEmpty($this->attr->options->getValue());
+		$emptyFormat   = self::isEmpty($this->attr->format->getValue());
+		$emptyUnsigned = self::isEmpty($this->attr->unsigned->getValue());
 
 		$countGroups = 0;
 
