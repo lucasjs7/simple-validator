@@ -2,17 +2,24 @@
 
 namespace Lib\SimpleValidator;
 
+use \Exception;
 use Lib\SimpleValidator\Type\_String;
 use Lib\SimpleValidator\Type\TypeBase;
 
 class Struct extends DataStructure {
 
 	public function __construct(
-		public readonly array &$structure
+		public readonly array $structure
 	) {
 		foreach ($structure as $val) {
 			if (!($val instanceof DataStructure) && !($val instanceof TypeBase)) {
-				Core::exitError()
+				Core::exitError(
+					'Struct Error',
+					'A Struct só pode conter classes filhas de DataStructure ou TypeBase.',
+					new Exception,
+					true,
+					null,
+				);
 			}
 		}
 	}

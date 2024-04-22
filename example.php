@@ -17,21 +17,21 @@ try {
 		'nome' 		=> _String::new()->max(10)->min(5)->required(),
 		'sobrenome' => _String::new()->max(16)->min(4),
 		'idade' 	=> _Int::new()->max(150)->unsigned()->required(),
-		'veiculos'  => [
+		'veiculos'  => Struct::new([
 			[
 				'tipo' 	   => _String::new()->options('carro', 'moto', 'bicicleta')->required(),
 				'sinistro' => _Bool::new()->required(),
 				'fipe' 	   => _Float::new()->min(0)->required(),
 				// 'descricao_detalhada' => Type::$bigString,
-				'donos' => [
+				'donos' => Struct::new([
 					[
 						'nome' 		=> _String::new()->max(10)->min(5)->required(),
 						'posse_de'  => _Date::pattern('br')->required(),
 						'posse_ate' => _Date::pattern('br')->required(),
 					]
-				]
+				]),
 			]
-		]
+		])
 	]);
 
 	// $person->validate();

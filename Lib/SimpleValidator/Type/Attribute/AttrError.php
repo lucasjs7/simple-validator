@@ -37,34 +37,12 @@ class AttrError {
 			]);
 		}
 
-		$exception = new Exception();
-		$trace = $exception->getTrace();
-		$lastTrace = (array_key_last($trace));
-		$bkTable = new SimpleCliTable;
-
-		$bkTable->setContainsHeader(true);
-		$bkTable->add(['', 'Backtrace', 'Function', 'Args']);
-
-		for ($i = $lastTrace, $n = 1; $i > 0; $i--, $n++) {
-			$traceFile 	   = $trace[$i]['file'] ?? '-';
-			$traceLine 	   = $trace[$i]['line'] ?? '-';
-			$traceFunction = $trace[$i]['function'] ?? '';
-			$traceArgs 	   = $trace[$i]['args'] ?? '';
-
-			$bkTable->add([
-				"#$n",
-				"$traceFile:$traceLine",
-				$traceFunction,
-				json_encode($traceArgs),
-			]);
-		}
-
 		Core::exitError(
 			$titleHeader,
 			$errorMessage,
-			$exception,
+			new Exception,
+			true,
 			$attrTable,
-			$bkTable,
 		);
 	}
 }
