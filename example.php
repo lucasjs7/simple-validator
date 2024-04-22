@@ -11,18 +11,6 @@ use Lib\SimpleValidator\Type\{_String, _Date, _Int, _Float, _Bool};
 
 try {
 
-	$field = Map::new(
-		_Int::new()->unsigned()->max(999),
-		_Int::new()->min(5)->max(10),
-	);
-
-	var_dump($field->validate([
-		0 => 5,
-		2 => 6,
-		999 => 5
-	]));
-	exit;
-
 	_Date::new()->format('d-m-Y')->save('br');
 
 	$person = Struct::new([

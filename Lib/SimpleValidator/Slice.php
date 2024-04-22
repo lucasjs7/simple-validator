@@ -24,9 +24,19 @@ class Slice extends DataStructure {
 			return false;
 		}
 
-		foreach ($values as $val) {
+		foreach ($values as $key => $val) {
+			$errorMessage = null;
+
 			if (!$this->typeValues->validate($val, false)) {
-				$this->setError($this->typeValues->getError());
+				$errorMessage = $this->typeValues->getError();
+			}
+
+			if ($errorMessage !== null) {
+				$this->setErrorPath(
+					message: $errorMessage,
+					currentPath: [$key],
+					field: $this->typeValues
+				);
 				return false;
 			}
 		}

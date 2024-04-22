@@ -5,7 +5,7 @@ namespace Lib\SimpleValidator;
 use Exception;
 use Lucasjs7\SimpleCliTable;
 
-class Core {
+abstract class Core {
 
 	protected string $errorMsg = '';
 	protected bool $exception = true;
