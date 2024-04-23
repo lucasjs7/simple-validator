@@ -40,10 +40,9 @@ class Struct extends DataStructure {
 		}
 
 		$typeKey = _String::new()->min(1)->required();
-		$pathStruct = [];
 
 		foreach ($values as $key => $value) {
-			if (!$typeKey->validate($key)) {
+			if (!$typeKey->validate($key, false)) {
 				$this->setErrorPath(
 					message: "Erro na chave: {$typeKey->getError()}",
 					currentPath: $key,
@@ -51,11 +50,20 @@ class Struct extends DataStructure {
 				);
 				return false;
 			}
-			if (!$this->structure[$key]->validate($value, false)) {
+			if (!array_key_exists($key, $this->structure)) {
 				$this->setErrorPath(
-					message: "Erro no valor: {$this->structure[$key]->getError()}",
+					message: "Chave inexistente.",
+					currentPath: $key,
+					field: $this,
+				);
+
+				return false;
+			} elseif (!$this->structure[$key]->validate($value, false)) {
+				$this->setErrorPath(
+					message: $this->structure[$key]->getError(),
 					currentPath: $key,
 					field: $this->structure[$key],
+					prefix: 'Erro no valor: ',
 				);
 				return false;
 			}

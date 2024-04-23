@@ -28,17 +28,12 @@ class Slice extends DataStructure {
 		}
 
 		foreach ($values as $key => $val) {
-			$errorMessage = null;
-
 			if (!$this->typeValues->validate($val, false)) {
-				$errorMessage = $this->typeValues->getError();
-			}
-
-			if ($errorMessage !== null) {
 				$this->setErrorPath(
-					message: $errorMessage,
+					message: $this->typeValues->getError(),
 					currentPath: $key,
 					field: $this->typeValues,
+					prefix: 'Erro no valor: ',
 				);
 				return false;
 			}

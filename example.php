@@ -27,32 +27,39 @@ try {
 					Struct::new([
 						'nome' 		=> _String::new()->max(10)->min(5)->required(),
 						'posse_de'  => _Date::pattern('br')->required(),
-						'posse_ate' => _Date::pattern('br')->required(),
+						'posse_ate' => _Date::new()->format('Y-m-d H:i:s')->required(),
 					]),
 				),
-			])
-		)
+				'informacoes_adicionais' => Map::new(
+					_Date::pattern('br')->required(),
+					_String::new()->min(16)->max(64)->required(),
+				)
+			]),
+		),
 	]);
 
 	$person->validate([
 		'nome' 		=> 'Teste',
 		'sobrenome' => 'novo',
-		'idade' 	=> 14,
+		'idade' 	=> 1,
 		'veiculos'  => [
 			[
-				'tipo' 	   => 'carro',
+				'tipo' 	   => 'bicicleta',
 				'sinistro' => false,
-				'fipe' 	   => 1.99,
+				'fipe' 	   => 1.9,
 				// 'descricao_detalhada' => '',
 				'donos' => [
 					[
 						'nome' 		=> 'Sidinelson',
 						'posse_de'  => '01-01-2001',
-						'posse_ate' => '07-0a1-2016',
+						'posse_ate' => '2007-05-14 21:09:00',
 					],
 				],
-			]
-		]
+				'informacoes_adicionais' => [
+					'12-12-12124' => 'asdasdasdasdasdasdassdasd'
+				]
+			],
+		],
 	]);
 
 	echo "Status: sucesso\n";

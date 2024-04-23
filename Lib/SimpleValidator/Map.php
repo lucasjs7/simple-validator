@@ -2,7 +2,7 @@
 
 namespace Lib\SimpleValidator;
 
-use Lib\SimpleValidator\Type\TypeBase;
+use Lib\SimpleValidator\Type\{TypeBase, _Date, _Int, _String};
 
 class Map extends DataStructure {
 
@@ -14,7 +14,7 @@ class Map extends DataStructure {
 	}
 
 	public static function new(
-		TypeBase 			   $typeKeys,
+		_Date|_Int|_String 	   $typeKeys,
 		TypeBase|DataStructure $typeValues
 	): static {
 		return new static($typeKeys, $typeValues);
@@ -34,7 +34,7 @@ class Map extends DataStructure {
 		foreach ($values as $key => $val) {
 			if (!$this->typeKeys->validate($key, false)) {
 				$this->setErrorPath(
-					message: "Erro no valor: {$this->typeKeys->getError()}",
+					message: "Erro na chave: {$this->typeKeys->getError()}",
 					currentPath: $key,
 					field: $this->typeKeys,
 				);
@@ -42,9 +42,10 @@ class Map extends DataStructure {
 			}
 			if (!$this->typeValues->validate($val, false)) {
 				$this->setErrorPath(
-					message: "Erro no valor: {$this->typeValues->getError()}",
+					message: $this->typeValues->getError(),
 					currentPath: $key,
 					field: $this->typeValues,
+					prefix: 'Erro no valor: ',
 				);
 				return false;
 			}
