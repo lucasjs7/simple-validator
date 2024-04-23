@@ -13,17 +13,20 @@ abstract class DataStructure extends Core {
 	}
 
 	protected function setErrorPath(
-		string $message,
-		array  $currentPath,
-		DataStructure|TypeBase $field,
+		string 		  $message,
+		string  	  $currentPath,
+		self|TypeBase $field,
 	): void {
-		$finalPath = $currentPath;
+		$this->errorPath = match ($field instanceof self) {
+			true  => [$currentPath, ...$field->getErrorPath()],
+			false => [$currentPath],
+		};
 
-		if ($field instanceof DataStructure) {
-			$finalPath = array_merge($finalPath, $field->getErrorPath());
-		}
-
-		$this->errorPath = $finalPath;
-		$this->setError($message);
+		$this->setError(
+			message: $message,
+			errorPath: $this->errorPath,
+		);
 	}
+
+	abstract public function validate(mixed $value, bool $exception = true): bool;
 }

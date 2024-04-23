@@ -20,10 +20,13 @@ class Map extends DataStructure {
 		return new static($typeKeys, $typeValues);
 	}
 
-	public function validate(array $values, bool $exception = true): bool {
+	public function validate(
+		mixed $values,
+		bool  $exception = true,
+	): bool {
 		$this->exception = $exception;
 
-		if (!is_array($values)) {
+		if (!is_array($values) || !is_array($values)) {
 			$this->setError('O valor deve conter uma estrutura chave-valor.');
 			return false;
 		}
@@ -32,16 +35,16 @@ class Map extends DataStructure {
 			if (!$this->typeKeys->validate($key, false)) {
 				$this->setErrorPath(
 					message: "Erro no valor: {$this->typeKeys->getError()}",
-					currentPath: [$key],
-					field: $this->typeKeys
+					currentPath: $key,
+					field: $this->typeKeys,
 				);
 				return false;
 			}
 			if (!$this->typeValues->validate($val, false)) {
 				$this->setErrorPath(
 					message: "Erro no valor: {$this->typeValues->getError()}",
-					currentPath: [$key],
-					field: $this->typeValues
+					currentPath: $key,
+					field: $this->typeValues,
 				);
 				return false;
 			}

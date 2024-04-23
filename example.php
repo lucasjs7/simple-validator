@@ -15,26 +15,51 @@ try {
 
 	$person = Struct::new([
 		'nome' 		=> _String::new()->max(10)->min(5)->required(),
-		'sobrenome' => _String::new()->max(16)->min(4),
+		'sobrenome' => _String::new()->max(16)->min(3),
 		'idade' 	=> _Int::new()->max(150)->unsigned()->required(),
-		'veiculos'  => Struct::new([
-			[
+		'veiculos'  => Slice::new(
+			Struct::new([
 				'tipo' 	   => _String::new()->options('carro', 'moto', 'bicicleta')->required(),
 				'sinistro' => _Bool::new()->required(),
 				'fipe' 	   => _Float::new()->min(0)->required(),
 				// 'descricao_detalhada' => Type::$bigString,
-				'donos' => Struct::new([
-					[
+				'donos' => Slice::new(
+					Struct::new([
 						'nome' 		=> _String::new()->max(10)->min(5)->required(),
 						'posse_de'  => _Date::pattern('br')->required(),
 						'posse_ate' => _Date::pattern('br')->required(),
-					]
-				]),
-			]
-		])
+					]),
+				),
+			])
+		)
 	]);
 
-	// $person->validate();
+	$person->validate([
+		'nome' 		=> 'Teste',
+		'sobrenome' => 'novo',
+		'idade' 	=> 14,
+		'veiculos'  => [
+			[
+				'tipo' 	   => 'carro',
+				'sinistro' => false,
+				'fipe' 	   => 1.99,
+				// 'descricao_detalhada' => '',
+				'donos' => [
+					[
+						'nome' 		=> 'Sidinelson',
+						'posse_de'  => '01-01-2001',
+						'posse_ate' => '07-0a1-2016',
+					],
+				],
+			]
+		]
+	]);
+
+	echo "Status: sucesso\n";
 } catch (ValidatorException $e) {
-	echo $e->getMessage();
+	$errorPath = implode('->', $e->getErrorPath());
+
+	echo "Status: error\n";
+	echo "Message: {$e->getMessage()}\n";
+	echo "Error path: $errorPath";
 }

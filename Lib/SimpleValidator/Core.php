@@ -10,11 +10,17 @@ abstract class Core {
 	protected string $errorMsg = '';
 	protected bool $exception = true;
 
-	protected function setError(string $message): void {
+	protected function setError(
+		string $message,
+		array  $errorPath = [],
+	): void {
 		$this->errorMsg = $message;
 
 		if ($this->exception) {
-			throw new ValidatorException($message);
+			throw new ValidatorException(
+				message: $message,
+				errorPath: $errorPath,
+			);
 		}
 	}
 

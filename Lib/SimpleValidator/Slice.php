@@ -7,19 +7,22 @@ use Lib\SimpleValidator\Type\TypeBase;
 class Slice extends DataStructure {
 
 	public function __construct(
-		public readonly TypeBase $typeValues,
+		public readonly DataStructure|TypeBase $typeValues,
 	) {
 		//
 	}
 
-	public static function new(TypeBase $typeValues): static {
+	public static function new(DataStructure|TypeBase $typeValues): static {
 		return new static($typeValues);
 	}
 
-	public function validate(array $values, bool $exception = true): bool {
+	public function validate(
+		mixed $values,
+		bool  $exception = true,
+	): bool {
 		$this->exception = $exception;
 
-		if (!array_is_list($values)) {
+		if (!is_array($values) || !array_is_list($values)) {
 			$this->setError('O valor deve conter uma lista.');
 			return false;
 		}
@@ -34,8 +37,8 @@ class Slice extends DataStructure {
 			if ($errorMessage !== null) {
 				$this->setErrorPath(
 					message: $errorMessage,
-					currentPath: [$key],
-					field: $this->typeValues
+					currentPath: $key,
+					field: $this->typeValues,
 				);
 				return false;
 			}

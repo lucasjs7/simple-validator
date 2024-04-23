@@ -14,11 +14,11 @@ class Struct extends DataStructure {
 		foreach ($structure as $val) {
 			if (!($val instanceof DataStructure) && !($val instanceof TypeBase)) {
 				Core::exitError(
-					'Struct Error',
-					'A Struct só pode conter classes filhas de DataStructure ou TypeBase.',
-					new Exception,
-					true,
-					null,
+					title: 'Struct Error',
+					message: 'A Struct só pode conter classes filhas de DataStructure ou TypeBase.',
+					exception: new Exception,
+					backtrace: true,
+					tables: null,
 				);
 			}
 		}
@@ -44,7 +44,20 @@ class Struct extends DataStructure {
 
 		foreach ($values as $key => $value) {
 			if (!$typeKey->validate($key)) {
-				$this->setError('Erro na chave: ' . $typeKey->getError());
+				$this->setErrorPath(
+					message: "Erro na chave: {$typeKey->getError()}",
+					currentPath: $key,
+					field: $typeKey,
+				);
+				return false;
+			}
+			if (!$this->structure[$key]->validate($value, false)) {
+				$this->setErrorPath(
+					message: "Erro no valor: {$this->structure[$key]->getError()}",
+					currentPath: $key,
+					field: $this->structure[$key],
+				);
+				return false;
 			}
 		}
 

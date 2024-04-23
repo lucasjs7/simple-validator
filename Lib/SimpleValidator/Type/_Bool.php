@@ -9,7 +9,7 @@ class _Bool extends TypeBase {
 	use tNew, tPattern, tRequired;
 
 	public function typeValidate(mixed $value): bool {
-		return (filter_var($value, FILTER_VALIDATE_BOOL) !== false);
+		return (filter_var($value, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE) !== null);
 	}
 
 	public function attrsValidate(mixed $value): void {

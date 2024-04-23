@@ -13,9 +13,15 @@ trait tMin {
 	}
 
 	public function validateMin(mixed $value, string $type): void {
-		if (self::isEmpty($this->attr->min->getValue())) {
+		$minIsEmpty = self::isEmpty($this->attr->min->getValue());
+
+		if ($minIsEmpty) {
 			return;
-		} elseif ($this->attr->min->getValue() > $this->attr->max->getValue()) {
+		}
+
+		$maxIsEmpty = self::isEmpty($this->attr->max->getValue());
+
+		if (!$maxIsEmpty && $this->attr->min->getValue() > $this->attr->max->getValue()) {
 			$this->attr->min->setError(true);
 			$this->attr->max->setError(true);
 			AttrError::buildError($this->attr, 'O atributo "min" não pode ser superior ao atributo "max".');
