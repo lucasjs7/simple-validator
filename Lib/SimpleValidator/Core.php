@@ -4,11 +4,20 @@ namespace Lib\SimpleValidator;
 
 use Exception;
 use Lucasjs7\SimpleCliTable;
+use Lib\SimpleValidator\Language\{Language, eLanguage};
 
 abstract class Core {
 
-	protected string $errorMsg = '';
-	protected bool $exception = true;
+	protected string 	$errorMsg  = '';
+	protected bool 		$exception = true;
+
+	public static eLanguage $language;
+
+	public function __construct() {
+		if (self::$language === null) {
+			Language::set(eLanguage::EN);
+		}
+	}
 
 	protected function setError(
 		string $message,
