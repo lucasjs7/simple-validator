@@ -6,8 +6,8 @@ error_reporting(E_ALL);
 
 require_once 'vendor/autoload.php';
 
-use Lib\SimpleValidator\{Map, Slice, Struct, ValidatorException};
-use Lib\SimpleValidator\Type\{_String, _Date, _Int, _Float, _Bool};
+use Lucasjs7\SimpleValidator\{Map, Slice, Struct, ValidatorException};
+use Lucasjs7\SimpleValidator\Type\{_String, _Date, _Int, _Float, _Bool};
 
 try {
 
@@ -22,7 +22,6 @@ try {
 				'tipo' 	   => _String::new()->options('carro', 'moto', 'bicicleta')->required(),
 				'sinistro' => _Bool::new()->required(),
 				'fipe' 	   => _Float::new()->min(0)->required(),
-				// 'descricao_detalhada' => Type::$bigString,
 				'donos' => Slice::new(
 					Struct::new([
 						'nome' 		=> _String::new()->max(10)->min(5)->required(),
@@ -47,7 +46,6 @@ try {
 				'tipo' 	   => 'bicicleta',
 				'sinistro' => false,
 				'fipe' 	   => 1.9,
-				// 'descricao_detalhada' => '',
 				'donos' => [
 					[
 						'nome' 		=> 'Sidinelson',
@@ -64,6 +62,8 @@ try {
 
 	echo "Status: sucesso\n";
 } catch (ValidatorException $e) {
+	$e->debug();
+
 	$errorPath = implode('->', $e->getErrorPath());
 
 	echo "Status: error\n";
