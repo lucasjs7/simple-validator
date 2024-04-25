@@ -7,10 +7,13 @@ error_reporting(E_ALL);
 require_once 'vendor/autoload.php';
 
 use Lucasjs7\SimpleValidator\{Map, Slice, Struct, ValidatorException};
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
+use Lucasjs7\SimpleValidator\Language\eLanguage as eLng;
 use Lucasjs7\SimpleValidator\Type\{_String, _Date, _Int, _Float, _Bool};
 
 try {
 
+	Lng::set(eLng::PT);
 	_Date::new()->format('d-m-Y')->save('br');
 
 	$person = Struct::new([

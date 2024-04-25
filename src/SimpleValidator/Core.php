@@ -15,7 +15,7 @@ abstract class Core {
 
 	public function __construct() {
 		if (self::$language === null) {
-			Language::set(eLanguage::EN);
+			Language::defaultLang();
 		}
 	}
 

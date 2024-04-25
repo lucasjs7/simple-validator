@@ -3,6 +3,7 @@
 namespace Lucasjs7\SimpleValidator;
 
 use Exception;
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
 use Throwable;
 
 class ValidatorException extends Exception {
@@ -26,7 +27,7 @@ class ValidatorException extends Exception {
 	public function debug(): void {
 		Core::exitError(
 			'ValidatorException',
-			'Debug',
+			Lng::get('exception-debug', 'text'),
 			$this,
 			true,
 		);
