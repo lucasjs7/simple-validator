@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\SimpleValidator\Language;
+namespace Lucasjs7\SimpleValidator\Language;
 
 enum eLanguage {
 	case PT;

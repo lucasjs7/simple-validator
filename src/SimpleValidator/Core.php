@@ -1,10 +1,10 @@
 <?php
 
-namespace Lib\SimpleValidator;
+namespace Lucasjs7\SimpleValidator;
 
 use Exception;
 use Lucasjs7\SimpleCliTable;
-use Lib\SimpleValidator\Language\{Language, eLanguage};
+use Lucasjs7\SimpleValidator\Language\{Language, eLanguage};
 
 abstract class Core {
 

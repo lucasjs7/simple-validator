@@ -1,9 +1,9 @@
 <?php
 
-namespace Lib\SimpleValidator\Type\Attribute;
+namespace Lucasjs7\SimpleValidator\Type\Attribute;
 
 use Exception;
-use Lib\SimpleValidator\Core;
+use Lucasjs7\SimpleValidator\Core;
 use Lucasjs7\SimpleCliTable;
 
 /**

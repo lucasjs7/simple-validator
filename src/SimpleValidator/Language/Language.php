@@ -1,8 +1,8 @@
 <?php
 
-namespace Lib\SimpleValidator\Language;
+namespace Lucasjs7\SimpleValidator\Language;
 
-use Lib\SimpleValidator\Core;
+use Lucasjs7\SimpleValidator\Core;
 
 class Language {
 

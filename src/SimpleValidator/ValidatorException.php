@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\SimpleValidator;
+namespace Lucasjs7\SimpleValidator;
 
 use Exception;
 use Throwable;
@@ -21,5 +21,14 @@ class ValidatorException extends Exception {
 
 	public function getErrorPath(): array {
 		return $this->errorPath;
+	}
+
+	public function debug(): void {
+		Core::exitError(
+			'ValidatorException',
+			'Debug',
+			$this,
+			true,
+		);
 	}
 }

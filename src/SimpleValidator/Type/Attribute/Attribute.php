@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\SimpleValidator\Type\Attribute;
+namespace Lucasjs7\SimpleValidator\Type\Attribute;
 
 class Attribute {
 

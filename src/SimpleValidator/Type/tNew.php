@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\SimpleValidator\Type;
+namespace Lucasjs7\SimpleValidator\Type;
 
 trait tNew {
 

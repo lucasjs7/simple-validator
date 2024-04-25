@@ -1,8 +1,8 @@
 <?php
 
-namespace Lib\SimpleValidator\Type;
+namespace Lucasjs7\SimpleValidator\Type;
 
-use Lib\SimpleValidator\Type\Attribute\tFormat;
+use Lucasjs7\SimpleValidator\Type\Attribute\tFormat;
 
 class _Date extends TypeBase {
 

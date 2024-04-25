@@ -1,8 +1,8 @@
 <?php
 
-namespace Lib\SimpleValidator\Type;
+namespace Lucasjs7\SimpleValidator\Type;
 
-use Lib\SimpleValidator\Type\Attribute\{tMin, tMax, tUnsigned};
+use Lucasjs7\SimpleValidator\Type\Attribute\{tMin, tMax, tUnsigned};
 
 class _Int extends TypeBase {
 

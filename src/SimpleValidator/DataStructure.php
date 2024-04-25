@@ -1,8 +1,8 @@
 <?php
 
-namespace Lib\SimpleValidator;
+namespace Lucasjs7\SimpleValidator;
 
-use Lib\SimpleValidator\Type\TypeBase;
+use Lucasjs7\SimpleValidator\Type\TypeBase;
 
 abstract class DataStructure extends Core {
 

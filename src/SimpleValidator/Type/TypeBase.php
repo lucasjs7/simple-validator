@@ -1,11 +1,11 @@
 <?php
 
-namespace Lib\SimpleValidator\Type;
+namespace Lucasjs7\SimpleValidator\Type;
 
 use Exception;
-use Lib\SimpleValidator\Core;
-use Lib\SimpleValidator\Type\Attribute\AttrError;
-use Lib\SimpleValidator\Type\Attribute\Attribute;
+use Lucasjs7\SimpleValidator\Core;
+use Lucasjs7\SimpleValidator\Type\Attribute\AttrError;
+use Lucasjs7\SimpleValidator\Type\Attribute\Attribute;
 
 abstract class TypeBase extends Core implements iTypeBase {
 

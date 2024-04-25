@@ -1,10 +1,10 @@
 <?php
 
-namespace Lib\SimpleValidator;
+namespace Lucasjs7\SimpleValidator;
 
 use \Exception;
-use Lib\SimpleValidator\Type\_String;
-use Lib\SimpleValidator\Type\TypeBase;
+use Lucasjs7\SimpleValidator\Type\_String;
+use Lucasjs7\SimpleValidator\Type\TypeBase;
 
 class Struct extends DataStructure {
 

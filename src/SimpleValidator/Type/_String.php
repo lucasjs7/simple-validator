@@ -1,8 +1,8 @@
 <?php
 
-namespace Lib\SimpleValidator\Type;
+namespace Lucasjs7\SimpleValidator\Type;
 
-use Lib\SimpleValidator\Type\Attribute\{tOptions, tMin, tMax, tRegex};
+use Lucasjs7\SimpleValidator\Type\Attribute\{tOptions, tMin, tMax, tRegex};
 
 class _String extends TypeBase {
 

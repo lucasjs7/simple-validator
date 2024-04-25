@@ -1,8 +1,8 @@
 <?php
 
-namespace Lib\SimpleValidator;
+namespace Lucasjs7\SimpleValidator;
 
-use Lib\SimpleValidator\Type\{TypeBase, _Date, _Int, _String};
+use Lucasjs7\SimpleValidator\Type\{TypeBase, _Date, _Int, _String};
 
 class Map extends DataStructure {
 

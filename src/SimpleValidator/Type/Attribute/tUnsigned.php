@@ -1,8 +1,8 @@
 <?php
 
-namespace Lib\SimpleValidator\Type\Attribute;
+namespace Lucasjs7\SimpleValidator\Type\Attribute;
 
-use Lib\SimpleValidator\ValidatorException;
+use Lucasjs7\SimpleValidator\ValidatorException;
 
 trait tUnsigned {
 
