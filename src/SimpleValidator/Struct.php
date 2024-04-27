@@ -3,17 +3,16 @@
 namespace Lucasjs7\SimpleValidator;
 
 use \Exception;
-use Lucasjs7\SimpleValidator\Type\_String;
-use Lucasjs7\SimpleValidator\Type\TypeBase;
+use Lucasjs7\SimpleValidator\Type\{TypeBase, TypeParser, _String};
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 class Struct extends DataStructure {
 
 	public function __construct(
-		public readonly array $structure
+		public array $structure
 	) {
-		foreach ($structure as $val) {
-			if (!($val instanceof DataStructure) && !($val instanceof TypeBase)) {
+		foreach ($this->structure as &$val) {
+			if (!is_string($val) && !($val instanceof DataStructure) && !($val instanceof TypeBase)) {
 				Core::exitError(
 					title: 'Struct Error',
 					message: Lng::get([], 'struct', 'error-data'),
@@ -21,6 +20,10 @@ class Struct extends DataStructure {
 					backtrace: true,
 					tables: null,
 				);
+			}
+
+			if (is_string($val)) {
+				$val = TypeParser::new($val);
 			}
 		}
 	}

@@ -2,18 +2,22 @@
 
 namespace Lucasjs7\SimpleValidator;
 
-use Lucasjs7\SimpleValidator\Type\TypeBase;
+use Lucasjs7\SimpleValidator\Type\{TypeBase, TypeParser};
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 class Slice extends DataStructure {
 
+	public readonly DataStructure|TypeBase $typeValues;
+
 	public function __construct(
-		public readonly DataStructure|TypeBase $typeValues,
+		string|DataStructure|TypeBase $typeValues,
 	) {
-		//
+		$this->typeValues = !is_string($typeValues) ? $typeValues : TypeParser::new($typeValues);
 	}
 
-	public static function new(DataStructure|TypeBase $typeValues): static {
+	public static function new(
+		string|DataStructure|TypeBase $typeValues
+	): static {
 		return new static($typeValues);
 	}
 

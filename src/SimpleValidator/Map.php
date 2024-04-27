@@ -2,21 +2,25 @@
 
 namespace Lucasjs7\SimpleValidator;
 
-use Lucasjs7\SimpleValidator\Type\{TypeBase, _Date, _Int, _String};
+use Lucasjs7\SimpleValidator\Type\{TypeBase, _Date, _Int, _String, TypeParser};
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 class Map extends DataStructure {
 
+	public readonly TypeBase 			   $typeKeys;
+	public readonly TypeBase|DataStructure $typeValues;
+
 	public function __construct(
-		public readonly TypeBase 			   $typeKeys,
-		public readonly TypeBase|DataStructure $typeValues,
+		string|TypeBase 			  $typeKeys,
+		string|TypeBase|DataStructure $typeValues,
 	) {
-		//
+		$this->typeKeys   = !is_string($typeKeys) ? $typeKeys : TypeParser::new($typeKeys);
+		$this->typeValues = !is_string($typeValues) ? $typeValues : TypeParser::new($typeValues);
 	}
 
 	public static function new(
-		_Date|_Int|_String 	   $typeKeys,
-		TypeBase|DataStructure $typeValues
+		string|_Date|_Int|_String 	   $typeKeys,
+		string|TypeBase|DataStructure $typeValues
 	): static {
 		return new static($typeKeys, $typeValues);
 	}
