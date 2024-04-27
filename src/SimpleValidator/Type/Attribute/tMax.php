@@ -3,6 +3,7 @@
 namespace Lucasjs7\SimpleValidator\Type\Attribute;
 
 use Lucasjs7\SimpleValidator\ValidatorException;
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 trait tMax {
 
@@ -23,7 +24,7 @@ trait tMax {
 		};
 
 		if (!$isValid) {
-			throw new ValidatorException('O valor é inválido para o atributo "max".');
+			throw new ValidatorException(Lng::get(['value' => $this->attr->max->getValue()], 'type', 'attribute', 'max', 'error-invalid'));
 		};
 	}
 }

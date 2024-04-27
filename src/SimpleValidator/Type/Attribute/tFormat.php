@@ -4,6 +4,7 @@ namespace Lucasjs7\SimpleValidator\Type\Attribute;
 
 use DateTime;
 use Lucasjs7\SimpleValidator\ValidatorException;
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 trait tFormat {
 
@@ -21,7 +22,7 @@ trait tFormat {
 		$isValid = (DateTime::createFromFormat($this->attr->format->getValue(), $value) !== false);
 
 		if (!$isValid) {
-			throw new ValidatorException('O valor é inválido para o atributo "format".');
+			throw new ValidatorException(Lng::get(['value' => $this->attr->format->getValue()], 'type', 'attribute', 'format', 'error-invalid'));
 		};
 	}
 }

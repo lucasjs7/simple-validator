@@ -3,16 +3,16 @@
 namespace Lucasjs7\SimpleValidator;
 
 use Exception;
-use Lucasjs7\SimpleValidator\Language\Language as Lng;
 use Throwable;
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 class ValidatorException extends Exception {
 
 	private readonly array $errorPath;
 
 	public function __construct(
-		string 	 $message = '',
-		int 	     $code = 0,
+		string 	   $message = '',
+		int 	   $code = 0,
 		?Throwable $previous = null,
 		array      $errorPath = [],
 	) {
@@ -27,7 +27,7 @@ class ValidatorException extends Exception {
 	public function debug(): void {
 		Core::exitError(
 			'ValidatorException',
-			Lng::get('exception-debug', 'text'),
+			Lng::get([], 'exception', 'debug'),
 			$this,
 			true,
 		);

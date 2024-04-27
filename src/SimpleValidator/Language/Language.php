@@ -17,7 +17,7 @@ class Language {
 		Core::$language = $language;
 	}
 
-	public static function get(string ...$path): string {
+	public static function get(array $dataReplace, string ...$path): string {
 		if (!isset(Core::$language)) {
 			Language::defaultLang();
 		}
@@ -28,6 +28,15 @@ class Language {
 			if (array_key_exists($dir, $currentData)) {
 				$currentData = $currentData[$dir];
 			}
+		}
+
+		if (!is_string($currentData)) {
+			return '';
+		}
+
+		foreach ($dataReplace as $key => $value) {
+			$tag = '{{' . $key . '}}';
+			$currentData = str_replace($tag, $value, $currentData);
 		}
 
 		return is_string($currentData) ? $currentData : '';

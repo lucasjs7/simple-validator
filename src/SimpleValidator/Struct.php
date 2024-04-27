@@ -5,6 +5,7 @@ namespace Lucasjs7\SimpleValidator;
 use \Exception;
 use Lucasjs7\SimpleValidator\Type\_String;
 use Lucasjs7\SimpleValidator\Type\TypeBase;
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 class Struct extends DataStructure {
 
@@ -15,7 +16,7 @@ class Struct extends DataStructure {
 			if (!($val instanceof DataStructure) && !($val instanceof TypeBase)) {
 				Core::exitError(
 					title: 'Struct Error',
-					message: 'A Struct só pode conter classes filhas de DataStructure ou TypeBase.',
+					message: Lng::get([], 'struct', 'error-data'),
 					exception: new Exception,
 					backtrace: true,
 					tables: null,
@@ -35,7 +36,7 @@ class Struct extends DataStructure {
 		$this->exception = $exception;
 
 		if (!is_array($values)) {
-			$this->setError('O valor deve conter uma estrutura chave-valor.', []);
+			$this->setError(Lng::get([], 'struct', 'error-list'), []);
 			return false;
 		}
 
@@ -44,7 +45,7 @@ class Struct extends DataStructure {
 		foreach ($values as $key => $value) {
 			if (!$typeKey->validate($key, false)) {
 				$this->setErrorPath(
-					message: "Erro na chave: {$typeKey->getError()}",
+					message: Lng::get([], 'struct', 'error-prefix-key') . $typeKey->getError(),
 					currentPath: $key,
 					field: $typeKey,
 				);
@@ -63,7 +64,7 @@ class Struct extends DataStructure {
 					message: $this->structure[$key]->getError(),
 					currentPath: $key,
 					field: $this->structure[$key],
-					prefix: 'Erro no valor: ',
+					prefix: Lng::get([], 'struct', 'error-prefix-value'),
 				);
 				return false;
 			}

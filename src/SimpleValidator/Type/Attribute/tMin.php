@@ -3,6 +3,7 @@
 namespace Lucasjs7\SimpleValidator\Type\Attribute;
 
 use Lucasjs7\SimpleValidator\ValidatorException;
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 trait tMin {
 
@@ -24,7 +25,7 @@ trait tMin {
 		if (!$maxIsEmpty && $this->attr->min->getValue() > $this->attr->max->getValue()) {
 			$this->attr->min->setError(true);
 			$this->attr->max->setError(true);
-			AttrError::buildError($this->attr, 'O atributo "min" não pode ser superior ao atributo "max".');
+			AttrError::buildError($this->attr, Lng::get([], 'type', 'attribute', 'min', 'error-max'));
 		}
 
 		$isValid = match ($type) {
@@ -33,7 +34,7 @@ trait tMin {
 		};
 
 		if (!$isValid) {
-			throw new ValidatorException('O valor é inválido para o atributo "min".');
+			throw new ValidatorException(Lng::get(['value' => $this->attr->min->getValue()], 'type', 'attribute', 'min', 'error-invalid'));
 		};
 	}
 }

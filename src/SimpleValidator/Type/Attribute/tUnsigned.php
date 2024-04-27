@@ -3,6 +3,7 @@
 namespace Lucasjs7\SimpleValidator\Type\Attribute;
 
 use Lucasjs7\SimpleValidator\ValidatorException;
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 trait tUnsigned {
 
@@ -20,7 +21,7 @@ trait tUnsigned {
 		$isValid = ($value >= 0);
 
 		if (!$isValid) {
-			throw new ValidatorException('O valor é inválido para o atributo "unsigned".');
+			throw new ValidatorException(Lng::get([], 'type', 'attribute', 'unsigned', 'error-invalid'));
 		};
 	}
 }

@@ -3,6 +3,7 @@
 namespace Lucasjs7\SimpleValidator\Type\Attribute;
 
 use Lucasjs7\SimpleValidator\ValidatorException;
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 trait tOptions {
 
@@ -20,7 +21,7 @@ trait tOptions {
 		$isValid = in_array($value, $this->attr->options->getValue());
 
 		if (!$isValid) {
-			throw new ValidatorException('O valor é inválido para o atributo "options".');
+			throw new ValidatorException(Lng::get([], 'type', 'attribute', 'options', 'error-invalid'));
 		};
 	}
 }

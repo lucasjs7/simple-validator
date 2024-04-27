@@ -6,6 +6,7 @@ use Exception;
 use Lucasjs7\SimpleValidator\Core;
 use Lucasjs7\SimpleValidator\Type\Attribute\AttrError;
 use Lucasjs7\SimpleValidator\Type\Attribute\Attribute;
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 abstract class TypeBase extends Core implements iTypeBase {
 
@@ -27,9 +28,10 @@ abstract class TypeBase extends Core implements iTypeBase {
 			$this->verifyConflicts();
 
 			if ($this->attr->required->getValue() && $isEmpty) {
-				throw new Exception('Este campo é obrigatório.');
+				throw new Exception(Lng::get([], 'type', 'type-base', 'error-required'));
 			} elseif (!$isEmpty && !$this->typeValidate($value)) {
-				throw new Exception('O valor passado não corresponde ao tipo esperado.');
+				$descType = Lng::get([], 'type', "desc-type-{$this->name()}");
+				throw new Exception(Lng::get(['type' => $descType], 'type', 'type-base', 'error-type'));
 			}
 
 			$this->attrsValidate($value);
@@ -53,7 +55,7 @@ abstract class TypeBase extends Core implements iTypeBase {
 				}
 			}
 
-			AttrError::buildError($this->attr, 'Estão sendo usados atributos conflitantes.');
+			AttrError::buildError($this->attr, Lng::get([], 'type', 'type-base', 'error-attr-conflict'));
 		}
 	}
 

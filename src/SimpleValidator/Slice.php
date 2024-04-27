@@ -3,6 +3,7 @@
 namespace Lucasjs7\SimpleValidator;
 
 use Lucasjs7\SimpleValidator\Type\TypeBase;
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 class Slice extends DataStructure {
 
@@ -23,7 +24,7 @@ class Slice extends DataStructure {
 		$this->exception = $exception;
 
 		if (!is_array($values) || !array_is_list($values)) {
-			$this->setError('O valor deve conter uma lista.');
+			$this->setError(Lng::get([], 'slice', 'error-list'));
 			return false;
 		}
 
@@ -33,7 +34,7 @@ class Slice extends DataStructure {
 					message: $this->typeValues->getError(),
 					currentPath: $key,
 					field: $this->typeValues,
-					prefix: 'Erro no valor: ',
+					prefix: Lng::get([], 'slice', 'error-prefix-key'),
 				);
 				return false;
 			}

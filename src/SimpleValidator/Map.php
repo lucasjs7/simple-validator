@@ -3,6 +3,7 @@
 namespace Lucasjs7\SimpleValidator;
 
 use Lucasjs7\SimpleValidator\Type\{TypeBase, _Date, _Int, _String};
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 class Map extends DataStructure {
 
@@ -27,14 +28,14 @@ class Map extends DataStructure {
 		$this->exception = $exception;
 
 		if (!is_array($values) || !is_array($values)) {
-			$this->setError('O valor deve conter uma estrutura chave-valor.');
+			$this->setError(Lng::get([], 'map', 'error-key-value'));
 			return false;
 		}
 
 		foreach ($values as $key => $val) {
 			if (!$this->typeKeys->validate($key, false)) {
 				$this->setErrorPath(
-					message: "Erro na chave: {$this->typeKeys->getError()}",
+					message: Lng::get([], 'map', 'error-prefix-key') . $this->typeKeys->getError(),
 					currentPath: $key,
 					field: $this->typeKeys,
 				);
@@ -45,7 +46,7 @@ class Map extends DataStructure {
 					message: $this->typeValues->getError(),
 					currentPath: $key,
 					field: $this->typeValues,
-					prefix: 'Erro no valor: ',
+					prefix: Lng::get([], 'map', 'error-prefix-value'),
 				);
 				return false;
 			}

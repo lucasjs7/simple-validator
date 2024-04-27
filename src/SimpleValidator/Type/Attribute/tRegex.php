@@ -3,6 +3,7 @@
 namespace Lucasjs7\SimpleValidator\Type\Attribute;
 
 use Lucasjs7\SimpleValidator\ValidatorException;
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 trait tRegex {
 
@@ -20,9 +21,9 @@ trait tRegex {
 		$isValid = preg_match($this->attr->regex->getValue(), $value);
 
 		if ($isValid === 0) {
-			throw new ValidatorException('O valor é inválido para o atributo "regex".');
+			throw new ValidatorException(Lng::get(['value' => $this->attr->regex->getValue()], 'type', 'attribute', 'regex', 'error-invalid'));
 		} elseif ($isValid === false) {
-			AttrError::buildError($this->attr, 'O padrão regex usado é inválido.');
+			AttrError::buildError($this->attr, Lng::get([], 'type', 'attribute', 'regex', 'error-pattern'));
 		};
 	}
 }
