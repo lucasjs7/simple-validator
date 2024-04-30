@@ -41,4 +41,6 @@ abstract class DataStructure extends Core {
 	}
 
 	abstract public function validate(mixed $value, bool $exception = true): bool;
+
+	abstract public function info(): array;
 }

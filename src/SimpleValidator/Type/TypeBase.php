@@ -4,7 +4,7 @@ namespace Lucasjs7\SimpleValidator\Type;
 
 use Exception;
 use Lucasjs7\SimpleValidator\Core;
-use Lucasjs7\SimpleValidator\Type\Attribute\AttrError;
+use Lucasjs7\SimpleValidator\Type\Attribute\{AttrError, tFormat, tMax, tMin, tOptions, tRegex, tUnsigned};
 use Lucasjs7\SimpleValidator\Type\Attribute\Attribute;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
@@ -82,6 +82,31 @@ abstract class TypeBase extends Core implements iTypeBase {
 		$validGroups = ($countGroups == 1 && $invalidGroups == 0);
 
 		return ($noGroupUsed || $validGroups);
+	}
+
+	public function info(): string {
+		$rtn = $listAttr = [];
+
+		$class = trim(substr(static::class, strrpos(static::class, '\\') + 1), '_');
+		$rtn[] = 'type: ' . strtolower($class);
+
+		foreach ($this->attr as $name => $value) {
+			$listAttr[$name] = $value->getValue();
+		}
+
+		foreach ($listAttr as $k => $v) {
+			if ($v === null) {
+				continue;
+			}
+
+			$rtn[] = $k . ': ' . match (gettype($v)) {
+				'boolean' => ($v ? 'true' : 'false'),
+				'array'   => implode(', ', $v),
+				default   => $v,
+			};
+		}
+
+		return implode(' | ', $rtn);
 	}
 
 	abstract public static function new(): static;

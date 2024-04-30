@@ -75,4 +75,14 @@ class Struct extends DataStructure {
 
 		return true;
 	}
+
+	public function info(): array {
+		$rtn = [];
+
+		foreach ($this->structure as $key => $value) {
+			$rtn[$key] = $value->info();
+		}
+
+		return $rtn;
+	}
 }

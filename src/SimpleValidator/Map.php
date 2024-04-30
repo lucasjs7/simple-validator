@@ -58,4 +58,11 @@ class Map extends DataStructure {
 
 		return true;
 	}
+
+	public function info(): array {
+		return [
+			'key'   => $this->typeKeys->info(),
+			'value' => $this->typeValues->info(),
+		];
+	}
 }

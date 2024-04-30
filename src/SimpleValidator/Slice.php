@@ -46,4 +46,10 @@ class Slice extends DataStructure {
 
 		return true;
 	}
+
+	public function info(): array {
+		return [
+			$this->typeValues->info()
+		];
+	}
 }
