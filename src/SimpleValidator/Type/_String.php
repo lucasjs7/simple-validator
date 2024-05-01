@@ -10,7 +10,7 @@ class _String extends TypeBase {
 
 	private static array $patterns;
 
-	use tOptions, tMin, tMax, tNew, tPattern, tRequired, tRegex;
+	use tOptions, tMin, tMax, tPattern, tRequired, tRegex;
 
 	public function typeValidate(mixed $value): bool {
 		return is_string($value);

@@ -2,13 +2,13 @@
 
 namespace Lucasjs7\SimpleValidator\Type;
 
-use Lucasjs7\SimpleValidator\Type\Attribute\tFormat;
+use Lucasjs7\SimpleValidator\Type\Attribute\{tFormat};
 
 class _Date extends TypeBase {
 
 	private static array $patterns;
 
-	use tFormat, tNew, tPattern, tRequired;
+	use tFormat, tPattern, tRequired;
 
 	public function __construct() {
 		parent::__construct();

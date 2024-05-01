@@ -8,7 +8,7 @@ class _Int extends TypeBase {
 
 	private static array $patterns;
 
-	use tMin, tMax, tNew, tPattern, tUnsigned, tRequired;
+	use tMin, tMax, tPattern, tUnsigned, tRequired;
 
 	public function typeValidate(mixed $value): bool {
 		return (filter_var($value, FILTER_VALIDATE_INT) !== false);

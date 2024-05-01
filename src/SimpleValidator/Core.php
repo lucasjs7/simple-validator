@@ -8,105 +8,112 @@ use Lucasjs7\SimpleValidator\Language\{Language, eLanguage};
 
 abstract class Core {
 
-	protected string 	$errorMsg  = '';
-	protected bool 		$exception = true;
+    protected string $errorMsg  = '';
+    protected bool   $exception = true;
 
-	public static eLanguage $language;
+    public static eLanguage $language;
 
-	public function __construct() {
-		if (self::$language === null) {
-			Language::defaultLang();
-		}
-	}
+    public function __construct() {
+        if (self::$language === null) {
+            Language::defaultLang();
+        }
+    }
 
-	protected function setError(
-		string $message,
-		array  $errorPath = [],
-	): void {
-		$this->errorMsg = $message;
+    protected function setError(
+        string  $message,
+        array   $errorPath = [],
+        ?string $label     = null,
+    ): void {
+        if ($label !== null) {
+            $fmtMessage = rtrim($message, '. ');
+            $this->errorMsg = "$fmtMessage (field: $label).";
+        } else {
+            $this->errorMsg = $message;
+        }
 
-		if ($this->exception) {
-			throw new ValidatorException(
-				message: $message,
-				errorPath: $errorPath,
-			);
-		}
-	}
 
-	public function getError(): string {
-		return $this->errorMsg;
-	}
+        if ($this->exception) {
+            throw new ValidatorException(
+                message: $this->errorMsg,
+                errorPath: $errorPath,
+            );
+        }
+    }
 
-	public static function genHeaderError(string $title): string {
-		return "SimpleValidator - $title";
-	}
+    public function getError(): string {
+        return $this->errorMsg;
+    }
 
-	public static function exitError(
-		string 			   $title,
-		string 			   $message,
-		Exception 		   $exception,
-		bool			   $backtrace,
-		?SimpleCliTable ...$tables,
-	): void {
-		$headerData = [
-			[self::genHeaderError($title)],
-			[$message],
-		];
+    public static function genHeaderError(string $title): string {
+        return "SimpleValidator - $title";
+    }
 
-		echo SimpleCliTable::build($headerData, true) . "\n";
+    public static function exitError(
+        string             $title,
+        string             $message,
+        Exception          $exception,
+        bool               $backtrace,
+        ?SimpleCliTable ...$tables,
+    ): void {
+        $headerData = [
+            [self::genHeaderError($title)],
+            [$message],
+        ];
 
-		foreach ($tables as $table) {
-			if ($table === null) continue;
+        echo SimpleCliTable::build($headerData, true) . "\n";
 
-			echo $table->render() . "\n";
-		}
+        foreach ($tables as $table) {
+            if ($table === null) continue;
 
-		if ($backtrace) {
-			$trace = $exception->getTrace();
-			$lastTrace = (array_key_last($trace));
-			$bkTable = new SimpleCliTable;
+            echo $table->render() . "\n";
+        }
 
-			$bkTable->setContainsHeader(true);
-			$bkTable->add(['', 'Backtrace', 'Function', 'Args']);
+        if ($backtrace) {
+            $trace = $exception->getTrace();
+            $lastTrace = (array_key_last($trace));
+            $bkTable = new SimpleCliTable;
 
-			for ($i = $lastTrace, $n = 1; $i > 0; $i--, $n++) {
-				$traceFile 	   = $trace[$i]['file'] ?? '-';
-				$traceLine 	   = $trace[$i]['line'] ?? '-';
-				$traceFunction = $trace[$i]['function'] ?? '';
-				$traceArgs 	   = $trace[$i]['args'] ?? '';
+            $bkTable->setContainsHeader(true);
+            $bkTable->add(['', 'Backtrace', 'Function', 'Args']);
 
-				$bkTable->add([
-					"#$n",
-					"$traceFile:$traceLine",
-					$traceFunction,
-					json_encode($traceArgs),
-				]);
-			}
+            for ($i = $lastTrace, $n = 1; $i > 0; $i--, $n++) {
+                $traceFile     = $trace[$i]['file'] ?? '-';
+                $traceLine     = $trace[$i]['line'] ?? '-';
+                $traceFunction = $trace[$i]['function'] ?? '';
+                $traceArgs     = $trace[$i]['args'] ?? '';
 
-			echo $bkTable->render();
-		}
+                $bkTable->add([
+                    "#$n",
+                    "$traceFile:$traceLine",
+                    $traceFunction,
+                    json_encode($traceArgs),
+                ]);
+            }
 
-		self::logFile($title, $message, $exception);
-		exit;
-	}
+            echo $bkTable->render();
+        }
 
-	public static function logFile(
-		string 	  $title,
-		string    $message,
-		Exception $exception,
-	): void {
-		$fileErrorLog = ini_get('error_log');
+        self::logFile($title, $message, $exception);
+        exit;
+    }
 
-		if (empty($fileErrorLog)) return;
+    public static function logFile(
+        string    $title,
+        string    $message,
+        Exception $exception,
+    ): void {
+        $fileErrorLog = ini_get('error_log');
 
-		$strTrace 	= $exception->getTraceAsString();
-		$logMessage = "$title: $message\n$strTrace\n";
+        if (empty($fileErrorLog)) return;
 
-		error_log($logMessage, 3, $fileErrorLog);
-	}
+        $strTrace   = $exception->getTraceAsString();
+        $logMessage = "$title: $message\n$strTrace\n";
 
-	public function name(): string {
-		$name = trim(substr(static::class, (strrpos(static::class, '\\') + 1)), '_');
-		return strtolower($name);
-	}
+        error_log($logMessage, 3, $fileErrorLog);
+    }
+
+    public function name(): string {
+        $name = trim(substr(static::class, (strrpos(static::class, '\\') + 1)), '_');
+        return strtolower($name);
+    }
 }

@@ -12,8 +12,11 @@ abstract class TypeBase extends Core implements iTypeBase {
 
 	protected readonly Attribute $attr;
 
-	public function __construct() {
+	public function __construct(
+		?string $label = null,
+	) {
 		$this->attr = new Attribute;
+		$this->attr->label->setValue($label);
 	}
 
 	protected static function isEmpty(mixed $value): bool {
@@ -39,7 +42,10 @@ abstract class TypeBase extends Core implements iTypeBase {
 			return true;
 		} catch (Exception $e) {
 			if ($this->attr->required->getValue() || !$isEmpty) {
-				$this->setError($e->getMessage());
+				$this->setError(
+					message: $e->getMessage(),
+					label: $this->attr->label->getValue(),
+				);
 				return false;
 			}
 
@@ -109,9 +115,20 @@ abstract class TypeBase extends Core implements iTypeBase {
 		return implode(' | ', $rtn);
 	}
 
-	abstract public static function new(): static;
+	public function label(string $value): static {
+		$this->attr->label->setValue($value);
 
-	abstract public function required(bool $value = true): static;
+		return $this;
+	}
 
-	abstract public static function pattern(string $name): static;
+	public static function new(
+		?string $label = null,
+	): static {
+		return new static($label);
+	}
+
+	public function required(bool $value = true): static {
+		$this->attr->required->setValue($value);
+		return $this;
+	}
 }
