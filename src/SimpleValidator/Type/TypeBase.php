@@ -10,7 +10,7 @@ use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 abstract class TypeBase extends Core implements iTypeBase {
 
-    protected readonly Attribute $attr;
+    public readonly Attribute $attr;
 
     public function __construct(
         ?string $label = null,
@@ -19,7 +19,7 @@ abstract class TypeBase extends Core implements iTypeBase {
         $this->attr->label->setValue($label);
     }
 
-    protected static function isEmpty(
+    public static function isEmpty(
         mixed $value,
     ): bool {
         return ($value === null || $value === [] || (is_string($value) && trim($value) === ''));

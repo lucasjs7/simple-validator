@@ -114,7 +114,7 @@ abstract class Core {
         error_log($logMessage, 3, $fileErrorLog);
     }
 
-    public function name(): string {
+    public static function name(): string {
         $name = trim(substr(static::class, (strrpos(static::class, '\\') + 1)), '_');
         return strtolower($name);
     }

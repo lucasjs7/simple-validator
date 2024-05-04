@@ -32,6 +32,14 @@ class Slice extends DataStructure {
             return false;
         }
 
+        $isTypeBase     = ($this->typeValues instanceof TypeBase);
+        $isRequiredType = ($isTypeBase && $this->typeValues->attr->required->getValue());
+
+        if ($isRequiredType && TypeBase::isEmpty($values)) {
+            $this->setError(Lng::get([], 'type', 'type-base', 'error-required'));
+            return false;
+        }
+
         foreach ($values as $key => $val) {
             if (!$this->typeValues->validate($val, false)) {
                 $this->setErrorPath(

@@ -23,24 +23,28 @@ class TypeParser {
                 );
             }
 
-            $instance = match ($dataOpt['type']) {
-                'string'    => new _String,
-                'int'       => new _Int,
-                'float'     => new _Float,
-                'bool'      => new _Bool,
-                'date'      => new _Date,
-                'interface' => new _Interface,
+            $className = match ($dataOpt['type']) {
+                'string'    => _String::class,
+                'int'       => _Int::class,
+                'float'     => _Float::class,
+                'bool'      => _Bool::class,
+                'date'      => _Date::class,
+                'interface' => _Interface::class,
+                'mixed'     => _Mixed::class,
                 default     => null,
             };
 
-            if ($instance === null) {
+            if ($className === null) {
                 throw new Exception(
                     message: "Não foi encontrado o \"type\" {$dataOpt['type']}.",
                 );
             }
 
+            $isPattern = (!empty($dataOpt['pattern']));
+            $instance = $isPattern ? $className::pattern($dataOpt['pattern']) : $className::new();
+
             foreach ($dataOpt as $key => $value) {
-                if ($key == 'type') {
+                if (in_array($key, ['type', 'pattern'])) {
                     continue;
                 }
 
