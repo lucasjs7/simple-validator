@@ -17,7 +17,6 @@ class AttrError {
         string    $errorMessage,
     ): void {
         $titleHeader = 'Attribute Error';
-        $titleLib = Core::genHeaderError($titleHeader);
         $attrTable = new SimpleCliTable;
 
         $attrTable->setContainsHeader(true);
