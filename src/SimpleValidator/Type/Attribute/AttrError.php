@@ -12,37 +12,37 @@ use Lucasjs7\SimpleCliTable;
  */
 class AttrError {
 
-	public static function buildError(
-		Attribute $attr,
-		string 	  $errorMessage,
-	): void {
-		$titleHeader = 'Attribute Error';
-		$titleLib = Core::genHeaderError($titleHeader);
-		$attrTable = new SimpleCliTable;
+    public static function buildError(
+        Attribute $attr,
+        string    $errorMessage,
+    ): void {
+        $titleHeader = 'Attribute Error';
+        $titleLib = Core::genHeaderError($titleHeader);
+        $attrTable = new SimpleCliTable;
 
-		$attrTable->setContainsHeader(true);
-		$attrTable->add(['Attribute', 'Value', 'Error']);
+        $attrTable->setContainsHeader(true);
+        $attrTable->add(['Attribute', 'Value', 'Error']);
 
-		foreach ($attr as $kAttr => $vAttr) {
-			$attrValeu = match (gettype($vAttr->getValue())) {
-				'array', 'object' => json_encode($vAttr->getValue()),
-				'NULL' 			  => '',
-				default => $vAttr->getValue(),
-			};
+        foreach ($attr as $kAttr => $vAttr) {
+            $attrValeu = match (gettype($vAttr->getValue())) {
+                'array', 'object' => json_encode($vAttr->getValue()),
+                'NULL'            => '',
+                default           => $vAttr->getValue(),
+            };
 
-			$attrTable->add([
-				$kAttr,
-				$attrValeu,
-				$vAttr->getError() ? '*' : '',
-			]);
-		}
+            $attrTable->add([
+                $kAttr,
+                $attrValeu,
+                $vAttr->getError() ? '*' : '',
+            ]);
+        }
 
-		Core::exitError(
-			$titleHeader,
-			$errorMessage,
-			new Exception,
-			true,
-			$attrTable,
-		);
-	}
+        Core::exitError(
+            title: $titleHeader,
+            message: $errorMessage,
+            exception: new Exception,
+            backtrace: true,
+            tables: $attrTable,
+        );
+    }
 }

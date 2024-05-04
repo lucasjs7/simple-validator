@@ -44,7 +44,9 @@ abstract class Core {
         return $this->errorMsg;
     }
 
-    public static function genHeaderError(string $title): string {
+    public static function genHeaderError(
+        string $title,
+    ): string {
         return "SimpleValidator - $title";
     }
 

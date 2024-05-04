@@ -8,21 +8,27 @@ use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 trait tFormat {
 
-	public function format(string $value): static {
-		$this->attr->format->setValue($value);
+    public function format(
+        string $value,
+    ): static {
+        $this->attr->format->setValue($value);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function validateFormat(string $value): void {
-		if (self::isEmpty($this->attr->format->getValue())) {
-			return;
-		}
+    public function validateFormat(
+        string $value,
+    ): void {
+        if (self::isEmpty($this->attr->format->getValue())) {
+            return;
+        }
 
-		$isValid = (DateTime::createFromFormat($this->attr->format->getValue(), $value) !== false);
+        $isValid = (DateTime::createFromFormat($this->attr->format->getValue(), $value) !== false);
 
-		if (!$isValid) {
-			throw new ValidatorException(Lng::get(['value' => $this->attr->format->getValue()], 'type', 'attribute', 'format', 'error-invalid'));
-		};
-	}
+        if (!$isValid) {
+            throw new ValidatorException(
+                message: Lng::get(['value' => $this->attr->format->getValue()], 'type', 'attribute', 'format', 'error-invalid'),
+            );
+        };
+    }
 }

@@ -6,17 +6,21 @@ use Lucasjs7\SimpleValidator\Type\Attribute\{tMin, tMax, tUnsigned};
 
 class _Float extends TypeBase {
 
-	private static array $patterns;
+    private static array $patterns;
 
-	use tMin, tMax, tPattern, tUnsigned, tRequired;
+    use tMin, tMax, tPattern, tUnsigned, tRequired;
 
-	public function typeValidate(mixed $value): bool {
-		return (filter_var($value, FILTER_VALIDATE_FLOAT) !== false);
-	}
+    public function typeValidate(
+        mixed $value,
+    ): bool {
+        return (filter_var($value, FILTER_VALIDATE_FLOAT) !== false);
+    }
 
-	public function attrsValidate(mixed $value): void {
-		$this->validateUnsigned($value);
-		$this->validateMin($value, 'float');
-		$this->validateMax($value, 'float');
-	}
+    public function attrsValidate(
+        mixed $value,
+    ): void {
+        $this->validateUnsigned($value);
+        $this->validateMin($value, 'float');
+        $this->validateMax($value, 'float');
+    }
 }

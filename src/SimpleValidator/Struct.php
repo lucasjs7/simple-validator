@@ -28,7 +28,9 @@ class Struct extends DataStructure {
         }
     }
 
-    public static function new(array $structure): static {
+    public static function new(
+        array $structure,
+    ): static {
         return new self($structure);
     }
 

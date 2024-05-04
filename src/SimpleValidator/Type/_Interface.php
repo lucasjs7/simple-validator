@@ -4,15 +4,19 @@ namespace Lucasjs7\SimpleValidator\Type;
 
 class _Interface extends TypeBase {
 
-	private static array $patterns;
+    private static array $patterns;
 
-	use tPattern, tRequired;
+    use tPattern, tRequired;
 
-	public function typeValidate(mixed $value): bool {
-		return true;
-	}
+    public function typeValidate(
+        mixed $value,
+    ): bool {
+        return true;
+    }
 
-	public function attrsValidate(mixed $value): void {
-		return;
-	}
+    public function attrsValidate(
+        mixed $value,
+    ): void {
+        return;
+    }
 }

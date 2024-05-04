@@ -4,131 +4,148 @@ namespace Lucasjs7\SimpleValidator\Type;
 
 use Exception;
 use Lucasjs7\SimpleValidator\Core;
-use Lucasjs7\SimpleValidator\Type\Attribute\{AttrError, tFormat, tMax, tMin, tOptions, tRegex, tUnsigned};
+use Lucasjs7\SimpleValidator\Type\Attribute\AttrError;
 use Lucasjs7\SimpleValidator\Type\Attribute\Attribute;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 abstract class TypeBase extends Core implements iTypeBase {
 
-	protected readonly Attribute $attr;
+    protected readonly Attribute $attr;
 
-	public function __construct(
-		?string $label = null,
-	) {
-		$this->attr = new Attribute;
-		$this->attr->label->setValue($label);
-	}
+    public function __construct(
+        ?string $label = null,
+    ) {
+        $this->attr = new Attribute;
+        $this->attr->label->setValue($label);
+    }
 
-	protected static function isEmpty(mixed $value): bool {
-		return ($value === null || $value === [] || (is_string($value) && trim($value) === ''));
-	}
+    protected static function isEmpty(
+        mixed $value,
+    ): bool {
+        return ($value === null || $value === [] || (is_string($value) && trim($value) === ''));
+    }
 
-	public function validate(mixed $value, bool $exception = true): bool {
-		$isEmpty = self::isEmpty($value);
+    public function validate(
+        mixed $value,
+        bool $exception = true,
+    ): bool {
+        $isEmpty = self::isEmpty($value);
 
-		try {
-			$this->exception = $exception;
-			$this->verifyConflicts();
+        try {
+            $this->exception = $exception;
+            $this->verifyConflicts();
 
-			if ($this->attr->required->getValue() && $isEmpty) {
-				throw new Exception(Lng::get([], 'type', 'type-base', 'error-required'));
-			} elseif (!$this->typeValidate($value)) {
-				$descType = Lng::get([], 'type', "desc-type-{$this->name()}");
-				throw new Exception(Lng::get(['type' => $descType], 'type', 'type-base', 'error-type'));
-			}
+            if ($this->attr->required->getValue() && $isEmpty) {
+                throw new Exception(
+                    message: Lng::get([], 'type', 'type-base', 'error-required'),
+                );
+            } elseif (!$this->typeValidate($value)) {
+                $descType = Lng::get([], 'type', "desc-type-{$this->name()}");
 
-			$this->attrsValidate($value);
+                throw new Exception(
+                    message: Lng::get(['type' => $descType], 'type', 'type-base', 'error-type'),
+                );
+            }
 
-			return true;
-		} catch (Exception $e) {
-			if ($this->attr->required->getValue() || !$isEmpty) {
-				$this->setError(
-					message: $e->getMessage(),
-					label: $this->attr->label->getValue(),
-				);
-				return false;
-			}
+            $this->attrsValidate($value);
 
-			return true;
-		}
-	}
+            return true;
+        } catch (Exception $e) {
+            if ($this->attr->required->getValue() || !$isEmpty) {
+                $this->setError(
+                    message: $e->getMessage(),
+                    label: $this->attr->label->getValue(),
+                );
+                return false;
+            }
 
-	protected function verifyConflicts(): void {
-		if (!$this->checkAttributes()) {
-			foreach ($this->attr as $nameAttr => $attribute) {
-				if ($nameAttr != 'required' && $attribute->getValue() !== null) {
-					$attribute->setError(true);
-				}
-			}
+            return true;
+        }
+    }
 
-			AttrError::buildError($this->attr, Lng::get([], 'type', 'type-base', 'error-attr-conflict'));
-		}
-	}
+    protected function verifyConflicts(): void {
+        if (!$this->checkAttributes()) {
+            foreach ($this->attr as $nameAttr => $attribute) {
+                if ($nameAttr != 'required' && $attribute->getValue() !== null) {
+                    $attribute->setError(true);
+                }
+            }
 
-	protected function checkAttributes(): bool {
-		$emptyRegex    = self::isEmpty($this->attr->regex->getValue());
-		$emptyMax 	   = self::isEmpty($this->attr->max->getValue());
-		$emptyMin 	   = self::isEmpty($this->attr->min->getValue());
-		$emptyOptions  = self::isEmpty($this->attr->options->getValue());
-		$emptyFormat   = self::isEmpty($this->attr->format->getValue());
-		$emptyUnsigned = self::isEmpty($this->attr->unsigned->getValue());
+            AttrError::buildError(
+                attr: $this->attr,
+                errorMessage: Lng::get([], 'type', 'type-base', 'error-attr-conflict'),
+            );
+        }
+    }
 
-		$countGroups = 0;
+    protected function checkAttributes(): bool {
+        $emptyRegex    = self::isEmpty($this->attr->regex->getValue());
+        $emptyMax      = self::isEmpty($this->attr->max->getValue());
+        $emptyMin      = self::isEmpty($this->attr->min->getValue());
+        $emptyOptions  = self::isEmpty($this->attr->options->getValue());
+        $emptyFormat   = self::isEmpty($this->attr->format->getValue());
+        $emptyUnsigned = self::isEmpty($this->attr->unsigned->getValue());
 
-		$countGroups += (int) (!$emptyRegex);
-		$countGroups += (int) (!$emptyMax || !$emptyMin || !$emptyUnsigned);
-		$countGroups += (int) (!$emptyOptions);
-		$countGroups += (int) (!$emptyFormat);
+        $countGroups = 0;
 
-		$invalidGroups = 0;
+        $countGroups += (int) (!$emptyRegex);
+        $countGroups += (int) (!$emptyMax || !$emptyMin || !$emptyUnsigned);
+        $countGroups += (int) (!$emptyOptions);
+        $countGroups += (int) (!$emptyFormat);
 
-		$invalidGroups += (int) (!$emptyUnsigned && !$emptyMin);
+        $invalidGroups = 0;
 
-		$noGroupUsed = ($countGroups == 0);
-		$validGroups = ($countGroups == 1 && $invalidGroups == 0);
+        $invalidGroups += (int) (!$emptyUnsigned && !$emptyMin);
 
-		return ($noGroupUsed || $validGroups);
-	}
+        $noGroupUsed = ($countGroups == 0);
+        $validGroups = ($countGroups == 1 && $invalidGroups == 0);
 
-	public function info(): string {
-		$rtn = $listAttr = [];
+        return ($noGroupUsed || $validGroups);
+    }
 
-		$class = trim(substr(static::class, strrpos(static::class, '\\') + 1), '_');
-		$rtn[] = 'type: ' . strtolower($class);
+    public function info(): string {
+        $rtn = $listAttr = [];
 
-		foreach ($this->attr as $name => $value) {
-			$listAttr[$name] = $value->getValue();
-		}
+        $class = trim(substr(static::class, strrpos(static::class, '\\') + 1), '_');
+        $rtn[] = 'type: ' . strtolower($class);
 
-		foreach ($listAttr as $k => $v) {
-			if ($v === null) {
-				continue;
-			}
+        foreach ($this->attr as $name => $value) {
+            $listAttr[$name] = $value->getValue();
+        }
 
-			$rtn[] = $k . ': ' . match (gettype($v)) {
-				'boolean' => ($v ? 'true' : 'false'),
-				'array'   => implode(', ', $v),
-				default   => $v,
-			};
-		}
+        foreach ($listAttr as $k => $v) {
+            if ($v === null) {
+                continue;
+            }
 
-		return implode(' | ', $rtn);
-	}
+            $rtn[] = $k . ': ' . match (gettype($v)) {
+                'boolean' => ($v ? 'true' : 'false'),
+                'array'   => implode(', ', $v),
+                default   => $v,
+            };
+        }
 
-	public function label(string $value): static {
-		$this->attr->label->setValue($value);
+        return implode(' | ', $rtn);
+    }
 
-		return $this;
-	}
+    public function label(
+        string $value,
+    ): static {
+        $this->attr->label->setValue($value);
 
-	public static function new(
-		?string $label = null,
-	): static {
-		return new static($label);
-	}
+        return $this;
+    }
 
-	public function required(bool $value = true): static {
-		$this->attr->required->setValue($value);
-		return $this;
-	}
+    public static function new(
+        ?string $label = null,
+    ): static {
+        return new static($label);
+    }
+
+    public function required(
+        bool $value = true,
+    ): static {
+        $this->attr->required->setValue($value);
+        return $this;
+    }
 }

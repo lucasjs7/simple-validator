@@ -4,7 +4,7 @@ namespace Lucasjs7\SimpleValidator;
 
 use Lucasjs7\SimpleValidator\Type\TypeBase;
 
-abstract class DataStructure extends Core {
+abstract class DataStructure extends Core implements iDataStructure {
 
     protected array $errorPath = [];
 
@@ -14,7 +14,7 @@ abstract class DataStructure extends Core {
 
     protected function setErrorPath(
         string             $message,
-        string        $currentPath,
+        string             $currentPath,
         null|self|TypeBase $field,
         string             $prefix = '',
     ): void {
@@ -22,25 +22,23 @@ abstract class DataStructure extends Core {
 
         if ($field instanceof self) {
             $this->errorPath =  [$currentPath, ...$field->getErrorPath()];
-            $showPrefix = empty($field->getErrorPath());
+            $showPrefix      = empty($field->getErrorPath());
         } else {
             $this->errorPath =  [$currentPath];
         }
 
         $this->setError(
-            message: $showPrefix ? $prefix . $message : $message,
+            message: $showPrefix ? ($prefix . $message) : $message,
             errorPath: $this->errorPath,
         );
     }
 
-    protected function showPrefixError(mixed $val): bool {
+    protected function showPrefixError(
+        mixed $val,
+    ): bool {
         $isSelfInstance = ($val instanceof self);
         $notIsInstance = (!($val instanceof self) && !($val instanceof TypeBase));
 
         return (($isSelfInstance || $notIsInstance) && empty($this->getErrorPath()));
     }
-
-    abstract public function validate(mixed $value, bool $exception = true): bool;
-
-    abstract public function info(): array;
 }

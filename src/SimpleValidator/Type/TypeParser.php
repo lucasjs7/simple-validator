@@ -7,83 +7,96 @@ use Lucasjs7\SimpleValidator\Core;
 
 class TypeParser {
 
-	public static function new(string $value): TypeBase {
-		try {
-			$dataOpt = self::checkOptions($value);
+    public static function new(
+        string $value,
+    ): TypeBase {
+        try {
+            $dataOpt = self::checkOptions($value);
 
-			if (!array_key_exists('type', $dataOpt)) {
-				throw new Exception('O parâmetro "type" é obrigatório.');
-			} elseif (empty($dataOpt['type'])) {
-				throw new Exception('Não foi atribuído valor ao parâmetro "type".');
-			}
+            if (!array_key_exists('type', $dataOpt)) {
+                throw new Exception(
+                    message: 'O parâmetro "type" é obrigatório.',
+                );
+            } elseif (empty($dataOpt['type'])) {
+                throw new Exception(
+                    message: 'Não foi atribuído valor ao parâmetro "type".',
+                );
+            }
 
-			$instance = match ($dataOpt['type']) {
-				'string' => new _String,
-				'int' 	 => new _Int,
-				'float'  => new _Float,
-				'bool' 	 => new _Bool,
-				'date' 	 => new _Date,
-				default  => null,
-			};
+            $instance = match ($dataOpt['type']) {
+                'string'    => new _String,
+                'int'       => new _Int,
+                'float'     => new _Float,
+                'bool'      => new _Bool,
+                'date'      => new _Date,
+                'interface' => new _Interface,
+                default     => null,
+            };
 
-			if ($instance === null) {
-				throw new Exception("Não foi encontrado o \"type\" {$dataOpt['type']}.");
-			}
+            if ($instance === null) {
+                throw new Exception(
+                    message: "Não foi encontrado o \"type\" {$dataOpt['type']}.",
+                );
+            }
 
-			foreach ($dataOpt as $key => $value) {
-				if ($key == 'type') {
-					continue;
-				}
+            foreach ($dataOpt as $key => $value) {
+                if ($key == 'type') {
+                    continue;
+                }
 
-				if (!method_exists($instance, $key)) {
-					throw new Exception("O parâmetro $key não existe.");
-				}
+                if (!method_exists($instance, $key)) {
+                    throw new Exception(
+                        message: "O parâmetro $key não existe.",
+                    );
+                }
 
-				if ($key === 'options') {
-					$options = array_map('trim', explode(',', $value));
-					$instance->{$key}(...$options);
-				} elseif ($value !== null) {
-					$instance->{$key}($value);
-				} else {
-					$instance->{$key}();
-				}
-			}
+                if ($key === 'options') {
+                    $options = array_map('trim', explode(',', $value));
+                    $instance->{$key}(...$options);
+                } elseif ($value !== null) {
+                    $instance->{$key}($value);
+                } else {
+                    $instance->{$key}();
+                }
+            }
 
-			return $instance;
-		} catch (Exception $e) {
+            return $instance;
+        } catch (Exception $e) {
 
-			Core::exitError(
-				title: 'TypeParser',
-				message: $e->getMessage(),
-				exception: $e,
-				backtrace: true,
-			);
-		}
-	}
+            Core::exitError(
+                title: 'TypeParser',
+                message: $e->getMessage(),
+                exception: $e,
+                backtrace: true,
+            );
+        }
+    }
 
-	private static function checkOptions(string $value): array {
-		$dataVal = explode('|', $value);
-		$dataOpt = [];
+    private static function checkOptions(
+        string $value,
+    ): array {
+        $dataVal = explode('|', $value);
+        $dataOpt = [];
 
-		foreach ($dataVal as $subVal) {
-			$optList = explode(':', $subVal, 2);
-			$optKey = $optList[0] ?? null;
-			$optVal = $optList[1] ?? null;
+        foreach ($dataVal as $subVal) {
+            $optList = explode(':', $subVal, 2);
+            $optKey  = $optList[0] ?? null;
+            $optVal  = $optList[1] ?? null;
 
-			if ($optKey === null) {
-				continue;
-			}
+            if ($optKey === null) {
+                continue;
+            }
 
-			$fmtKey = trim($optKey);
-			$fmtVal = ($optVal !== null) ? trim($optVal) : $optVal;
+            $fmtKey = trim($optKey);
+            $fmtVal = ($optVal !== null) ? trim($optVal) : $optVal;
 
-			if (empty($fmtKey)) {
-				continue;
-			}
+            if (empty($fmtKey)) {
+                continue;
+            }
 
-			$dataOpt[$fmtKey] = $fmtVal;
-		}
+            $dataOpt[$fmtKey] = $fmtVal;
+        }
 
-		return $dataOpt;
-	}
+        return $dataOpt;
+    }
 }
