@@ -9,45 +9,25 @@ require_once 'vendor/autoload.php';
 use Lucasjs7\SimpleValidator\{Map, Slice, Struct, ValidatorException};
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 use Lucasjs7\SimpleValidator\Language\eLanguage as eLng;
-use Lucasjs7\SimpleValidator\Type\{TypeParser, _String, _Date, _Int, _Float, _Bool};
+use Lucasjs7\SimpleValidator\Type\{TypeParser, _String, _Date, _Int, _Float, _Bool, _Interface};
 
 try {
 
 	Lng::set(eLng::PT);
 	_Date::new()->format('d-m-Y')->save('br');
 
-	// $test = Struct::new([
-	// 	'nome' 		=> _String::new()->max(10)->min(5)->label('Nome')->required(),
-	// 	'sobrenome' => _String::new()->max(16)->min(3),
-	// 	'idade' 	=> _Int::new()->max(150)->unsigned()->required(),
-	// 	'veiculos'  => Slice::new(
-	// 		Struct::new([
-	// 			'tipo' 	   => _String::new()->options('carro', 'moto', 'bicicleta')->required(),
-	// 			'sinistro' => _Bool::new()->required(),
-	// 			'fipe' 	   => _Float::new()->min(0)->required(),
-	// 			'donos' => Slice::new(
-	// 				Struct::new([
-	// 					'nome' 		=> _String::new()->max(10)->min(5)->required(),
-	// 					'posse_de'  => _Date::pattern('br')->required(),
-	// 					'posse_ate' => _Date::new()->format('Y-m-d H:i:s')->required(),
-	// 				]),
-	// 			),
-	// 			'informacoes_adicionais' => Map::new(
-	// 				_Date::pattern('br')->required(),
-	// 				_String::new()->min(16)->max(64)->required(),
-	// 			)
-	// 		]),
-	// 	),
-	// ])->info();
+	$field = Struct::new([
+		'name' => _String::new('Nome')->max(10)->min(5)->required(),
+		'info' => _Interface::new()->required(),
+	]);
 
-	// print_r($test);
-	// exit;
+	$field->validate([
+		'name' => 'asdasdasd',
+		'info' => null
+	]);
 
-	// $field = TypeParser::new('type: string | max: 10 | min: 5 | required');
-	// $field->validate('teasdasdasdasdste');
-
-	// echo 'sucesso';
-	// exit;
+	echo 'sucesso';
+	exit;
 
 	$person = Struct::new([
 		'first_name' => _String::new('Nome')->max(10)->min(5)->required(),
@@ -65,10 +45,7 @@ try {
 						'owner_to' => _Date::new()->format('Y-m-d H:i:s')->required(),
 					]),
 				),
-				'additional_information' => Map::new(
-					_String::new()->min(1)->required(),
-					_String::new()->min(16)->max(64)->required(),
-				)
+				'additional_information' => _Interface::new()->required(),
 			]),
 		),
 	]);

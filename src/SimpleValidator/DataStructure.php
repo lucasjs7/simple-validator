@@ -6,41 +6,41 @@ use Lucasjs7\SimpleValidator\Type\TypeBase;
 
 abstract class DataStructure extends Core {
 
-	protected array $errorPath = [];
+    protected array $errorPath = [];
 
-	public function getErrorPath(): array {
-		return $this->errorPath;
-	}
+    public function getErrorPath(): array {
+        return $this->errorPath;
+    }
 
-	protected function setErrorPath(
-		string 		  $message,
-		string  	  $currentPath,
-		self|TypeBase $field,
-		string        $prefix = '',
-	): void {
-		$showPrefix = true;
+    protected function setErrorPath(
+        string             $message,
+        string        $currentPath,
+        null|self|TypeBase $field,
+        string             $prefix = '',
+    ): void {
+        $showPrefix = true;
 
-		if ($field instanceof self) {
-			$this->errorPath =  [$currentPath, ...$field->getErrorPath()];
-			$showPrefix = empty($field->getErrorPath());
-		} else {
-			$this->errorPath =  [$currentPath];
-		}
+        if ($field instanceof self) {
+            $this->errorPath =  [$currentPath, ...$field->getErrorPath()];
+            $showPrefix = empty($field->getErrorPath());
+        } else {
+            $this->errorPath =  [$currentPath];
+        }
 
-		$this->setError(
-			message: $showPrefix ? $prefix . $message : $message,
-			errorPath: $this->errorPath,
-		);
-	}
+        $this->setError(
+            message: $showPrefix ? $prefix . $message : $message,
+            errorPath: $this->errorPath,
+        );
+    }
 
-	protected function showPrefixError(mixed $val): bool {
-		$isSelfInstance = ($val instanceof self);
-		$notIsInstance = (!($val instanceof self) && !($val instanceof TypeBase));
+    protected function showPrefixError(mixed $val): bool {
+        $isSelfInstance = ($val instanceof self);
+        $notIsInstance = (!($val instanceof self) && !($val instanceof TypeBase));
 
-		return (($isSelfInstance || $notIsInstance) && empty($this->getErrorPath()));
-	}
+        return (($isSelfInstance || $notIsInstance) && empty($this->getErrorPath()));
+    }
 
-	abstract public function validate(mixed $value, bool $exception = true): bool;
+    abstract public function validate(mixed $value, bool $exception = true): bool;
 
-	abstract public function info(): array;
+    abstract public function info(): array;
 }

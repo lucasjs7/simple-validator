@@ -20,7 +20,7 @@ abstract class TypeBase extends Core implements iTypeBase {
 	}
 
 	protected static function isEmpty(mixed $value): bool {
-		return ($value === null  || $value === '');
+		return ($value === null || $value === [] || (is_string($value) && trim($value) === ''));
 	}
 
 	public function validate(mixed $value, bool $exception = true): bool {
@@ -32,7 +32,7 @@ abstract class TypeBase extends Core implements iTypeBase {
 
 			if ($this->attr->required->getValue() && $isEmpty) {
 				throw new Exception(Lng::get([], 'type', 'type-base', 'error-required'));
-			} elseif (!$isEmpty && !$this->typeValidate($value)) {
+			} elseif (!$this->typeValidate($value)) {
 				$descType = Lng::get([], 'type', "desc-type-{$this->name()}");
 				throw new Exception(Lng::get(['type' => $descType], 'type', 'type-base', 'error-type'));
 			}

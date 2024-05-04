@@ -6,8 +6,6 @@ use Lucasjs7\SimpleValidator\Type\Attribute\{tOptions, tMin, tMax, tRegex};
 
 class _String extends TypeBase {
 
-	const name = 'string';
-
 	private static array $patterns;
 
 	use tOptions, tMin, tMax, tPattern, tRequired, tRegex;
