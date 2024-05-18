@@ -6,5 +6,13 @@
 	},
 	"require": {
 		"lucasjs7/simple-cli-table": "^1.03"
+	},
+	"require-dev": {
+		"pestphp/pest": "^2.34"
+	},
+	"config": {
+		"allow-plugins": {
+			"pestphp/pest-plugin": true
+		}
 	}
 }
