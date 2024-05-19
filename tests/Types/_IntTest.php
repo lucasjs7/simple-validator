@@ -1,12 +1,7 @@
 <?php
 
 use Tests\Base;
-use Lucasjs7\SimpleValidator\Language\Language as Lng;
-use Lucasjs7\SimpleValidator\Language\eLanguage as eLng;
-use Lucasjs7\SimpleValidator\Struct;
 use Lucasjs7\SimpleValidator\Type\_Int;
-
-Lng::set(eLng::PT);
 
 $listTrue = [
 	'_Int#1' => [
