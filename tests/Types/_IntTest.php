@@ -54,6 +54,9 @@ $listFalse = [
 Base::testTypeList($listTrue);
 Base::testTypeList($listFalse);
 
+Base::testSlice('_Int/Slice#1', $listTrue, true);
+Base::testSlice('_Int/Slice#2', $listFalse, false);
+
 Base::testMap('_Int/Map#1', $listTrue, true);
 Base::testMap('_Int/Map#2', $listFalse, false);
 
