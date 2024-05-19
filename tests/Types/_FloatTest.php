@@ -54,6 +54,9 @@ $listFalse = [
 Base::testTypeList($listTrue);
 Base::testTypeList($listFalse);
 
+Base::testSlice('_Float/Slice#1', $listTrue, true);
+Base::testSlice('_Float/Slice#2', $listFalse, false);
+
 Base::testMap('_Float/Map#1', $listTrue, true);
 Base::testMap('_Float/Map#2', $listFalse, false);
 
