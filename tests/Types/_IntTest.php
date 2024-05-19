@@ -1,81 +1,66 @@
 <?php
 
+use Tests\Base;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 use Lucasjs7\SimpleValidator\Language\eLanguage as eLng;
+use Lucasjs7\SimpleValidator\Struct;
 use Lucasjs7\SimpleValidator\Type\_Int;
 
 Lng::set(eLng::PT);
 
-# TEST 1
-it('_Int#1 - T', function () {
-	expect(
-		value: _Int::new()->max(10)->validate(10, false)
-	)->toBe(true);
-});
-it('_Int#2 - T', function () {
-	expect(
-		value: _Int::new()->min(10)->validate(10, false)
-	)->toBe(true);
-});
-it('_Int#3 - T', function () {
-	expect(
-		value: _Int::new()->unsigned()->validate(0, false)
-	)->toBe(true);
-});
-it('_Int#4 - T', function () {
-	expect(
-		value: _Int::new()->max(10)->min(5)->validate(10, false)
-	)->toBe(true);
-});
-it('_Int#5 - T', function () {
-	expect(
-		value: _Int::new()->max(10)->min(5)->validate(5, false)
-	)->toBe(true);
-});
-it('_Int#6 - T', function () {
-	expect(
-		value: _Int::new()->max(10)->unsigned()->validate(0, false)
-	)->toBe(true);
-});
-it('_Int#7 - T', function () {
-	expect(
-		value: _Int::new()->max(10)->unsigned()->validate(10, false)
-	)->toBe(true);
-});
+$listTrue = [
+	'_Int#1' => [
+		'test' => _Int::new()->max(10), 'value' => 10, 'result' => true
+	],
+	'_Int#2' => [
+		'test' => _Int::new()->min(10), 'value' => 10, 'result' => true
+	],
+	'_Int#3' => [
+		'test' => _Int::new()->unsigned(), 'value' => 0, 'result' => true
+	],
+	'_Int#4' => [
+		'test' => _Int::new()->max(10)->min(5), 'value' => 10, 'result' => true
+	],
+	'_Int#5' => [
+		'test' => _Int::new()->max(10)->min(5), 'value' => 5, 'result' => true
+	],
+	'_Int#6' => [
+		'test' => _Int::new()->max(10)->unsigned(), 'value' => 0, 'result' => true
+	],
+	'_Int#7' => [
+		'test' => _Int::new()->max(10)->unsigned(), 'value' => 10, 'result' => true
+	],
+];
 
-# TEST 2
-it('_Int#1 - F', function () {
-	expect(
-		value: _Int::new()->max(10)->validate(11, false)
-	)->toBe(false);
-});
-it('_Int#2 - F', function () {
-	expect(
-		value: _Int::new()->min(10)->validate(9, false)
-	)->toBe(false);
-});
-it('_Int#3 - F', function () {
-	expect(
-		value: _Int::new()->unsigned()->validate(-1, false)
-	)->toBe(false);
-});
-it('_Int#4 - F', function () {
-	expect(
-		value: _Int::new()->max(10)->min(5)->validate(11, false)
-	)->toBe(false);
-});
-it('_Int#5 - F', function () {
-	expect(
-		value: _Int::new()->max(10)->min(5)->validate(4, false)
-	)->toBe(false);
-});
-it('_Int#6 - F', function () {
-	expect(
-		value: _Int::new()->max(10)->unsigned()->validate(-1, false)
-	)->toBe(false);
-});
-it('_Int#7 - F', function () {
-	expect(
-		value: _Int::new()->max(10)->unsigned()->validate(11, false)
-	)->toBe(false);
-});
+$listFalse = [
+	'_Int#8' => [
+		'test' => _Int::new()->max(10), 'value' => 11, 'result' => false
+	],
+	'_Int#9' => [
+		'test' => _Int::new()->min(10), 'value' => 9, 'result' => false
+	],
+	'_Int#10' => [
+		'test' => _Int::new()->unsigned(), 'value' => -1, 'result' => false
+	],
+	'_Int#11' => [
+		'test' => _Int::new()->max(10)->min(5), 'value' => 11, 'result' => false
+	],
+	'_Int#12' => [
+		'test' => _Int::new()->max(10)->min(5), 'value' => 4, 'result' => false
+	],
+	'_Int#13' => [
+		'test' => _Int::new()->max(10)->unsigned(), 'value' => -1, 'result' => false
+	],
+	'_Int#14' => [
+		'test' => _Int::new()->max(10)->unsigned(), 'value' => 11, 'result' => false
+	],
+];
+
+Base::testTypeList($listTrue);
+Base::testTypeList($listFalse);
+
+Base::testMap('_Int/Map#1', $listTrue, true);
+Base::testMap('_Int/Map#2', $listFalse, false);
+
+Base::testStruct('_Int/Struct#1', $listTrue, true);
+Base::testStruct('_Int/Struct#2', $listFalse, false);
