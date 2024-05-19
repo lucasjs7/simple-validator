@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Lucasjs7\SimpleValidator\{Struct, Map};
+use Lucasjs7\SimpleValidator\{Struct, Map, Slice};
 use Lucasjs7\SimpleValidator\Type\_String;
 
 class Base {
@@ -15,6 +15,21 @@ class Base {
                 expect($test)->toBe($v['result']);
             });
         }
+    }
+
+    public static function testSlice(string $name, array $list, bool $result) {
+        describe($name, function () use ($list, $result) {
+            foreach ($list as $k => $v) {
+                it($k, function () use ($result, $v) {
+                    $value = [$v['value']];
+                    $test = Slice::new(
+                        typeValues: $v['test'],
+                    )->validate($value, false);
+
+                    expect($test)->toBe($result);
+                });
+            }
+        });
     }
 
     public static function testMap(string $name, array $list, bool $result) {
