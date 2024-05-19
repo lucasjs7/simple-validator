@@ -4,6 +4,12 @@
 			"Lucasjs7\\": "src/"
 		}
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"Lucasjs7\\": "src/",
+			"Tests\\": "tests/"
+		}
+	},
 	"require": {
 		"lucasjs7/simple-cli-table": "^1.03"
 	},
