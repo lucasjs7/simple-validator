@@ -4,49 +4,49 @@ use Tests\Base;
 use Lucasjs7\SimpleValidator\Type\_Float;
 
 $listTrue = [
-	'_Float#1 - T' => [
+	'_Float#1' => [
 		'test' => _Float::new()->max(10.3), 'value' => 10.3, 'result' => true
 	],
-	'_Float#2 - T' => [
+	'_Float#2' => [
 		'test' => _Float::new()->min(10.3), 'value' => 10.3, 'result' => true
 	],
-	'_Float#3 - T' => [
+	'_Float#3' => [
 		'test' => _Float::new()->unsigned(), 'value' => 0, 'result' => true
 	],
-	'_Float#4 - T' => [
+	'_Float#4' => [
 		'test' => _Float::new()->max(10.3)->min(5.8), 'value' => 10.3, 'result' => true
 	],
-	'_Float#5 - T' => [
+	'_Float#5' => [
 		'test' => _Float::new()->max(10.3)->min(5.8), 'value' => 5.8, 'result' => true
 	],
-	'_Float#6 - T' => [
+	'_Float#6' => [
 		'test' => _Float::new()->max(10.3)->unsigned(), 'value' => 0, 'result' => true
 	],
-	'_Float#7 - T' => [
+	'_Float#7' => [
 		'test' => _Float::new()->max(10.3)->unsigned(), 'value' => 10.3, 'result' => true
 	],
 ];
 
 $listFalse = [
-	'_Float#1 - F' => [
+	'_Float#8' => [
 		'test' => _Float::new()->max(10.3), 'value' => 10.4, 'result' => false
 	],
-	'_Float#2 - F' => [
+	'_Float#9' => [
 		'test' => _Float::new()->min(10.3), 'value' => 10.2, 'result' => false
 	],
-	'_Float#3 - F' => [
+	'_Float#10' => [
 		'test' => _Float::new()->unsigned(), 'value' => -0.1, 'result' => false
 	],
-	'_Float#4 - F' => [
+	'_Float#11' => [
 		'test' => _Float::new()->max(10.3)->min(5.8), 'value' => 10.4, 'result' => false
 	],
-	'_Float#5 - F' => [
+	'_Float#12' => [
 		'test' => _Float::new()->max(10.3)->min(5.8), 'value' => 5.7, 'result' => false
 	],
-	'_Float#6 - F' => [
+	'_Float#13' => [
 		'test' => _Float::new()->max(10.3)->unsigned(), 'value' => -0.1, 'result' => false
 	],
-	'_Float#7 - F' => [
+	'_Float#14' => [
 		'test' => _Float::new()->max(10.3)->unsigned(), 'value' => 10.4, 'result' => false
 	],
 ];
