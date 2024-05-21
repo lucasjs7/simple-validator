@@ -23,12 +23,13 @@ trait tFormat {
             return;
         }
 
-        $isValid = (DateTime::createFromFormat($this->attr->format->getValue(), $value) !== false);
+        $strFormat  = $this->attr->format->getValue();
+        $dateFormat = DateTime::createFromFormat($strFormat, $value);
 
-        if (!$isValid) {
+        if ($dateFormat === false || $dateFormat->format($strFormat) != $value) {
             throw new ValidatorException(
-                message: Lng::get(['value' => $this->attr->format->getValue()], 'type', 'attribute', 'format', 'error-invalid'),
+                message: Lng::get(['value' => $strFormat], 'type', 'attribute', 'format', 'error-invalid'),
             );
-        };
+        }
     }
 }
