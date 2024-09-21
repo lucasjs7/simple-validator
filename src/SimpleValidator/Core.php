@@ -58,13 +58,16 @@ abstract class Core {
         ?SimpleCliTable ...$tables,
     ): void {
 
-        $isCli = (php_sapi_name() === 'cli');
+        $noCli = (php_sapi_name() !== 'cli');
         $headerData = [
             [self::genHeaderError($title)],
             [$message],
         ];
 
-        echo !$isCli ? '<pre>' : '';
+        if ($noCli) {
+            echo '<pre>';
+        }
+
         echo SimpleCliTable::build($headerData, true) . "\n";
 
         foreach ($tables as $table) {
@@ -98,8 +101,11 @@ abstract class Core {
             echo $bkTable->render();
         }
 
+        if ($noCli) {
+            echo '</pre>';
+        }
+
         self::logFile($title, $message, $exception);
-        echo !$isCli ? '</pre>' : '';
         exit;
     }
 
