@@ -57,11 +57,14 @@ abstract class Core {
         bool               $backtrace,
         ?SimpleCliTable ...$tables,
     ): void {
+
+        $isCli = (php_sapi_name() === 'cli');
         $headerData = [
             [self::genHeaderError($title)],
             [$message],
         ];
 
+        echo !$isCli ? '<pre>' : '';
         echo SimpleCliTable::build($headerData, true) . "\n";
 
         foreach ($tables as $table) {
@@ -96,6 +99,7 @@ abstract class Core {
         }
 
         self::logFile($title, $message, $exception);
+        echo !$isCli ? '</pre>' : '';
         exit;
     }
 
