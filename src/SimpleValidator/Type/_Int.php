@@ -6,7 +6,7 @@ use Lucasjs7\SimpleValidator\Type\Attribute\{tMin, tMax, tUnsigned};
 
 class _Int extends TypeBase {
 
-    private static array $patterns;
+    private static array $patterns = [];
 
     use tMin, tMax, tPattern, tUnsigned, tRequired;
 

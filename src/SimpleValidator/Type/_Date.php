@@ -6,7 +6,7 @@ use Lucasjs7\SimpleValidator\Type\Attribute\{tFormat};
 
 class _Date extends TypeBase {
 
-    private static array $patterns;
+    private static array $patterns = [];
 
     use tFormat, tPattern, tRequired;
 
