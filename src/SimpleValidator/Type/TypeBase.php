@@ -37,13 +37,13 @@ abstract class TypeBase extends Core implements iTypeBase {
 
             if ($this->attr->required->getValue() && $isEmpty) {
                 throw new Exception(
-                    message: Lng::get([], 'type', 'type-base', 'error-required'),
+                    message: Lng::get('type.type_base.required'),
                 );
             } elseif (!$this->typeValidate($value)) {
-                $descType = Lng::get([], 'type', "desc-type-{$this->name()}");
+                $descType = Lng::get("type.desc-type-{$this->name()}");
 
                 throw new Exception(
-                    message: Lng::get(['type' => $descType], 'type', 'type-base', 'error-type'),
+                    message: Lng::get('type.type_base.type', ['type' => $descType]),
                 );
             }
 
@@ -73,7 +73,7 @@ abstract class TypeBase extends Core implements iTypeBase {
 
             AttrError::buildError(
                 attr: $this->attr,
-                errorMessage: Lng::get([], 'type', 'type-base', 'error-attr-conflict'),
+                errorMessage: Lng::get('type.type_base.conflict'),
             );
         }
     }

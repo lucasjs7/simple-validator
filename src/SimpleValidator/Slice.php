@@ -28,7 +28,7 @@ class Slice extends DataStructure {
         $this->exception = $exception;
 
         if (!is_array($values) || !array_is_list($values)) {
-            $this->setError(Lng::get([], 'slice', 'error-list'));
+            $this->setError(Lng::get('slice.list'));
             return false;
         }
 
@@ -36,7 +36,7 @@ class Slice extends DataStructure {
         $isRequiredType = ($isTypeBase && $this->typeValues->attr->required->getValue());
 
         if ($isRequiredType && TypeBase::isEmpty($values)) {
-            $this->setError(Lng::get([], 'type', 'type-base', 'error-required'));
+            $this->setError(Lng::get('type.type_base.required'));
             return false;
         }
 
@@ -46,7 +46,7 @@ class Slice extends DataStructure {
                     message: $this->typeValues->getError(),
                     currentPath: $key,
                     field: $this->typeValues,
-                    prefix: Lng::get([], 'slice', 'error-prefix-key'),
+                    prefix: Lng::get('slice.prefix_key') . $val,
                 );
                 return false;
             }

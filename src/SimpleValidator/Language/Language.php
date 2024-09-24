@@ -20,16 +20,17 @@ class Language {
     }
 
     public static function get(
-        array $dataReplace,
-        string ...$path
+        string $path,
+        array  $dataReplace = [],
     ): string {
         if (!isset(Core::$language)) {
             Language::defaultLang();
         }
 
         $currentData = self::$data;
+        $dataPath = explode('.', $path);
 
-        foreach ($path as $dir) {
+        foreach ($dataPath as $dir) {
             if (array_key_exists($dir, $currentData)) {
                 $currentData = $currentData[$dir];
             }

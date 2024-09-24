@@ -24,7 +24,7 @@ trait tOptions {
         $isValid = in_array($value, $this->attr->options->getValue());
 
         if (!$isValid) {
-            throw new ValidatorException(Lng::get([], 'type', 'attribute', 'options', 'error-invalid'));
+            throw new ValidatorException(Lng::get('type.attribute.options.invalid'));
         };
     }
 }

@@ -28,7 +28,7 @@ trait tFormat {
 
         if ($dateFormat === false || $dateFormat->format($strFormat) != $value) {
             throw new ValidatorException(
-                message: Lng::get(['value' => $strFormat], 'type', 'attribute', 'format', 'error-invalid'),
+                message: Lng::get('type.attribute.format.invalid', ['value' => $strFormat]),
             );
         }
     }

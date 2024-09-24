@@ -7,53 +7,53 @@ class Pt extends Data {
     public static function get(): array {
         return [
             'type' => [
-                'desc-type-string' => 'texto',
-                'desc-type-int' => 'numérico, sem decimais',
-                'desc-type-float' => 'numérico, com decimais',
-                'desc-type-date' => 'data',
-                'desc-type-bool' => 'verdadeiro ou falso',
-                'type-base' => [
-                    'error-required' => 'Este campo é obrigatório.',
-                    'error-type' => 'O valor deve ser do tipo {{type}}.',
-                    'error-attr-conflict' => 'Estão sendo usados atributos conflitantes.',
+                'desc_type_string' => 'texto',
+                'desc_type_int' => 'numérico, sem decimais',
+                'desc_type_float' => 'numérico, com decimais',
+                'desc_type_date' => 'data',
+                'desc_type_bool' => 'verdadeiro ou falso',
+                'type_base' => [
+                    'required' => 'Este campo é obrigatório.',
+                    'type' => 'O valor deve ser do tipo {{type}}.',
+                    'conflict' => 'Estão sendo usados atributos conflitantes.',
                 ],
                 'attribute' => [
                     'unsigned' => [
-                        'error-invalid' => 'O valor não pode ser inferior a zero.'
+                        'invalid' => 'O valor não pode ser inferior a zero.'
                     ],
                     'regex' => [
-                        'error-invalid' => 'O valor deve estar no seguinte formato {{value}}.',
-                        'error-pattern' => 'O padrão regex usado é inválido.',
+                        'invalid' => 'O valor deve estar no seguinte formato {{value}}.',
+                        'pattern' => 'O padrão regex usado é inválido.',
                     ],
                     'options' => [
-                        'error-invalid' => 'O valor não está dentro das opções esperadas.',
+                        'invalid' => 'O valor não está dentro das opções esperadas.',
                     ],
                     'min' => [
-                        'error-invalid' => 'O valor deve ser igual ou superior a {{value}}.',
-                        'error-max' => 'O atributo "min" não pode ser superior ao atributo "max".',
+                        'invalid' => 'O valor deve ser igual ou superior a {{value}}.',
+                        'greater' => 'O atributo "min" não pode ser superior ao atributo "max".',
                     ],
                     'max' => [
-                        'error-invalid' => 'O valor deve ser igual ou inferior a {{value}}.',
+                        'invalid' => 'O valor deve ser igual ou inferior a {{value}}.',
                     ],
                     'format' => [
-                        'error-invalid' => 'O valor deve estar no seguinte formato {{value}}.',
+                        'invalid' => 'O valor deve estar no seguinte formato {{value}}.',
                     ],
                 ],
             ],
             'map' => [
-                'error-key-value' => 'O valor deve conter uma estrutura chave-valor.',
-                'error-prefix-key' => 'Erro na chave: ',
-                'error-prefix-value' => 'Erro no valor: ',
+                'key_value' => 'O valor deve conter uma estrutura chave-valor.',
+                'prefix_key' => 'Erro na chave: ',
+                'prefix_value' => 'Erro no valor: ',
             ],
             'slice' => [
-                'error-list' => 'O valor deve conter uma lista.',
-                'error-prefix-key' => 'Erro no valor: ',
+                'list' => 'O valor deve conter uma lista.',
+                'prefix_key' => 'Erro no valor: ',
             ],
             'struct' => [
-                'error-data' => 'A Struct só pode conter classes filhas de DataStructure ou TypeBase.',
-                'error-list' => 'O valor deve conter uma estrutura chave-valor.',
-                'error-prefix-key' => 'Erro na chave: ',
-                'error-prefix-value' => 'Erro no valor: ',
+                'data' => 'A Struct só pode conter classes filhas de DataStructure ou TypeBase.',
+                'list' => 'O valor deve conter uma estrutura chave-valor.',
+                'prefix_key' => 'Erro na chave: ',
+                'prefix_value' => 'Erro no valor: ',
             ],
             'exception' => [
                 'debug' => 'Debug',

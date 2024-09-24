@@ -27,7 +27,7 @@ trait tMax {
 
         if (!$isValid) {
             throw new ValidatorException(
-                message: Lng::get(['value' => $this->attr->max->getValue()], 'type', 'attribute', 'max', 'error-invalid'),
+                message: Lng::get('type.attribute.max.invalid', ['value' => $this->attr->max->getValue()]),
             );
         };
     }

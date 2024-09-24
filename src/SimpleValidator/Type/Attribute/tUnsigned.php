@@ -25,7 +25,7 @@ trait tUnsigned {
         $isValid = ($value >= 0);
 
         if (!$isValid) {
-            throw new ValidatorException(Lng::get([], 'type', 'attribute', 'unsigned', 'error-invalid'));
+            throw new ValidatorException(Lng::get('type.attribute.unsigned.invalid'));
         };
     }
 }

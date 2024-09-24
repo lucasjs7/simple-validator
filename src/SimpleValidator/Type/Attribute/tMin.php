@@ -32,7 +32,7 @@ trait tMin {
 
             AttrError::buildError(
                 attr: $this->attr,
-                errorMessage: Lng::get([], 'type', 'attribute', 'min', 'error-max'),
+                errorMessage: Lng::get('type.attribute.min.greater'),
             );
         }
 
@@ -43,7 +43,7 @@ trait tMin {
 
         if (!$isValid) {
             throw new ValidatorException(
-                message: Lng::get(['value' => $this->attr->min->getValue()], 'type', 'attribute', 'min', 'error-invalid'),
+                message: Lng::get('type.attribute.min.invalid', ['value' => $this->attr->min->getValue()]),
             );
         };
     }

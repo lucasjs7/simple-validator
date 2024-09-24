@@ -25,9 +25,9 @@ trait tRegex {
         $isValid = preg_match($this->attr->regex->getValue(), $value);
 
         if ($isValid === 0) {
-            throw new ValidatorException(Lng::get(['value' => $this->attr->regex->getValue()], 'type', 'attribute', 'regex', 'error-invalid'));
+            throw new ValidatorException(Lng::get('type.attribute.regex.invalid', ['value' => $this->attr->regex->getValue()]));
         } elseif ($isValid === false) {
-            AttrError::buildError($this->attr, Lng::get([], 'type', 'attribute', 'regex', 'error-pattern'));
+            AttrError::buildError($this->attr, Lng::get('type.attribute.regex.pattern'));
         };
     }
 }

@@ -15,7 +15,7 @@ class Struct extends DataStructure {
             if (!is_string($val) && !($val instanceof DataStructure) && !($val instanceof TypeBase)) {
                 Core::exitError(
                     title: 'Struct Error',
-                    message: Lng::get([], 'struct', 'error-data'),
+                    message: Lng::get('struct.data'),
                     exception: new Exception,
                     backtrace: true,
                     tables: null,
@@ -41,7 +41,7 @@ class Struct extends DataStructure {
         $this->exception = $exception;
 
         if (!is_array($values)) {
-            $this->setError(Lng::get([], 'struct', 'error-list'), []);
+            $this->setError(Lng::get('struct.list'), []);
             return false;
         }
 
@@ -53,7 +53,7 @@ class Struct extends DataStructure {
 
             if (!$typeKey->validate($key, false)) {
                 $this->setErrorPath(
-                    message: Lng::get([], 'struct', 'error-prefix-key') . $typeKey->getError(),
+                    message: Lng::get('struct.prefix_key') . $typeKey->getError(),
                     currentPath: $key,
                     field: $typeKey,
                 );
@@ -65,7 +65,7 @@ class Struct extends DataStructure {
                     message: $stcVal->getError(),
                     currentPath: $stcKey,
                     field: $stcVal,
-                    prefix: Lng::get([], 'struct', 'error-prefix-value'),
+                    prefix: Lng::get('struct.prefix_value') . $value,
                 );
                 return false;
             }

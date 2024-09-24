@@ -33,7 +33,7 @@ class Map extends DataStructure {
 
         if (!is_array($values) || !is_array($values)) {
             $this->setError(
-                message: Lng::get([], 'map', 'error-key-value'),
+                message: Lng::get('map.key_value'),
             );
             return false;
         }
@@ -42,14 +42,14 @@ class Map extends DataStructure {
         $isRequiredType = ($isTypeBase && $this->typeValues->attr->required->getValue());
 
         if ($isRequiredType && TypeBase::isEmpty($values)) {
-            $this->setError(Lng::get([], 'type', 'type-base', 'error-required'));
+            $this->setError(Lng::get('type.type_base.required'));
             return false;
         }
 
         foreach ($values as $key => $val) {
             if (!$this->typeKeys->validate($key, false)) {
                 $this->setErrorPath(
-                    message: Lng::get([], 'map', 'error-prefix-key') . $this->typeKeys->getError(),
+                    message: Lng::get('map.prefix_key') . $this->typeKeys->getError(),
                     currentPath: $key,
                     field: $this->typeKeys,
                 );
@@ -60,7 +60,7 @@ class Map extends DataStructure {
                     message: $this->typeValues->getError(),
                     currentPath: $key,
                     field: $this->typeValues,
-                    prefix: Lng::get([], 'map', 'error-prefix-value'),
+                    prefix: Lng::get('map.prefix_value') . $val,
                 );
                 return false;
             }
