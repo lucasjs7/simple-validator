@@ -14,6 +14,8 @@ class Map extends DataStructure {
         string|TypeBase               $typeKeys,
         string|TypeBase|DataStructure $typeValues,
     ) {
+        parent::__construct();
+
         $this->typeKeys   = !is_string($typeKeys) ? $typeKeys : TypeParser::new($typeKeys);
         $this->typeValues = !is_string($typeValues) ? $typeValues : TypeParser::new($typeValues);
     }
