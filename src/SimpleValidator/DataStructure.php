@@ -16,19 +16,16 @@ abstract class DataStructure extends Core implements iDataStructure {
         string             $message,
         string             $currentPath,
         null|self|TypeBase $field,
-        string             $prefix = '',
     ): void {
-        $showPrefix = true;
 
         if ($field instanceof self) {
-            $this->errorPath =  [$currentPath, ...$field->getErrorPath()];
-            $showPrefix      = empty($field->getErrorPath());
+            $this->errorPath = [$currentPath, ...$field->getErrorPath()];
         } else {
-            $this->errorPath =  [$currentPath];
+            $this->errorPath = [$currentPath];
         }
 
         $this->setError(
-            message: $showPrefix ? ($prefix . $message) : $message,
+            message: $message,
             errorPath: $this->errorPath,
         );
     }
