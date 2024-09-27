@@ -8,6 +8,10 @@ abstract class DataStructure extends Core implements iDataStructure {
 
     protected array $errorPath = [];
 
+    public function __construct() {
+        parent::__construct();
+    }
+
     public function getErrorPath(): array {
         return $this->errorPath;
     }
