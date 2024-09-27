@@ -15,6 +15,8 @@ abstract class TypeBase extends Core implements iTypeBase {
     public function __construct(
         ?string $label = null,
     ) {
+        parent::__construct();
+
         $this->attr = new Attribute;
         $this->attr->label->setValue($label);
     }
