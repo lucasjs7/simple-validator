@@ -21,7 +21,7 @@ class Map extends DataStructure {
     }
 
     public static function new(
-        string|_Date|_Int|_String     $typeKeys,
+        string|TypeBase               $typeKeys,
         string|TypeBase|DataStructure $typeValues
     ): static {
         return new static($typeKeys, $typeValues);
