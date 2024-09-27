@@ -26,11 +26,11 @@ abstract class Core {
     ): void {
         if ($label !== null) {
             $fmtMessage = rtrim($message, '. ');
-            $this->errorMsg = "$fmtMessage (field: $label).";
+            $lngField = Language::get('field');
+            $this->errorMsg = "$fmtMessage ($lngField: $label).";
         } else {
             $this->errorMsg = $message;
         }
-
 
         if ($this->exception) {
             throw new ValidatorException(

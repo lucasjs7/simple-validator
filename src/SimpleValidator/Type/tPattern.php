@@ -4,6 +4,7 @@ namespace Lucasjs7\SimpleValidator\Type;
 
 use Exception;
 use Lucasjs7\SimpleValidator\Core;
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 trait tPattern {
 
@@ -20,7 +21,7 @@ trait tPattern {
             $typeName = self::name();
             Core::exitError(
                 title: 'tPattern',
-                message: "O pattern '$name' do tipo '$typeName' não existe.",
+                message: Lng::get('type.pattern.not_exists', ['name' => $name, 'type' => $typeName]),
                 exception: new Exception,
                 backtrace: true,
             );

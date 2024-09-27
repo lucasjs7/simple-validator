@@ -6,7 +6,10 @@ class En extends Data {
 
     public static function get(): array {
         return [
+            'field' => 'field',
             'type' => [
+                'prefix_key' => 'Key error: ',
+                'prefix_value' => 'Error in value: ',
                 'desc_type_string' => 'text',
                 'desc_type_int' => 'numeric, no decimals',
                 'desc_type_float' => 'numeric, with decimals',
@@ -16,6 +19,15 @@ class En extends Data {
                     'required' => 'This field is required.',
                     'type' => 'The value must be of type {{type}}.',
                     'conflict' => 'Conflicting attributes are being used.',
+                ],
+                'parser' => [
+                    'required' => 'The "type" parameter is mandatory.',
+                    'value' => 'No value was assigned to the "type" parameter.',
+                    'not_exists' => 'Type {{type}} not found.',
+                    'param' => 'Parameter {{param}} does not exist.',
+                ],
+                'pattern' => [
+                    'not_exists' => 'Pattern \'{{name}}\' of type \'{{type}}\' does not exist.',
                 ],
                 'attribute' => [
                     'unsigned' => [
@@ -42,18 +54,13 @@ class En extends Data {
             ],
             'map' => [
                 'key_value' => 'The value must contain a key-value structure.',
-                'prefix_key' => 'Key error: ',
-                'prefix_value' => 'Error in value: ',
             ],
             'slice' => [
                 'list' => 'The value must contain a list.',
-                'prefix_key' => 'Error in value: ',
             ],
             'struct' => [
                 'data' => 'A Struct can only contain child classes of DataStructure or TypeBase.',
                 'list' => 'The value must contain a key-value structure.',
-                'prefix_key' => 'Key error: ',
-                'prefix_value' => 'Error in value: ',
             ],
             'exception' => [
                 'debug' => 'Debug',

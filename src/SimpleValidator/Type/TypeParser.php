@@ -4,6 +4,7 @@ namespace Lucasjs7\SimpleValidator\Type;
 
 use Exception;
 use Lucasjs7\SimpleValidator\Core;
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 class TypeParser {
 
@@ -15,11 +16,11 @@ class TypeParser {
 
             if (!array_key_exists('type', $dataOpt)) {
                 throw new Exception(
-                    message: 'O parâmetro "type" é obrigatório.',
+                    message: Lng::get('type.parser.required'),
                 );
             } elseif (empty($dataOpt['type'])) {
                 throw new Exception(
-                    message: 'Não foi atribuído valor ao parâmetro "type".',
+                    message: Lng::get('type.parser.value'),
                 );
             }
 
@@ -36,7 +37,7 @@ class TypeParser {
 
             if ($className === null) {
                 throw new Exception(
-                    message: "Não foi encontrado o \"type\" {$dataOpt['type']}.",
+                    message: Lng::get('type.parser.not_exists', ['type' => $dataOpt['type']]),
                 );
             }
 
@@ -50,7 +51,7 @@ class TypeParser {
 
                 if (!method_exists($instance, $key)) {
                     throw new Exception(
-                        message: "O parâmetro $key não existe.",
+                        message: Lng::get('type.parser.param', ['param' => $key]),
                     );
                 }
 

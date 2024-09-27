@@ -40,7 +40,7 @@ abstract class TypeBase extends Core implements iTypeBase {
                     message: Lng::get('type.type_base.required'),
                 );
             } elseif (!$this->typeValidate($value)) {
-                $descType = Lng::get("type.desc-type-{$this->name()}");
+                $descType = Lng::get("type.desc_type_{$this->name()}");
 
                 throw new Exception(
                     message: Lng::get('type.type_base.type', ['type' => $descType]),

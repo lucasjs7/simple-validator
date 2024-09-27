@@ -6,7 +6,10 @@ class Pt extends Data {
 
     public static function get(): array {
         return [
+            'field' => 'campo',
             'type' => [
+                'prefix_key' => 'Erro na chave: ',
+                'prefix_value' => 'Erro no valor: ',
                 'desc_type_string' => 'texto',
                 'desc_type_int' => 'numérico, sem decimais',
                 'desc_type_float' => 'numérico, com decimais',
@@ -16,6 +19,15 @@ class Pt extends Data {
                     'required' => 'Este campo é obrigatório.',
                     'type' => 'O valor deve ser do tipo {{type}}.',
                     'conflict' => 'Estão sendo usados atributos conflitantes.',
+                ],
+                'parser' => [
+                    'required' => 'O parâmetro "type" é obrigatório.',
+                    'value' => 'Não foi atribuído valor ao parâmetro "type".',
+                    'not_exists' => 'Não foi encontrado o tipo {{type}}.',
+                    'param' => 'O parâmetro {{param}} não existe.',
+                ],
+                'pattern' => [
+                    'not_exists' => 'O pattern \'{{name}}\' do tipo \'{{type}}\' não existe.',
                 ],
                 'attribute' => [
                     'unsigned' => [
@@ -42,18 +54,13 @@ class Pt extends Data {
             ],
             'map' => [
                 'key_value' => 'O valor deve conter uma estrutura chave-valor.',
-                'prefix_key' => 'Erro na chave: ',
-                'prefix_value' => 'Erro no valor: ',
             ],
             'slice' => [
                 'list' => 'O valor deve conter uma lista.',
-                'prefix_key' => 'Erro no valor: ',
             ],
             'struct' => [
                 'data' => 'A Struct só pode conter classes filhas de DataStructure ou TypeBase.',
                 'list' => 'O valor deve conter uma estrutura chave-valor.',
-                'prefix_key' => 'Erro na chave: ',
-                'prefix_value' => 'Erro no valor: ',
             ],
             'exception' => [
                 'debug' => 'Debug',
