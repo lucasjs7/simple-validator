@@ -26,9 +26,10 @@ abstract class TypeBase extends Core implements iTypeBase {
     }
 
     public function validate(
-        mixed $value,
-        bool $exception = true,
+        mixed  $value,
+        bool   $exception = true,
     ): bool {
+
         $isEmpty = self::isEmpty($value);
 
         try {
