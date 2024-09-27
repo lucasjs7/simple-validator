@@ -12,6 +12,8 @@ class Slice extends DataStructure {
     public function __construct(
         string|DataStructure|TypeBase $typeValues,
     ) {
+        parent::__construct();
+
         $this->typeValues = !is_string($typeValues) ? $typeValues : TypeParser::new($typeValues);
     }
 
