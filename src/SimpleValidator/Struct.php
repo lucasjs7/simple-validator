@@ -55,7 +55,7 @@ class Struct extends DataStructure {
 
             if (!$typeKey->validate($key, false)) {
                 $this->setErrorPath(
-                    message: Lng::get('struct.prefix_key') . $typeKey->getError(),
+                    message: $typeKey->getError(),
                     currentPath: $key,
                     field: $typeKey,
                 );
@@ -67,7 +67,6 @@ class Struct extends DataStructure {
                     message: $stcVal->getError(),
                     currentPath: $stcKey,
                     field: $stcVal,
-                    prefix: Lng::get('struct.prefix_value') . $value,
                 );
                 return false;
             }
