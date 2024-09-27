@@ -32,13 +32,4 @@ abstract class DataStructure extends Core implements iDataStructure {
             errorPath: $this->errorPath,
         );
     }
-
-    protected function showPrefixError(
-        mixed $val,
-    ): bool {
-        $isSelfInstance = ($val instanceof self);
-        $notIsInstance = (!($val instanceof self) && !($val instanceof TypeBase));
-
-        return (($isSelfInstance || $notIsInstance) && empty($this->getErrorPath()));
-    }
 }
