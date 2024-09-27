@@ -11,6 +11,8 @@ class Struct extends DataStructure {
     public function __construct(
         public array $structure
     ) {
+        parent::__construct();
+
         foreach ($this->structure as &$val) {
             if (!is_string($val) && !($val instanceof DataStructure) && !($val instanceof TypeBase)) {
                 Core::exitError(
