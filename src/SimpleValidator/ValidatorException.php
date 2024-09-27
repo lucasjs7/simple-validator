@@ -26,10 +26,10 @@ class ValidatorException extends Exception {
 
     public function debug(): void {
         Core::exitError(
-            'ValidatorException',
-            Lng::get('exception.debug'),
-            $this,
-            true,
+            title: 'ValidatorException',
+            message: Lng::get('exception.debug'),
+            exception: $this,
+            backtrace: true,
         );
     }
 }
