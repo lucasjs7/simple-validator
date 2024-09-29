@@ -13,7 +13,18 @@ class Struct extends DataStructure {
     ) {
         parent::__construct();
 
-        foreach ($this->structure as &$val) {
+        foreach ($this->structure as $key => &$val) {
+
+            if (!is_string($key)) {
+                Core::exitError(
+                    title: 'Struct Error',
+                    message: Lng::get('struct.key'),
+                    exception: new Exception,
+                    backtrace: true,
+                    tables: null,
+                );
+            }
+
             if (!is_string($val) && !($val instanceof DataStructure) && !($val instanceof TypeBase)) {
                 Core::exitError(
                     title: 'Struct Error',
@@ -25,7 +36,9 @@ class Struct extends DataStructure {
             }
 
             if (is_string($val)) {
-                $val = TypeParser::new($val);
+                $val = TypeParser::new(
+                    value: $val,
+                );
             }
         }
     }
