@@ -48,7 +48,6 @@ class Slice extends DataStructure {
                     message: $this->typeValues->getError(),
                     currentPath: $key,
                     field: $this->typeValues,
-                    prefix: Lng::get('slice.prefix_key') . $val,
                 );
                 return false;
             }
