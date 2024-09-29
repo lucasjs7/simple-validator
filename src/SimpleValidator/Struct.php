@@ -64,7 +64,7 @@ class Struct extends DataStructure {
 
         foreach ($this->structure as $stcKey => $stcVal) {
             $key   = array_key_exists($stcKey, $values) ? $stcKey : null;
-            $value = ($key !== null) ? $values[$stcKey] : null;
+            $subValue = ($key !== null) ? $values[$stcKey] : null;
 
             if (!$typeKey->validate($key, false)) {
                 $this->setErrorPath(
@@ -75,7 +75,7 @@ class Struct extends DataStructure {
                 return false;
             }
 
-            if (!$stcVal->validate($value, false)) {
+            if (!$stcVal->validate($subValue, false)) {
                 $this->setErrorPath(
                     message: $stcVal->getError(),
                     currentPath: $stcKey,
