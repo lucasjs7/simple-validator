@@ -14,7 +14,7 @@ abstract class Core {
     public static eLanguage $language;
 
     public function __construct() {
-        if (self::$language === null) {
+        if (empty(self::$language)) {
             Language::defaultLang();
         }
     }
