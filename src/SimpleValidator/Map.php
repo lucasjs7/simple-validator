@@ -2,7 +2,7 @@
 
 namespace Lucasjs7\SimpleValidator;
 
-use Lucasjs7\SimpleValidator\Type\{TypeBase, _Date, _Int, _String, TypeParser};
+use Lucasjs7\SimpleValidator\Type\{TypeBase, TypeParser};
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 class Map extends DataStructure {
