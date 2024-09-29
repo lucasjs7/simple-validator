@@ -51,7 +51,7 @@ class Map extends DataStructure {
         foreach ($values as $key => $val) {
             if (!$this->typeKeys->validate($key, false)) {
                 $this->setErrorPath(
-                    message: Lng::get('map.prefix_key') . $this->typeKeys->getError(),
+                    message: $this->typeKeys->getError(),
                     currentPath: $key,
                     field: $this->typeKeys,
                 );
@@ -62,7 +62,6 @@ class Map extends DataStructure {
                     message: $this->typeValues->getError(),
                     currentPath: $key,
                     field: $this->typeValues,
-                    prefix: Lng::get('map.prefix_value') . $val,
                 );
                 return false;
             }
