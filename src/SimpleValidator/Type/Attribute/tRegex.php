@@ -27,7 +27,10 @@ trait tRegex {
         if ($isValid === 0) {
             throw new ValidatorException(Lng::get('type.attribute.regex.invalid', ['value' => $this->attr->regex->getValue()]));
         } elseif ($isValid === false) {
-            AttrError::buildError($this->attr, Lng::get('type.attribute.regex.pattern'));
+            AttrError::buildError(
+                attr: $this->attr,
+                errorMessage: Lng::get('type.attribute.regex.pattern'),
+            );
         };
     }
 }
