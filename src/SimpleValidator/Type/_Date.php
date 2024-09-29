@@ -6,6 +6,8 @@ use Lucasjs7\SimpleValidator\Type\Attribute\{tFormat};
 
 class _Date extends TypeBase {
 
+    public static $defaultFormat = 'd-m-Y';
+
     private static array $patterns = [];
 
     use tFormat, tPattern, tRequired;
@@ -14,7 +16,7 @@ class _Date extends TypeBase {
         parent::__construct();
 
         if ($this->attr->format->getValue() === null) {
-            $this->attr->format->setValue('Y-m-d');
+            $this->attr->format->setValue(static::$defaultFormat);
         }
     }
 
