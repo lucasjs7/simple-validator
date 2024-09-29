@@ -59,6 +59,7 @@ class Pt extends Data {
                 'list' => 'O valor deve conter uma lista.',
             ],
             'struct' => [
+                'key' => 'As chaves da struct devem ser do tipo string.',
                 'data' => 'A Struct só pode conter classes filhas de DataStructure ou TypeBase.',
                 'list' => 'O valor deve conter uma estrutura chave-valor.',
             ],

@@ -59,6 +59,7 @@ class En extends Data {
                 'list' => 'The value must contain a list.',
             ],
             'struct' => [
+                'key' => 'Struct keys must be of string type.',
                 'data' => 'A Struct can only contain child classes of DataStructure or TypeBase.',
                 'list' => 'The value must contain a key-value structure.',
             ],
