@@ -1,5 +1,8 @@
 <?php
 
+use Lucasjs7\SimpleValidator\Map;
+use Lucasjs7\SimpleValidator\Slice;
+use Lucasjs7\SimpleValidator\Struct;
 use Tests\Base;
 use Lucasjs7\SimpleValidator\Type\{_Bool, _Date, _Float, _Int, _Interface, _String};
 
@@ -54,71 +57,101 @@ $listTrue = [
         'value' => [null],
         'result' => true
     ],
+    'Required#11' => [
+        'test' => Slice::new('type: string'),
+        'value' => [],
+        'result' => true
+    ],
+    'Required#12' => [
+        'test' => Map::new('type: string', 'type: string'),
+        'value' => [],
+        'result' => true
+    ],
+    'Required#13' => [
+        'test' => Struct::new(['name' => 'type: string']),
+        'value' => [],
+        'result' => true
+    ],
 ];
 
 $listFalse = [
-    'Required#11' => [
+    'Required#14' => [
         'test' => _Bool::new()->required(),
         'value' => null,
         'result' => false
     ],
-    'Required#12' => [
+    'Required#15' => [
         'test' => _Int::new()->required(),
         'value' => null,
         'result' => false
     ],
-    'Required#13' => [
+    'Required#16' => [
         'test' => _Float::new()->required(),
         'value' => null,
         'result' => false
     ],
-    'Required#14' => [
-        'test' => _Date::new()->required(),
-        'value' => '',
-        'result' => false
-    ],
-    'Required#15' => [
-        'test' => _Date::new()->required(),
-        'value' => ' ',
-        'result' => false
-    ],
-    'Required#16' => [
-        'test' => _Date::new()->required(),
-        'value' => null,
-        'result' => false
-    ],
     'Required#17' => [
-        'test' => _String::new()->required(),
+        'test' => _Date::new()->required(),
         'value' => '',
         'result' => false
     ],
     'Required#18' => [
-        'test' => _String::new()->required(),
+        'test' => _Date::new()->required(),
         'value' => ' ',
         'result' => false
     ],
     'Required#19' => [
-        'test' => _String::new()->required(),
+        'test' => _Date::new()->required(),
         'value' => null,
         'result' => false
     ],
     'Required#20' => [
-        'test' => _Interface::new()->required(),
-        'value' => null,
-        'result' => false
-    ],
-    'Required#21' => [
-        'test' => _Interface::new()->required(),
+        'test' => _String::new()->required(),
         'value' => '',
         'result' => false
     ],
+    'Required#21' => [
+        'test' => _String::new()->required(),
+        'value' => ' ',
+        'result' => false
+    ],
     'Required#22' => [
-        'test' => _Interface::new()->required(),
-        'value' => '   ',
+        'test' => _String::new()->required(),
+        'value' => null,
         'result' => false
     ],
     'Required#23' => [
         'test' => _Interface::new()->required(),
+        'value' => null,
+        'result' => false
+    ],
+    'Required#24' => [
+        'test' => _Interface::new()->required(),
+        'value' => '',
+        'result' => false
+    ],
+    'Required#25' => [
+        'test' => _Interface::new()->required(),
+        'value' => '   ',
+        'result' => false
+    ],
+    'Required#26' => [
+        'test' => _Interface::new()->required(),
+        'value' => [],
+        'result' => false
+    ],
+    'Required#27' => [
+        'test' => Slice::new('type: string | required'),
+        'value' => [],
+        'result' => false
+    ],
+    'Required#28' => [
+        'test' => Map::new('type: string', 'type: string | required'),
+        'value' => [],
+        'result' => false
+    ],
+    'Required#29' => [
+        'test' => Struct::new(['name' => 'type: string | required']),
         'value' => [],
         'result' => false
     ],
