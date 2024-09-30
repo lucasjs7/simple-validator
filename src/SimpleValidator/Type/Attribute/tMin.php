@@ -42,8 +42,14 @@ trait tMin {
         };
 
         if (!$isValid) {
+
+            $msgPath = match ($type) {
+                'int', 'float' => 'type.attribute.min.invalid.number',
+                'string'       => 'type.attribute.min.invalid.string',
+            };
+
             throw new ValidatorException(
-                message: Lng::get('type.attribute.min.invalid', ['value' => $this->attr->min->getValue()]),
+                message: Lng::get($msgPath, ['value' => $this->attr->min->getValue()]),
             );
         };
     }

@@ -41,7 +41,10 @@ class Pt extends Data {
                         'invalid' => 'O valor não está dentro das opções esperadas.',
                     ],
                     'min' => [
-                        'invalid' => 'O valor deve ser igual ou superior a {{value}}.',
+                        'invalid' => [
+                            'string' => 'O texto deve ter no mínimo {{value}} caracteres.',
+                            'number' => 'O valor deve ser igual ou superior a {{value}}.',
+                        ],
                         'greater' => 'O atributo "min" não pode ser superior ao atributo "max".',
                     ],
                     'max' => [
@@ -53,7 +56,7 @@ class Pt extends Data {
                 ],
             ],
             'map' => [
-                'key_value' => 'O valor deve conter uma estrutura chave-valor.',
+                'key_value' => 'O conteúdo deve ser uma estrutura chave-valor.',
             ],
             'slice' => [
                 'list' => 'O valor deve conter uma lista.',
@@ -61,7 +64,7 @@ class Pt extends Data {
             'struct' => [
                 'key' => 'As chaves da struct devem ser do tipo string.',
                 'data' => 'A Struct só pode conter classes filhas de DataStructure ou TypeBase.',
-                'list' => 'O valor deve conter uma estrutura chave-valor.',
+                'list' => 'O conteúdo deve ser uma estrutura chave-valor.',
             ],
             'exception' => [
                 'debug' => 'Debug',

@@ -41,7 +41,10 @@ class En extends Data {
                         'invalid' => 'The value is not within the expected options.',
                     ],
                     'min' => [
-                        'invalid' => 'The value must be equal to or greater than {{value}}.',
+                        'invalid' => [
+                            'string' => 'The text must have at least {{value}} characters.',
+                            'number' => 'The value must be equal to or greater than {{value}}.',
+                        ],
                         'greater' => 'The "min" attribute cannot be greater than the "max" attribute.',
                     ],
                     'max' => [
@@ -53,7 +56,7 @@ class En extends Data {
                 ],
             ],
             'map' => [
-                'key_value' => 'The value must contain a key-value structure.',
+                'key_value' => 'Content should be a key-value structure.',
             ],
             'slice' => [
                 'list' => 'The value must contain a list.',
@@ -61,7 +64,7 @@ class En extends Data {
             'struct' => [
                 'key' => 'Struct keys must be of string type.',
                 'data' => 'A Struct can only contain child classes of DataStructure or TypeBase.',
-                'list' => 'The value must contain a key-value structure.',
+                'list' => 'Content should be a key-value structure.',
             ],
             'exception' => [
                 'debug' => 'Debug',
