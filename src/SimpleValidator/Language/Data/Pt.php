@@ -6,6 +6,7 @@ class Pt extends Data {
 
     public static function get(): array {
         return [
+            'path' => 'diretório',
             'field' => 'campo',
             'type' => [
                 'prefix_key' => 'Erro na chave: ',

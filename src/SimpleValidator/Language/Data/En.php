@@ -6,6 +6,7 @@ class En extends Data {
 
     public static function get(): array {
         return [
+            'path' => 'path',
             'field' => 'field',
             'type' => [
                 'prefix_key' => 'Key error: ',
