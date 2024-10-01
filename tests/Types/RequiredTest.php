@@ -72,86 +72,128 @@ $listTrue = [
         'value' => [],
         'result' => true
     ],
+    'Required#14' => [
+        'test' => Struct::new([
+            'name2' => Slice::new('type: string')
+        ]),
+        'value' => [],
+        'result' => true
+    ],
+    'Required#15' => [
+        'test' => Struct::new([
+            'name2' => Map::new('type: string', 'type: string')
+        ]),
+        'value' => [],
+        'result' => true
+    ],
+    'Required#16' => [
+        'test' => Struct::new([
+            'name2' => Struct::new(['name' => 'type: string'])
+        ]),
+        'value' => [],
+        'result' => true
+    ],
 ];
 
 $listFalse = [
-    'Required#14' => [
+    'Required#201' => [
         'test' => _Bool::new()->required(),
         'value' => null,
         'result' => false
     ],
-    'Required#15' => [
+    'Required#202' => [
         'test' => _Int::new()->required(),
         'value' => null,
         'result' => false
     ],
-    'Required#16' => [
+    'Required#203' => [
         'test' => _Float::new()->required(),
         'value' => null,
         'result' => false
     ],
-    'Required#17' => [
+    'Required#204' => [
         'test' => _Date::new()->required(),
         'value' => '',
         'result' => false
     ],
-    'Required#18' => [
+    'Required#205' => [
         'test' => _Date::new()->required(),
         'value' => ' ',
         'result' => false
     ],
-    'Required#19' => [
+    'Required#206' => [
         'test' => _Date::new()->required(),
         'value' => null,
         'result' => false
     ],
-    'Required#20' => [
+    'Required#207' => [
         'test' => _String::new()->required(),
         'value' => '',
         'result' => false
     ],
-    'Required#21' => [
+    'Required#208' => [
         'test' => _String::new()->required(),
         'value' => ' ',
         'result' => false
     ],
-    'Required#22' => [
+    'Required#209' => [
         'test' => _String::new()->required(),
         'value' => null,
         'result' => false
     ],
-    'Required#23' => [
+    'Required#210' => [
         'test' => _Interface::new()->required(),
         'value' => null,
         'result' => false
     ],
-    'Required#24' => [
+    'Required#211' => [
         'test' => _Interface::new()->required(),
         'value' => '',
         'result' => false
     ],
-    'Required#25' => [
+    'Required#212' => [
         'test' => _Interface::new()->required(),
         'value' => '   ',
         'result' => false
     ],
-    'Required#26' => [
+    'Required#213' => [
         'test' => _Interface::new()->required(),
         'value' => [],
         'result' => false
     ],
-    'Required#27' => [
+    'Required#214' => [
         'test' => Slice::new('type: string | required'),
         'value' => [],
         'result' => false
     ],
-    'Required#28' => [
+    'Required#215' => [
         'test' => Map::new('type: string', 'type: string | required'),
         'value' => [],
         'result' => false
     ],
-    'Required#29' => [
+    'Required#216' => [
         'test' => Struct::new(['name' => 'type: string | required']),
+        'value' => [],
+        'result' => false
+    ],
+    'Required#217' => [
+        'test' => Struct::new([
+            'name2' => Slice::new('type: string | required')
+        ]),
+        'value' => [],
+        'result' => false
+    ],
+    'Required#218' => [
+        'test' => Struct::new([
+            'name2' => Map::new('type: string', 'type: string | required')
+        ]),
+        'value' => [],
+        'result' => false
+    ],
+    'Required#219' => [
+        'test' => Struct::new([
+            'name2' => Struct::new(['name' => 'type: string | required'])
+        ]),
         'value' => [],
         'result' => false
     ],
