@@ -38,7 +38,12 @@ abstract class TypeBase extends Core implements iTypeBase {
             $this->exception = $exception;
             $this->verifyConflicts();
 
-            if ($this->attr->required->getValue() && $isEmpty) {
+            if ($isEmpty) {
+
+                if (!$this->attr->required->getValue()) {
+                    return true;
+                }
+
                 throw new Exception(
                     message: Lng::get('type.type_base.required'),
                 );

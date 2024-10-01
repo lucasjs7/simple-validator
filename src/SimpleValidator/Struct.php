@@ -55,7 +55,7 @@ class Struct extends DataStructure {
     ): bool {
         $this->exception = $exception;
 
-        if (!is_array($values)) {
+        if (!is_array($values) && $values !== null && $values !== []) {
             $this->setError(Lng::get('struct.list'), []);
             return false;
         }
@@ -63,7 +63,8 @@ class Struct extends DataStructure {
         $typeKey = _String::new();
 
         foreach ($this->structure as $stcKey => $stcVal) {
-            $key   = array_key_exists($stcKey, $values) ? $stcKey : null;
+
+            $key      = isset($values[$stcKey]) ? $stcKey : null;
             $subValue = ($key !== null) ? $values[$stcKey] : null;
 
             if (!$typeKey->validate($key, false)) {
@@ -86,6 +87,21 @@ class Struct extends DataStructure {
         }
 
         return true;
+    }
+
+    public function childrenRequired(): bool {
+
+        foreach ($this->structure as $stcVal) {
+            if ($stcVal instanceof DataStructure) {
+                if ($stcVal->childrenRequired()) {
+                    return true;
+                }
+            } elseif ($stcVal->attr->required->getValue()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function info(): array {

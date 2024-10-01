@@ -27,7 +27,12 @@ class Slice extends DataStructure {
         mixed $values,
         bool  $exception = true,
     ): bool {
+
         $this->exception = $exception;
+
+        if (($values === null || $values === []) && !$this->childrenRequired()) {
+            return true;
+        }
 
         if (!is_array($values) || !array_is_list($values)) {
             $this->setError(Lng::get('slice.list'));
@@ -54,6 +59,19 @@ class Slice extends DataStructure {
         }
 
         return true;
+    }
+
+    public function childrenRequired(): bool {
+
+        if ($this->typeValues instanceof DataStructure) {
+            if ($this->typeValues->childrenRequired()) {
+                return true;
+            }
+        } elseif ($this->typeValues->attr->required->getValue()) {
+            return true;
+        }
+
+        return false;
     }
 
     public function info(): array {

@@ -31,7 +31,16 @@ class Map extends DataStructure {
         mixed $values,
         bool  $exception = true,
     ): bool {
+
         $this->exception = $exception;
+
+        $isTypeBase      = ($this->typeValues instanceof TypeBase);
+        $isDataStructure = ($this->typeValues instanceof DataStructure);
+        $isRequiredType  = (($isTypeBase || $isDataStructure) && $this->childrenRequired());
+
+        if (!$isRequiredType && TypeBase::isEmpty($values)) {
+            return true;
+        }
 
         if (!is_array($values) || !is_array($values)) {
             $this->setError(
@@ -39,9 +48,6 @@ class Map extends DataStructure {
             );
             return false;
         }
-
-        $isTypeBase     = ($this->typeValues instanceof TypeBase);
-        $isRequiredType = ($isTypeBase && $this->typeValues->attr->required->getValue());
 
         if ($isRequiredType && TypeBase::isEmpty($values)) {
             $this->setError(Lng::get('type.type_base.required'));
@@ -68,6 +74,23 @@ class Map extends DataStructure {
         }
 
         return true;
+    }
+
+    public function childrenRequired(): bool {
+
+        if ($this->typeKeys->attr->required->getValue()) {
+            return true;
+        }
+
+        if ($this->typeValues instanceof DataStructure) {
+            if ($this->typeValues->childrenRequired()) {
+                return true;
+            }
+        } elseif ($this->typeValues->attr->required->getValue()) {
+            return true;
+        }
+
+        return false;
     }
 
     public function info(): array {
