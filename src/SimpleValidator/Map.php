@@ -55,6 +55,7 @@ class Map extends DataStructure {
         }
 
         foreach ($values as $key => $val) {
+
             if (!$this->typeKeys->validate($key, false)) {
                 $this->setErrorPath(
                     message: $this->typeKeys->getError(),
@@ -63,6 +64,9 @@ class Map extends DataStructure {
                 );
                 return false;
             }
+
+            $this->typeValues->setPath([...$this->path, $key]);
+
             if (!$this->typeValues->validate($val, false)) {
                 $this->setErrorPath(
                     message: $this->typeValues->getError(),

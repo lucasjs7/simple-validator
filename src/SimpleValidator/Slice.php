@@ -48,6 +48,9 @@ class Slice extends DataStructure {
         }
 
         foreach ($values as $key => $val) {
+
+            $this->typeValues->setPath([...$this->path, $key]);
+
             if (!$this->typeValues->validate($val, false)) {
                 $this->setErrorPath(
                     message: $this->typeValues->getError(),

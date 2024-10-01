@@ -8,6 +8,7 @@ use Lucasjs7\SimpleValidator\Language\{Language, eLanguage};
 
 abstract class Core {
 
+    protected array  $path = [];
     protected string $errorMsg  = '';
     protected bool   $exception = true;
 
@@ -19,15 +20,38 @@ abstract class Core {
         }
     }
 
+    protected function setPath(array $value): void {
+        $this->path = $value;
+    }
+
     protected function setError(
         string  $message,
         array   $errorPath = [],
         ?string $label     = null,
     ): void {
-        if ($label !== null) {
-            $fmtMessage = rtrim($message, '. ');
-            $lngField = Language::get('field');
-            $this->errorMsg = "$fmtMessage ($lngField: $label).";
+
+        $lngField        = Language::get('field');
+        $fieldIdentified = str_contains($message, "($lngField:");
+
+        $lngPath        = Language::get('path');
+        $pathIdentified = str_contains($message, "($lngPath:");
+
+        if (!$fieldIdentified && !$pathIdentified) {
+
+            $hasLabel        = ($label !== null);
+            $hasErrorPath    = !empty($this->path);
+
+            if ($hasLabel) {
+
+                $fmtMessage = rtrim($message, '. ');
+                $this->errorMsg = "$fmtMessage ($lngField: $label).";
+            } elseif ($hasErrorPath) {
+
+                $fmtMessage = rtrim($message, '. ');
+                $ePath = implode(' > ', $this->path);
+
+                $this->errorMsg = "$fmtMessage ($lngPath: $ePath).";
+            }
         } else {
             $this->errorMsg = $message;
         }

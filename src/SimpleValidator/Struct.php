@@ -76,6 +76,8 @@ class Struct extends DataStructure {
                 return false;
             }
 
+            $stcVal->setPath([...$this->path, $stcKey]);
+
             if (!$stcVal->validate($subValue, false)) {
                 $this->setErrorPath(
                     message: $stcVal->getError(),
