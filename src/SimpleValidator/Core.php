@@ -38,19 +38,17 @@ abstract class Core {
 
         if (!$fieldIdentified && !$pathIdentified) {
 
-            $hasLabel        = ($label !== null);
-            $hasErrorPath    = !empty($this->path);
+            $hasLabel     = ($label !== null);
+            $hasErrorPath = !empty($this->path);
+            $fmtMessage   = rtrim($message, '. ');
 
             if ($hasLabel) {
-
-                $fmtMessage = rtrim($message, '. ');
                 $this->errorMsg = "$fmtMessage ($lngField: $label).";
             } elseif ($hasErrorPath) {
-
-                $fmtMessage = rtrim($message, '. ');
                 $ePath = implode(' > ', $this->path);
-
                 $this->errorMsg = "$fmtMessage ($lngPath: $ePath).";
+            } else {
+                $this->errorMsg = "$fmtMessage.";
             }
         } else {
             $this->errorMsg = $message;
