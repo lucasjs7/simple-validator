@@ -30,19 +30,16 @@ class Slice extends DataStructure {
 
         $this->exception = $exception;
 
-        if (($value === null || $value === []) && !$this->childrenRequired()) {
+        $isRequired = $this->childrenRequired();
+
+        if (($value === null || $value === []) && !$isRequired) {
             return true;
         }
 
         if (!is_array($value) || !array_is_list($value)) {
             $this->setError(Lng::get('slice.list'));
             return false;
-        }
-
-        $isTypeBase     = ($this->typeValues instanceof TypeBase);
-        $isRequiredType = ($isTypeBase && $this->typeValues->attr->required->getValue());
-
-        if ($isRequiredType && TypeBase::isEmpty($value)) {
+        } elseif ($isRequired && TypeBase::isEmpty($value)) {
             $this->setError(Lng::get('type.type_base.required'));
             return false;
         }
