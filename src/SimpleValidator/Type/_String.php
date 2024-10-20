@@ -24,4 +24,10 @@ class _String extends TypeBase {
         $this->validateMax($value, 'string');
         $this->validateRegex($value);
     }
+
+    public static function isEmpty(
+        mixed $value,
+    ): bool {
+        return (parent::isEmpty($value) || (is_string($value) && trim($value) === ''));
+    }
 }
