@@ -13,7 +13,7 @@ class _Int extends TypeBase {
     public function typeValidate(
         mixed $value,
     ): bool {
-        return (filter_var($value, FILTER_VALIDATE_INT) !== false);
+        return ($value !== true && filter_var($value, FILTER_VALIDATE_INT) !== false);
     }
 
     public function attrsValidate(
