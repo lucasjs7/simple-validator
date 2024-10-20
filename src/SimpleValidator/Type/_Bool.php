@@ -11,7 +11,9 @@ class _Bool extends TypeBase {
     public function typeValidate(
         mixed $value,
     ): bool {
-        return (filter_var($value, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE) !== null);
+        return (($value !== null) &&
+            ($value !== '') &&
+            (filter_var($value, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE) !== null));
     }
 
     public function attrsValidate(
