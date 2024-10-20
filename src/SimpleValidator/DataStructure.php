@@ -33,4 +33,10 @@ abstract class DataStructure extends Core implements iDataStructure {
             errorPath: $this->errorPath,
         );
     }
+
+    public static function isEmpty(
+        mixed $value,
+    ): bool {
+        return ($value === null || $value === []);
+    }
 }
