@@ -130,6 +130,37 @@ $listTests = [
         'result' => false,
         'dataResult' => false,
     ],
+    '_Bool#' . __LINE__ => [
+        'test' => _Bool::new(),
+        'value' => null,
+        'result' => true,
+        'dataResult' => false,
+    ],
+    '_Bool#' . __LINE__ => [
+        'test' => _Bool::new(),
+        'value' => '',
+        'result' => false,
+        'dataResult' => false,
+    ],
+    '_Bool#' . __LINE__ => [
+        'test' => _Bool::new(),
+        'value' => 1.2,
+        'result' => false,
+        'dataResult' => false,
+    ],
+    '_Bool#' . __LINE__ => [
+        'test' => _Bool::new(),
+        'value' => [],
+        'result' => false,
+        'dataResult' => false,
+    ],
+    '_Bool#' . __LINE__ => [
+        'test' => _Bool::new(),
+        'value' => function () {
+        },
+        'result' => false,
+        'dataResult' => false,
+    ],
 ];
 
 Base::testTypeList($listTests);

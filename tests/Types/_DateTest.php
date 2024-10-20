@@ -118,6 +118,49 @@ $listTests = [
 		'result' => false,
 		'dataResult' => false,
 	],
+	'_Date#' . __LINE__ => [
+		'test' => _Date::new(),
+		'value' => null,
+		'result' => true,
+		'dataResult' => false,
+	],
+	'_Date#' . __LINE__ => [
+		'test' => _Date::new(),
+		'value' => true,
+		'result' => false,
+		'dataResult' => false,
+	],
+	'_Date#' . __LINE__ => [
+		'test' => _Date::new(),
+		'value' => '',
+		'result' => false,
+		'dataResult' => false,
+	],
+	'_Date#' . __LINE__ => [
+		'test' => _Date::new(),
+		'value' => 1,
+		'result' => false,
+		'dataResult' => false,
+	],
+	'_Date#' . __LINE__ => [
+		'test' => _Date::new(),
+		'value' => 1.2,
+		'result' => false,
+		'dataResult' => false,
+	],
+	'_Date#' . __LINE__ => [
+		'test' => _Date::new(),
+		'value' => [],
+		'result' => false,
+		'dataResult' => false,
+	],
+	'_Date#' . __LINE__ => [
+		'test' => _Date::new(),
+		'value' => function () {
+		},
+		'result' => false,
+		'dataResult' => false,
+	],
 ];
 
 Base::testTypeList($listTests);

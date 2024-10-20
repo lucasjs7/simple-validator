@@ -88,6 +88,43 @@ $listTests = [
 		'result' => false,
 		'dataResult' => false,
 	],
+	'_Int#' . __LINE__ => [
+		'test' => _Int::new(),
+		'value' => null,
+		'result' => true,
+		'dataResult' => false,
+	],
+	'_Int#' . __LINE__ => [
+		'test' => _Int::new(),
+		'value' => true,
+		'result' => false,
+		'dataResult' => false,
+	],
+	'_Int#' . __LINE__ => [
+		'test' => _Int::new(),
+		'value' => '',
+		'result' => false,
+		'dataResult' => false,
+	],
+	'_Int#' . __LINE__ => [
+		'test' => _Int::new(),
+		'value' => 1.2,
+		'result' => false,
+		'dataResult' => false,
+	],
+	'_Int#' . __LINE__ => [
+		'test' => _Int::new(),
+		'value' => [],
+		'result' => false,
+		'dataResult' => false,
+	],
+	'_Int#' . __LINE__ => [
+		'test' => _Int::new(),
+		'value' => function () {
+		},
+		'result' => false,
+		'dataResult' => false,
+	],
 ];
 
 Base::testTypeList($listTests);

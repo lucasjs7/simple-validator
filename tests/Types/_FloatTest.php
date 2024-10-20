@@ -88,6 +88,49 @@ $listTests = [
 		'result' => false,
 		'dataResult' => false,
 	],
+	'_Float#' . __LINE__ => [
+		'test' => _Float::new(),
+		'value' => null,
+		'result' => true,
+		'dataResult' => false,
+	],
+	'_Float#' . __LINE__ => [
+		'test' => _Float::new(),
+		'value' => true,
+		'result' => false,
+		'dataResult' => false,
+	],
+	'_Float#' . __LINE__ => [
+		'test' => _Float::new(),
+		'value' => '',
+		'result' => false,
+		'dataResult' => false,
+	],
+	'_Float#' . __LINE__ => [
+		'test' => _Float::new(),
+		'value' => 1,
+		'result' => true,
+		'dataResult' => true,
+	],
+	'_Float#' . __LINE__ => [
+		'test' => _Float::new(),
+		'value' => 1.2,
+		'result' => true,
+		'dataResult' => true,
+	],
+	'_Float#' . __LINE__ => [
+		'test' => _Float::new(),
+		'value' => [],
+		'result' => false,
+		'dataResult' => false,
+	],
+	'_Float#' . __LINE__ => [
+		'test' => _Float::new(),
+		'value' => function () {
+		},
+		'result' => false,
+		'dataResult' => false,
+	],
 ];
 
 Base::testTypeList($listTests);
