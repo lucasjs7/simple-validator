@@ -39,13 +39,14 @@ abstract class Core {
         if (!$fieldIdentified && !$pathIdentified) {
 
             $hasLabel     = ($label !== null);
-            $hasErrorPath = !empty($this->path);
+            $dataPath     = !empty($this->path) ? $this->path : $errorPath;
+            $hasErrorPath = !empty($dataPath);
             $fmtMessage   = rtrim($message, '. ');
 
             if ($hasLabel) {
                 $this->errorMsg = "$fmtMessage ($lngField: $label).";
             } elseif ($hasErrorPath) {
-                $ePath = implode(' > ', $this->path);
+                $ePath = implode(' > ', $dataPath);
                 $this->errorMsg = "$fmtMessage ($lngPath: $ePath).";
             } else {
                 $this->errorMsg = "$fmtMessage.";
