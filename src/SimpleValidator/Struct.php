@@ -50,12 +50,13 @@ class Struct extends DataStructure {
     }
 
     public function validate(
-        mixed $values,
-        bool  $exception = true,
+        mixed  $value,
+        bool   $exception = true,
     ): bool {
+
         $this->exception = $exception;
 
-        if (!is_array($values) && $values !== null && $values !== []) {
+        if (!is_array($value) && $value !== null && $value !== []) {
             $this->setError(Lng::get('struct.list'), []);
             return false;
         }
@@ -64,13 +65,18 @@ class Struct extends DataStructure {
 
         foreach ($this->structure as $stcKey => $stcVal) {
 
-            $key      = isset($values[$stcKey]) ? $stcKey : null;
-            $subValue = ($key !== null) ? $values[$stcKey] : null;
+            $key = key_exists($stcKey, $value) ? $stcKey : null;
 
-            if (!$typeKey->validate($key, false)) {
+            if ($key === null && !$this->childrenRequired()) {
+                continue;
+            }
+
+            $subValue = ($key !== null) ? $value[$stcKey] : null;
+
+            if (!$typeKey->validate($key, false, false)) {
                 $this->setErrorPath(
                     message: $typeKey->getError(),
-                    currentPath: $key,
+                    currentPath: $stcKey,
                     field: $typeKey,
                 );
                 return false;
@@ -78,7 +84,16 @@ class Struct extends DataStructure {
 
             $stcVal->setPath([...$this->path, $stcKey]);
 
-            if (!$stcVal->validate($subValue, false)) {
+            $dataValidateValue = [
+                'value'     => $subValue,
+                'exception' => false,
+            ];
+
+            if ($stcVal instanceof TypeBase) {
+                $dataValidateValue['selfField'] = false;
+            }
+
+            if (!$stcVal->validate(...$dataValidateValue)) {
                 $this->setErrorPath(
                     message: $stcVal->getError(),
                     currentPath: $stcKey,
