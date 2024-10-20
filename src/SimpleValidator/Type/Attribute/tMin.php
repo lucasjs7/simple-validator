@@ -18,13 +18,13 @@ trait tMin {
         mixed $value,
         string $type,
     ): void {
-        $minIsEmpty = self::isEmpty($this->attr->min->getValue());
+        $minIsEmpty = static::isEmpty($this->attr->min->getValue());
 
         if ($minIsEmpty) {
             return;
         }
 
-        $maxIsEmpty = self::isEmpty($this->attr->max->getValue());
+        $maxIsEmpty = static::isEmpty($this->attr->max->getValue());
 
         if (!$maxIsEmpty && $this->attr->min->getValue() > $this->attr->max->getValue()) {
             $this->attr->min->setError(true);

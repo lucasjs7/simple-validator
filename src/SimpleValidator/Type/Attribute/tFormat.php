@@ -19,7 +19,7 @@ trait tFormat {
     public function validateFormat(
         string $value,
     ): void {
-        if (self::isEmpty($this->attr->format->getValue())) {
+        if (static::isEmpty($this->attr->format->getValue())) {
             return;
         }
 

@@ -35,8 +35,9 @@ class Map extends DataStructure {
         $this->exception = $exception;
 
         $isRequiredType = $this->childrenRequired();
+        $isEmpty        = static::isEmpty($value);
 
-        if (!$isRequiredType && TypeBase::isEmpty($value)) {
+        if (!$isRequiredType && $isEmpty) {
             return true;
         }
 
@@ -45,7 +46,7 @@ class Map extends DataStructure {
                 message: Lng::get('map.key_value'),
             );
             return false;
-        } elseif ($isRequiredType && TypeBase::isEmpty($value)) {
+        } elseif ($isRequiredType && $isEmpty) {
             $this->setError(Lng::get('type.type_base.required'));
             return false;
         }

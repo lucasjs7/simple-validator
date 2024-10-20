@@ -18,7 +18,7 @@ trait tRegex {
     public function validateRegex(
         mixed $value,
     ): void {
-        if (self::isEmpty($this->attr->regex->getValue())) {
+        if (static::isEmpty($this->attr->regex->getValue())) {
             return;
         }
 

@@ -21,19 +21,13 @@ abstract class TypeBase extends Core implements iTypeBase {
         $this->attr->label->setValue($label);
     }
 
-    public static function isEmpty(
-        mixed $value,
-    ): bool {
-        return ($value === null || $value === [] || (is_string($value) && trim($value) === ''));
-    }
-
     public function validate(
         mixed $value,
         bool  $exception = true,
         bool  $selfField = true,
     ): bool {
 
-        $isEmpty = $selfField ? self::isEmpty($value) : false;
+        $isEmpty = $selfField ? static::isEmpty($value) : false;
 
         try {
             $this->exception = $exception;
@@ -88,12 +82,12 @@ abstract class TypeBase extends Core implements iTypeBase {
     }
 
     protected function checkAttributes(): bool {
-        $emptyRegex    = self::isEmpty($this->attr->regex->getValue());
-        $emptyMax      = self::isEmpty($this->attr->max->getValue());
-        $emptyMin      = self::isEmpty($this->attr->min->getValue());
-        $emptyOptions  = self::isEmpty($this->attr->options->getValue());
-        $emptyFormat   = self::isEmpty($this->attr->format->getValue());
-        $emptyUnsigned = self::isEmpty($this->attr->unsigned->getValue());
+        $emptyRegex    = static::isEmpty($this->attr->regex->getValue());
+        $emptyMax      = static::isEmpty($this->attr->max->getValue());
+        $emptyMin      = static::isEmpty($this->attr->min->getValue());
+        $emptyOptions  = static::isEmpty($this->attr->options->getValue());
+        $emptyFormat   = static::isEmpty($this->attr->format->getValue());
+        $emptyUnsigned = static::isEmpty($this->attr->unsigned->getValue());
 
         $countGroups = 0;
 

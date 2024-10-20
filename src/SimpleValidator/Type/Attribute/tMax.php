@@ -16,7 +16,7 @@ trait tMax {
     }
 
     public function validateMax(mixed $value, string $type): void {
-        if (self::isEmpty($this->attr->max->getValue())) {
+        if (static::isEmpty($this->attr->max->getValue())) {
             return;
         }
 

@@ -151,4 +151,10 @@ abstract class Core {
         $name = trim(substr(static::class, (strrpos(static::class, '\\') + 1)), '_');
         return strtolower($name);
     }
+
+    public static function isEmpty(
+        mixed $value,
+    ): bool {
+        return ($value === null);
+    }
 }
