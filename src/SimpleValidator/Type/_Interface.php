@@ -19,4 +19,10 @@ class _Interface extends TypeBase {
     ): void {
         return;
     }
+
+    public static function isEmpty(
+        mixed $value,
+    ): bool {
+        return ((empty($value) && $value !== false) || parent::isEmpty($value) || (is_string($value) && trim($value) === ''));
+    }
 }
