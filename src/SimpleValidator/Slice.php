@@ -24,17 +24,17 @@ class Slice extends DataStructure {
     }
 
     public function validate(
-        mixed $values,
-        bool  $exception = true,
+        mixed  $value,
+        bool   $exception = true,
     ): bool {
 
         $this->exception = $exception;
 
-        if (($values === null || $values === []) && !$this->childrenRequired()) {
+        if (($value === null || $value === []) && !$this->childrenRequired()) {
             return true;
         }
 
-        if (!is_array($values) || !array_is_list($values)) {
+        if (!is_array($value) || !array_is_list($value)) {
             $this->setError(Lng::get('slice.list'));
             return false;
         }
@@ -42,16 +42,25 @@ class Slice extends DataStructure {
         $isTypeBase     = ($this->typeValues instanceof TypeBase);
         $isRequiredType = ($isTypeBase && $this->typeValues->attr->required->getValue());
 
-        if ($isRequiredType && TypeBase::isEmpty($values)) {
+        if ($isRequiredType && TypeBase::isEmpty($value)) {
             $this->setError(Lng::get('type.type_base.required'));
             return false;
         }
 
-        foreach ($values as $key => $val) {
+        foreach ($value as $key => $val) {
 
             $this->typeValues->setPath([...$this->path, $key]);
 
-            if (!$this->typeValues->validate($val, false)) {
+            $dataValidateValue = [
+                'value'     => $val,
+                'exception' => false,
+            ];
+
+            if ($this->typeValues instanceof TypeBase) {
+                $dataValidateValue['selfField'] = false;
+            }
+
+            if (!$this->typeValues->validate(...$dataValidateValue)) {
                 $this->setErrorPath(
                     message: $this->typeValues->getError(),
                     currentPath: $key,
