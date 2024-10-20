@@ -1,5 +1,8 @@
 <?php
 
+use Lucasjs7\SimpleValidator\Map;
+use Lucasjs7\SimpleValidator\Slice;
+use Lucasjs7\SimpleValidator\Struct;
 use Tests\Base;
 use Lucasjs7\SimpleValidator\Type\TypeParser;
 
@@ -111,6 +114,18 @@ $listTests = [
         'test' => TypeParser::new('type: interface'),
         'value' => '',
         'dataResult' => true,
+    ],
+    'Struct#' . __LINE__ => [
+        'test' => Struct::new(['B' => 'type: string | required']),
+        'dataResult' => false,
+    ],
+    'Slice#' . __LINE__ => [
+        'test' => Slice::new('type: string | required'),
+        'dataResult' => false,
+    ],
+    'Map#' . __LINE__ => [
+        'test' => Map::new('type: string', 'type: string | required'),
+        'dataResult' => false,
     ],
 ];
 
