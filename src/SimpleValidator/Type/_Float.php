@@ -13,7 +13,7 @@ class _Float extends TypeBase {
     public function typeValidate(
         mixed $value,
     ): bool {
-        return (filter_var($value, FILTER_VALIDATE_FLOAT) !== false);
+        return ($value !== true && filter_var($value, FILTER_VALIDATE_FLOAT) !== false);
     }
 
     public function attrsValidate(
