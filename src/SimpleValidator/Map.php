@@ -28,35 +28,33 @@ class Map extends DataStructure {
     }
 
     public function validate(
-        mixed $values,
+        mixed $value,
         bool  $exception = true,
     ): bool {
 
         $this->exception = $exception;
 
-        $isTypeBase      = ($this->typeValues instanceof TypeBase);
-        $isDataStructure = ($this->typeValues instanceof DataStructure);
-        $isRequiredType  = (($isTypeBase || $isDataStructure) && $this->childrenRequired());
+        $isRequiredType = $this->childrenRequired();
 
-        if (!$isRequiredType && TypeBase::isEmpty($values)) {
+        if (!$isRequiredType && TypeBase::isEmpty($value)) {
             return true;
         }
 
-        if (!is_array($values) || !is_array($values)) {
+        if (!is_array($value) || !is_array($value)) {
             $this->setError(
                 message: Lng::get('map.key_value'),
             );
             return false;
         }
 
-        if ($isRequiredType && TypeBase::isEmpty($values)) {
+        if ($isRequiredType && TypeBase::isEmpty($value)) {
             $this->setError(Lng::get('type.type_base.required'));
             return false;
         }
 
-        foreach ($values as $key => $val) {
+        foreach ($value as $key => $val) {
 
-            if (!$this->typeKeys->validate($key, false)) {
+            if (!$this->typeKeys->validate($key, false, false)) {
                 $this->setErrorPath(
                     message: $this->typeKeys->getError(),
                     currentPath: $key,
@@ -67,7 +65,16 @@ class Map extends DataStructure {
 
             $this->typeValues->setPath([...$this->path, $key]);
 
-            if (!$this->typeValues->validate($val, false)) {
+            $dataValidateValue = [
+                'value'     => $val,
+                'exception' => false,
+            ];
+
+            if ($this->typeValues instanceof TypeBase) {
+                $dataValidateValue['selfField'] = false;
+            }
+
+            if (!$this->typeValues->validate(...$dataValidateValue)) {
                 $this->setErrorPath(
                     message: $this->typeValues->getError(),
                     currentPath: $key,
