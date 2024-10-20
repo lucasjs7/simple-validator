@@ -45,9 +45,7 @@ class Map extends DataStructure {
                 message: Lng::get('map.key_value'),
             );
             return false;
-        }
-
-        if ($isRequiredType && TypeBase::isEmpty($value)) {
+        } elseif ($isRequiredType && TypeBase::isEmpty($value)) {
             $this->setError(Lng::get('type.type_base.required'));
             return false;
         }
