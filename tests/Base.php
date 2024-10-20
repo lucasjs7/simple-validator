@@ -17,50 +17,47 @@ class Base {
         }
     }
 
-    public static function testSlice(string $name, array $list, bool $result) {
-        describe($name, function () use ($list, $result) {
+    public static function testSlice(string $name, array $list) {
+        describe($name, function () use ($list) {
             foreach ($list as $k => $v) {
-                it($k, function () use ($result, $v) {
-                    $value = [$v['value']];
+                it($k, function () use ($v) {
+                    $value = key_exists('value', $v) ?  [$v['value']] : [];
                     $test = Slice::new(
                         typeValues: $v['test'],
                     )->validate($value, false);
 
-                    expect($test)->toBe($result);
+                    expect($test)->toBe($v['dataResult']);
                 });
             }
         });
     }
 
-    public static function testMap(string $name, array $list, bool $result) {
-        describe($name, function () use ($list, $result) {
+    public static function testMap(string $name, array $list) {
+        describe($name, function () use ($list) {
             foreach ($list as $k => $v) {
-                it($k, function () use ($result, $v) {
-                    $value = ['name' => $v['value']];
+                it($k, function () use ($v) {
+                    $value = key_exists('value', $v) ? ['name' => $v['value']] : [];
                     $test = Map::new(
                         typeKeys: _String::new(),
                         typeValues: $v['test'],
                     )->validate($value, false);
 
-                    expect($test)->toBe($result);
+                    expect($test)->toBe($v['dataResult']);
                 });
             }
         });
     }
 
-    public static function testStruct(string $name, array $list, bool $result) {
-        it($name, function () use ($list, $result) {
-            $listTests = [];
-            $listValues = [];
-
+    public static function testStruct(string $name, array $list) {
+        describe($name, function () use ($list) {
             foreach ($list as $k => $v) {
-                $listTests[$k] = $v['test'];
-                $listValues[$k] = $v['value'];
+                it($k, function () use ($v) {
+                    $value = key_exists('value', $v) ? ['A' => $v['value']] : [];
+                    $test = Struct::new(['A' => $v['test']])->validate($value, false);
+
+                    expect($test)->toBe($v['dataResult']);
+                });
             }
-
-            $test = Struct::new($listTests)->validate($listValues, false);
-
-            expect($test)->toBe($result);
         });
     }
 }

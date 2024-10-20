@@ -6,207 +6,235 @@ use Lucasjs7\SimpleValidator\Struct;
 use Tests\Base;
 use Lucasjs7\SimpleValidator\Type\{_Bool, _Date, _Float, _Int, _Interface, _String};
 
-$listTrue = [
-    'Required#1' => [
+$listTests = [
+    'Required#' . __LINE__ => [
         'test' => _Bool::new()->required(),
         'value' => false,
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    'Required#2' => [
+    'Required#' . __LINE__ => [
         'test' => _Bool::new()->required(),
         'value' => true,
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    'Required#3' => [
+    'Required#' . __LINE__ => [
         'test' => _Int::new()->required(),
         'value' => 0,
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    'Required#4' => [
+    'Required#' . __LINE__ => [
         'test' => _Int::new()->required(),
         'value' => -1,
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    'Required#5' => [
+    'Required#' . __LINE__ => [
         'test' => _Float::new()->required(),
         'value' => 0,
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    'Required#6' => [
+    'Required#' . __LINE__ => [
         'test' => _Float::new()->required(),
         'value' => -0.1,
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    'Required#7' => [
+    'Required#' . __LINE__ => [
         'test' => _Date::new()->required(),
         'value' => '01-01-0001',
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    'Required#8' => [
+    'Required#' . __LINE__ => [
         'test' => _String::new()->required(),
         'value' => '.',
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    'Required#9' => [
+    'Required#' . __LINE__ => [
         'test' => _Interface::new()->required(),
         'value' => false,
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    'Required#10' => [
+    'Required#' . __LINE__ => [
         'test' => _Interface::new()->required(),
         'value' => [null],
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    'Required#11' => [
+    'Required#' . __LINE__ => [
         'test' => Slice::new('type: string'),
         'value' => [],
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    'Required#12' => [
+    'Required#' . __LINE__ => [
         'test' => Map::new('type: string', 'type: string'),
         'value' => [],
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    'Required#13' => [
+    'Required#' . __LINE__ => [
         'test' => Struct::new(['name' => 'type: string']),
         'value' => [],
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    'Required#14' => [
+    'Required#' . __LINE__ => [
         'test' => Struct::new([
             'name2' => Slice::new('type: string')
         ]),
         'value' => [],
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    'Required#15' => [
+    'Required#' . __LINE__ => [
         'test' => Struct::new([
             'name2' => Map::new('type: string', 'type: string')
         ]),
         'value' => [],
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    'Required#16' => [
+    'Required#' . __LINE__ => [
         'test' => Struct::new([
             'name2' => Struct::new(['name' => 'type: string'])
         ]),
         'value' => [],
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-];
-
-$listFalse = [
-    'Required#201' => [
+    'Required#' . __LINE__ => [
         'test' => _Bool::new()->required(),
         'value' => null,
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
-    'Required#202' => [
+    'Required#' . __LINE__ => [
         'test' => _Int::new()->required(),
         'value' => null,
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
-    'Required#203' => [
+    'Required#' . __LINE__ => [
         'test' => _Float::new()->required(),
         'value' => null,
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
-    'Required#204' => [
+    'Required#' . __LINE__ => [
         'test' => _Date::new()->required(),
         'value' => '',
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
-    'Required#205' => [
+    'Required#' . __LINE__ => [
         'test' => _Date::new()->required(),
         'value' => ' ',
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
-    'Required#206' => [
+    'Required#' . __LINE__ => [
         'test' => _Date::new()->required(),
         'value' => null,
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
-    'Required#207' => [
+    'Required#' . __LINE__ => [
         'test' => _String::new()->required(),
         'value' => '',
-        'result' => false
+        'result' => false,
+        'dataResult' => true,
     ],
-    'Required#208' => [
+    'Required#' . __LINE__ => [
         'test' => _String::new()->required(),
         'value' => ' ',
-        'result' => false
+        'result' => false,
+        'dataResult' => true,
     ],
-    'Required#209' => [
+    'Required#' . __LINE__ => [
         'test' => _String::new()->required(),
         'value' => null,
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
-    'Required#210' => [
+    'Required#' . __LINE__ => [
         'test' => _Interface::new()->required(),
         'value' => null,
-        'result' => false
+        'result' => false,
+        'dataResult' => true,
     ],
-    'Required#211' => [
+    'Required#' . __LINE__ => [
         'test' => _Interface::new()->required(),
         'value' => '',
-        'result' => false
+        'result' => false,
+        'dataResult' => true,
     ],
-    'Required#212' => [
+    'Required#' . __LINE__ => [
         'test' => _Interface::new()->required(),
         'value' => '   ',
-        'result' => false
+        'result' => false,
+        'dataResult' => true,
     ],
-    'Required#213' => [
+    'Required#' . __LINE__ => [
         'test' => _Interface::new()->required(),
         'value' => [],
-        'result' => false
+        'result' => false,
+        'dataResult' => true,
     ],
-    'Required#214' => [
+    'Required#' . __LINE__ => [
         'test' => Slice::new('type: string | required'),
         'value' => [],
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
-    'Required#215' => [
+    'Required#' . __LINE__ => [
         'test' => Map::new('type: string', 'type: string | required'),
         'value' => [],
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
-    'Required#216' => [
+    'Required#' . __LINE__ => [
         'test' => Struct::new(['name' => 'type: string | required']),
         'value' => [],
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
-    'Required#217' => [
+    'Required#' . __LINE__ => [
         'test' => Struct::new([
             'name2' => Slice::new('type: string | required')
         ]),
         'value' => [],
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
-    'Required#218' => [
+    'Required#' . __LINE__ => [
         'test' => Struct::new([
             'name2' => Map::new('type: string', 'type: string | required')
         ]),
         'value' => [],
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
-    'Required#219' => [
+    'Required#' . __LINE__ => [
         'test' => Struct::new([
             'name2' => Struct::new(['name' => 'type: string | required'])
         ]),
         'value' => [],
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
 ];
 
-Base::testTypeList($listTrue);
-Base::testTypeList($listFalse);
+Base::testTypeList($listTests);
 
-Base::testSlice('Required/Slice#1', $listTrue, true);
-Base::testSlice('Required/Slice#2', $listFalse, false);
+Base::testSlice('Required/Slice', $listTests);
 
-Base::testMap('Required/Map#1', $listTrue, true);
-Base::testMap('Required/Map#2', $listFalse, false);
+Base::testMap('Required/Map', $listTests);
 
-Base::testStruct('Required/Struct#1', $listTrue, true);
-Base::testStruct('Required/Struct#2', $listFalse, false);
+Base::testStruct('Required/Struct', $listTests);

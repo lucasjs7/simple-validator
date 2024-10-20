@@ -3,60 +3,61 @@
 use Lucasjs7\SimpleValidator\Type\_String;
 use Tests\Base;
 
-$listTrue = [
-    '_String#1' => [
+$listTests = [
+    '_String#' . __LINE__ => [
         'test' => _String::new()->options('a', 'b', 'c'),
         'value' => 'a',
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    '_String#2' => [
+    '_String#' . __LINE__ => [
         'test' => _String::new(),
         'value' => 'abc',
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    '_String#3' => [
+    '_String#' . __LINE__ => [
         'test' => _String::new()->max(3),
         'value' => '123',
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-    '_String#4' => [
+    '_String#' . __LINE__ => [
         'test' => _String::new()->min(3),
         'value' => '123',
-        'result' => true
+        'result' => true,
+        'dataResult' => true,
     ],
-];
-
-$listFalse = [
-    '_String#5' => [
+    '_String#' . __LINE__ => [
         'test' => _String::new()->options('a', 'b', 'c'),
         'value' => 'd',
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
-    '_String#6' => [
+    '_String#' . __LINE__ => [
         'test' => _String::new(),
         'value' => 2,
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
-    '_String#7' => [
+    '_String#' . __LINE__ => [
         'test' => _String::new()->max(3),
         'value' => '1234',
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
-    '_String#8' => [
+    '_String#' . __LINE__ => [
         'test' => _String::new()->min(3),
         'value' => '12',
-        'result' => false
+        'result' => false,
+        'dataResult' => false,
     ],
 ];
 
-Base::testTypeList($listTrue);
-Base::testTypeList($listFalse);
+Base::testTypeList($listTests);
 
-Base::testSlice('_String/Slice#1', $listTrue, true);
-Base::testSlice('_String/Slice#2', $listFalse, false);
+Base::testSlice('_String/Slice', $listTests);
 
-Base::testMap('_String/Map#1', $listTrue, true);
-Base::testMap('_String/Map#2', $listFalse, false);
+Base::testMap('_String/Map', $listTests);
 
-Base::testStruct('_String/Struct#1', $listTrue, true);
-Base::testStruct('_String/Struct#2', $listFalse, false);
+Base::testStruct('_String/Struct', $listTests);
