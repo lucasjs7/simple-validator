@@ -40,7 +40,7 @@ abstract class Core {
         if (!$fieldIdentified && !$pathIdentified) {
 
             $hasLabel     = ($label !== null);
-            $dataPath     = !empty($this->path) ? $this->path : $errorPath;
+            $dataPath     = array_merge($this->path, $errorPath);
             $hasErrorPath = !empty($dataPath);
             $fmtMessage   = rtrim($message, '. ');
 
