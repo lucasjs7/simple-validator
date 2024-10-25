@@ -5,6 +5,7 @@ namespace Lucasjs7\SimpleValidator;
 use Exception;
 use Lucasjs7\SimpleCliTable;
 use Lucasjs7\SimpleValidator\Language\{Language, eLanguage};
+use Lucasjs7\SimpleValidator\Type\TypeBase;
 
 abstract class Core {
 
@@ -156,5 +157,26 @@ abstract class Core {
         mixed $value,
     ): bool {
         return ($value === null);
+    }
+
+    public function isRequired(): bool {
+
+        if ($this instanceof TypeBase) {
+            if ($this->attr->required->getValue()) {
+                return true;
+            }
+        } elseif ($this instanceof Struct) {
+            foreach ($this->structure as $stcVal) {
+                if ($stcVal->isRequired()) {
+                    return true;
+                }
+            }
+        } elseif ($this instanceof Map || $this instanceof Slice) {
+            if ($this->typeValues->isRequired()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

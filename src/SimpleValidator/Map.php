@@ -34,7 +34,7 @@ class Map extends DataStructure {
 
         $this->exception = $exception;
 
-        $isRequiredType = $this->childrenRequired();
+        $isRequiredType = $this->isRequired();
         $isEmpty        = static::isEmpty($value);
 
         if (!$isRequiredType && $isEmpty) {
@@ -84,23 +84,6 @@ class Map extends DataStructure {
         }
 
         return true;
-    }
-
-    public function childrenRequired(): bool {
-
-        if ($this->typeKeys->attr->required->getValue()) {
-            return true;
-        }
-
-        if ($this->typeValues instanceof DataStructure) {
-            if ($this->typeValues->childrenRequired()) {
-                return true;
-            }
-        } elseif ($this->typeValues->attr->required->getValue()) {
-            return true;
-        }
-
-        return false;
     }
 
     public function info(): array {

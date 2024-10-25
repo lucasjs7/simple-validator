@@ -229,6 +229,57 @@ $listTests = [
         'result' => false,
         'dataResult' => false,
     ],
+    'Required#' . __LINE__ => [
+        'test' => Struct::new([
+            'name2' => Struct::new(['name' => 'type: string | required']),
+            'name3' => 'type: string',
+        ]),
+        'value' => ['name2' => ['name' => 'abc']],
+        'result' => true,
+        'dataResult' => true,
+    ],
+    'Required#' . __LINE__ => [
+        'test' => Struct::new([
+            'name2' => Map::new('type: string | required', 'type: string | required'),
+            'name3' => 'type: string',
+        ]),
+        'value' => ['name2' => ['sl' => 'abc']],
+        'result' => true,
+        'dataResult' => true,
+    ],
+    'Required#' . __LINE__ => [
+        'test' => Struct::new([
+            'name2' => Slice::new('type: string | required'),
+            'name3' => 'type: string',
+        ]),
+        'value' => ['name2' => ['abc']],
+        'result' => true,
+        'dataResult' => true,
+    ],
+    'Required#' . __LINE__ => [
+        'test' => Struct::new([
+            'name2' => Struct::new(['name' => 'type: string | required']),
+            'name3' => 'type: string',
+        ]),
+        'result' => false,
+        'dataResult' => false,
+    ],
+    'Required#' . __LINE__ => [
+        'test' => Struct::new([
+            'name2' => Map::new('type: string | required', 'type: string | required'),
+            'name3' => 'type: string',
+        ]),
+        'result' => false,
+        'dataResult' => false,
+    ],
+    'Required#' . __LINE__ => [
+        'test' => Struct::new([
+            'name2' => Slice::new('type: string | required'),
+            'name3' => 'type: string',
+        ]),
+        'result' => false,
+        'dataResult' => false,
+    ],
 ];
 
 Base::testTypeList($listTests);

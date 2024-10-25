@@ -30,7 +30,7 @@ class Slice extends DataStructure {
 
         $this->exception = $exception;
 
-        $isRequired = $this->childrenRequired();
+        $isRequired = $this->isRequired();
         $isEmpty    = static::isEmpty($value);
 
         if ($isEmpty && !$isRequired) {
@@ -69,19 +69,6 @@ class Slice extends DataStructure {
         }
 
         return true;
-    }
-
-    public function childrenRequired(): bool {
-
-        if ($this->typeValues instanceof DataStructure) {
-            if ($this->typeValues->childrenRequired()) {
-                return true;
-            }
-        } elseif ($this->typeValues->attr->required->getValue()) {
-            return true;
-        }
-
-        return false;
     }
 
     public function info(): array {

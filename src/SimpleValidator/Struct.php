@@ -56,7 +56,7 @@ class Struct extends DataStructure {
 
         $this->exception = $exception;
 
-        if (!is_array($value) && $value !== null && $value !== []) {
+        if (!is_array($value)) {
             $this->setError(Lng::get('struct.list'), []);
             return false;
         }
@@ -67,7 +67,7 @@ class Struct extends DataStructure {
 
             $key = key_exists($stcKey, $value) ? $stcKey : null;
 
-            if ($key === null && !$this->childrenRequired()) {
+            if ($key === null && !$stcVal->isRequired()) {
                 continue;
             }
 
@@ -104,21 +104,6 @@ class Struct extends DataStructure {
         }
 
         return true;
-    }
-
-    public function childrenRequired(): bool {
-
-        foreach ($this->structure as $stcVal) {
-            if ($stcVal instanceof DataStructure) {
-                if ($stcVal->childrenRequired()) {
-                    return true;
-                }
-            } elseif ($stcVal->attr->required->getValue()) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public function info(): array {

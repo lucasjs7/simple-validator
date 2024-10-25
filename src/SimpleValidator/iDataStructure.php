@@ -6,7 +6,5 @@ interface iDataStructure {
 
     public function validate(mixed $value, bool $exception = true): bool;
 
-    public function childrenRequired(): bool;
-
     public function info(): array;
 }
