@@ -10,7 +10,8 @@ class Base {
     public static function testTypeList(array $list) {
         foreach ($list as $k => $v) {
             it($k, function () use ($v) {
-                $test = $v['test']->validate($v['value'], false);
+                $value = key_exists('value', $v) ?  $v['value'] : [];
+                $test = $v['test']->validate($value, false);
 
                 expect($test)->toBe($v['result']);
             });
