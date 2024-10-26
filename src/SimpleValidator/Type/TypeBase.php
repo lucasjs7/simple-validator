@@ -82,12 +82,12 @@ abstract class TypeBase extends Core implements iTypeBase {
     }
 
     protected function checkAttributes(): bool {
-        $emptyRegex    = static::isEmpty($this->attr->regex->getValue());
-        $emptyMax      = static::isEmpty($this->attr->max->getValue());
-        $emptyMin      = static::isEmpty($this->attr->min->getValue());
-        $emptyOptions  = static::isEmpty($this->attr->options->getValue());
-        $emptyFormat   = static::isEmpty($this->attr->format->getValue());
-        $emptyUnsigned = static::isEmpty($this->attr->unsigned->getValue());
+        $emptyRegex    = self::isEmpty($this->attr->regex->getValue());
+        $emptyMax      = self::isEmpty($this->attr->max->getValue());
+        $emptyMin      = self::isEmpty($this->attr->min->getValue());
+        $emptyOptions  = self::isEmpty($this->attr->options->getValue());
+        $emptyFormat   = self::isEmpty($this->attr->format->getValue());
+        $emptyUnsigned = self::isEmpty($this->attr->unsigned->getValue());
 
         $countGroups = 0;
 
