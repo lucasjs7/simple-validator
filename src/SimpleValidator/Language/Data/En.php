@@ -54,6 +54,9 @@ class En extends Data {
                     'format' => [
                         'invalid' => 'The value must be in the following format {{value}}.',
                     ],
+                    'callable' => [
+                        'invalid' => 'The value is invalid.',
+                    ],
                 ],
             ],
             'map' => [

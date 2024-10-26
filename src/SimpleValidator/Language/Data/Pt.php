@@ -54,6 +54,9 @@ class Pt extends Data {
                     'format' => [
                         'invalid' => 'O valor deve estar no seguinte formato {{value}}.',
                     ],
+                    'callable' => [
+                        'invalid' => 'O valor é inválido.',
+                    ],
                 ],
             ],
             'map' => [

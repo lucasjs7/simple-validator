@@ -88,6 +88,7 @@ abstract class TypeBase extends Core implements iTypeBase {
         $emptyOptions  = self::isEmpty($this->attr->options->getValue());
         $emptyFormat   = self::isEmpty($this->attr->format->getValue());
         $emptyUnsigned = self::isEmpty($this->attr->unsigned->getValue());
+        $emptyCallable = self::isEmpty($this->attr->callable->getValue());
 
         $countGroups = 0;
 
@@ -95,6 +96,7 @@ abstract class TypeBase extends Core implements iTypeBase {
         $countGroups += (int) (!$emptyMax || !$emptyMin || !$emptyUnsigned);
         $countGroups += (int) (!$emptyOptions);
         $countGroups += (int) (!$emptyFormat);
+        $countGroups += (int) (!$emptyCallable);
 
         $invalidGroups = 0;
 
