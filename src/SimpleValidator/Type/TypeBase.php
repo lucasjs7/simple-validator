@@ -54,15 +54,12 @@ abstract class TypeBase extends Core implements iTypeBase {
 
             return true;
         } catch (Exception $e) {
-            if ($this->attr->required->getValue() || !$isEmpty) {
-                $this->setError(
-                    message: $e->getMessage(),
-                    label: $this->attr->label->getValue(),
-                );
-                return false;
-            }
 
-            return true;
+            $this->setError(
+                message: $e->getMessage(),
+                label: $this->attr->label->getValue(),
+            );
+            return false;
         }
     }
 
