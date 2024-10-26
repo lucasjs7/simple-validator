@@ -7,7 +7,7 @@ class En extends Data {
     public static function get(): array {
         return [
             'path' => 'path',
-            'field' => 'field',
+            'field' => 'The following error occurred in field "{{label}}":',
             'type' => [
                 'prefix_key' => 'Key error: ',
                 'prefix_value' => 'Error in value: ',

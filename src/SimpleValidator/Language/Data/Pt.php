@@ -7,7 +7,7 @@ class Pt extends Data {
     public static function get(): array {
         return [
             'path' => 'diretório',
-            'field' => 'campo',
+            'field' => 'No campo "{{label}}" ocorreu o seguinte erro:',
             'type' => [
                 'prefix_key' => 'Erro na chave: ',
                 'prefix_value' => 'Erro no valor: ',

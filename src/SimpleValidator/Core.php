@@ -31,8 +31,8 @@ abstract class Core {
         ?string $label     = null,
     ): void {
 
-        $lngField        = Language::get('field');
-        $fieldIdentified = str_contains($message, "($lngField:");
+        $lngField        = ($label !== null) ? Language::get('field', ['label' => $label]) : '';
+        $fieldIdentified = (($label !== null) && str_starts_with($message, $lngField));
 
         $lngPath        = Language::get('path');
         $pathIdentified = str_contains($message, "($lngPath:");
@@ -45,7 +45,7 @@ abstract class Core {
             $fmtMessage   = rtrim($message, '. ');
 
             if ($hasLabel) {
-                $this->errorMsg = "$fmtMessage ($lngField: $label).";
+                $this->errorMsg = "$lngField $fmtMessage.";
             } elseif ($hasErrorPath) {
                 $ePath = implode(' > ', $dataPath);
                 $this->errorMsg = "$fmtMessage ($lngPath: $ePath).";
