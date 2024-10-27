@@ -9,7 +9,7 @@ trait tRegex {
 
     public function regex(
         string $pattern,
-    ) {
+    ): static {
 
         if (@preg_match($pattern, '') === false) {
             $this->attrError(
@@ -17,7 +17,7 @@ trait tRegex {
                 errorMessage: Lng::get('type.attribute.regex.pattern'),
             );
 
-            return;
+            return $this;
         }
 
         $this->attr->regex->setValue($pattern);
