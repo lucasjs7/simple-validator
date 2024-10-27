@@ -31,7 +31,7 @@ abstract class TypeBase extends Core implements iTypeBase {
         try {
             $this->exception = $exception;
 
-            if (static::$errorImplementation || $this->verifyConflicts()) {
+            if ($this->errorImplementation() || $this->verifyConflicts()) {
                 $this->setError(Lng::get('implementation'));
                 return false;
             }
@@ -47,7 +47,7 @@ abstract class TypeBase extends Core implements iTypeBase {
                 );
             } elseif (!$this->typeValidate($value)) {
 
-                if (static::$errorImplementation) {
+                if ($this->errorImplementation()) {
                     throw new Exception(Lng::get('implementation'));
                 }
 
@@ -60,7 +60,7 @@ abstract class TypeBase extends Core implements iTypeBase {
 
             $this->attrsValidate($value);
 
-            if (static::$errorImplementation) {
+            if ($this->errorImplementation()) {
                 throw new Exception(Lng::get('implementation'));
             }
 
@@ -72,8 +72,6 @@ abstract class TypeBase extends Core implements iTypeBase {
                 label: $this->attr->label->getValue(),
             );
             return false;
-        } finally {
-            static::$errorImplementation = false;
         }
     }
 

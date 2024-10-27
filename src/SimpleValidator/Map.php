@@ -33,77 +33,63 @@ class Map extends DataStructure {
         bool  $exception = true,
     ): bool {
 
-        try {
+        $this->exception = $exception;
 
-            $this->exception = $exception;
+        if ($this->errorImplementation()) {
+            $this->setError(Lng::get('implementation'));
+            return false;
+        }
 
-            if (static::$errorImplementation) {
-                $this->setError(Lng::get('implementation'));
-                return false;
-            }
+        $isRequiredType = $this->isRequired();
+        $isEmpty        = static::isEmpty($value);
 
-            $isRequiredType = $this->isRequired();
-            $isEmpty        = static::isEmpty($value);
+        if (!$isRequiredType && $isEmpty) {
+            return true;
+        }
 
-            if (!$isRequiredType && $isEmpty) {
-                return true;
-            }
+        if (!is_array($value) || !is_array($value)) {
+            $this->setError(
+                message: Lng::get('map.key_value'),
+            );
+            return false;
+        } elseif ($isRequiredType && $isEmpty) {
+            $this->setError(Lng::get('type.type_base.required'));
+            return false;
+        }
 
-            if (!is_array($value) || !is_array($value)) {
-                $this->setError(
-                    message: Lng::get('map.key_value'),
+        foreach ($value as $key => $val) {
+
+            if (!$this->typeKeys->validate($key, false, false)) {
+                $this->setErrorPath(
+                    message: $this->typeKeys->getError(),
+                    currentPath: $key,
+                    field: $this->typeKeys,
                 );
                 return false;
-            } elseif ($isRequiredType && $isEmpty) {
-                $this->setError(Lng::get('type.type_base.required'));
+            }
+
+            $this->typeValues->setPath([...$this->path, $key]);
+
+            $dataValidateValue = [
+                'value'     => $val,
+                'exception' => false,
+            ];
+
+            if ($this->typeValues instanceof TypeBase) {
+                $dataValidateValue['selfField'] = false;
+            }
+
+            if (!$this->typeValues->validate(...$dataValidateValue)) {
+                $this->setErrorPath(
+                    message: $this->typeValues->getError(),
+                    currentPath: $key,
+                    field: $this->typeValues,
+                );
                 return false;
             }
-
-            foreach ($value as $key => $val) {
-
-                if (!$this->typeKeys->validate($key, false, false)) {
-                    $this->setErrorPath(
-                        message: $this->typeKeys->getError(),
-                        currentPath: $key,
-                        field: $this->typeKeys,
-                    );
-                    return false;
-                }
-
-                $this->typeValues->setPath([...$this->path, $key]);
-
-                $dataValidateValue = [
-                    'value'     => $val,
-                    'exception' => false,
-                ];
-
-                if ($this->typeValues instanceof TypeBase) {
-                    $dataValidateValue['selfField'] = false;
-                }
-
-                if (!$this->typeValues->validate(...$dataValidateValue)) {
-                    $this->setErrorPath(
-                        message: $this->typeValues->getError(),
-                        currentPath: $key,
-                        field: $this->typeValues,
-                    );
-                    return false;
-                }
-            }
-
-            return true;
-        } catch (Exception $e) {
-
-            $this->setErrorPath(
-                message: $e->getMessage(),
-                currentPath: '',
-                field: null,
-            );
-
-            return false;
-        } finally {
-            static::$errorImplementation = false;
         }
+
+        return true;
     }
 
     public function info(): array {

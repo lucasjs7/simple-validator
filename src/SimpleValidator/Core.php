@@ -11,12 +11,12 @@ use Lucasjs7\SimpleValidator\Type\TypeBase;
 abstract class Core {
 
     public static eMode $mode = eMode::PRODUCTION;
-    protected static bool $errorImplementation = false;
 
     protected array  $path = [];
     protected string $errorMsg  = '';
     protected bool   $exception = true;
 
+    public bool             $errorImplementation = false;
     public static eLanguage $language;
 
     public function __construct() {
@@ -85,8 +85,6 @@ abstract class Core {
         bool               $backtrace,
         ?SimpleCliTable ...$tables,
     ): void {
-
-        static::$errorImplementation = true;
 
         self::logFile($title, $message, $exception);
 
@@ -174,6 +172,8 @@ abstract class Core {
             backtrace: true,
             tables: $attrTable,
         );
+
+        $this->errorImplementation = true;
     }
 
     public static function logFile(
@@ -216,6 +216,31 @@ abstract class Core {
             }
         } elseif ($this instanceof Map || $this instanceof Slice) {
             if ($this->typeValues->isRequired()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function errorImplementation(): bool {
+
+        if ($this->errorImplementation) {
+            return true;
+        } elseif ($this instanceof Struct) {
+            foreach ($this->structure as $stcVal) {
+                if ($stcVal->errorImplementation()) {
+                    return true;
+                }
+            }
+        } elseif ($this instanceof Map) {
+            if ($this->typeKeys->errorImplementation()) {
+                return true;
+            } elseif ($this->typeValues->errorImplementation()) {
+                return true;
+            }
+        } elseif ($this instanceof Slice) {
+            if ($this->typeValues->errorImplementation()) {
                 return true;
             }
         }

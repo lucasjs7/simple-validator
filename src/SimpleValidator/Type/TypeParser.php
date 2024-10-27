@@ -76,7 +76,11 @@ class TypeParser {
                 backtrace: true,
             );
 
-            return new _Interface;
+            $typeError = new _Interface;
+
+            $typeError->errorImplementation = true;
+
+            return $typeError;
         }
     }
 

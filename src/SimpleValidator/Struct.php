@@ -16,23 +16,27 @@ class Struct extends DataStructure {
         foreach ($this->structure as $key => &$val) {
 
             if (!is_string($key)) {
-                return static::exitError(
+                static::exitError(
                     title: 'Struct Error',
                     message: Lng::get('struct.key'),
                     exception: new Exception,
                     backtrace: true,
                     tables: null,
                 );
+                $this->errorImplementation = true;
+                return;
             }
 
             if (!is_string($val) && !($val instanceof DataStructure) && !($val instanceof TypeBase)) {
-                return static::exitError(
+                static::exitError(
                     title: 'Struct Error',
                     message: Lng::get('struct.data'),
                     exception: new Exception,
                     backtrace: true,
                     tables: null,
                 );
+                $this->errorImplementation = true;
+                return;
             }
 
             if (is_string($val)) {
@@ -54,73 +58,59 @@ class Struct extends DataStructure {
         bool   $exception = true,
     ): bool {
 
-        try {
+        $this->exception = $exception;
 
-            $this->exception = $exception;
-
-            if (static::$errorImplementation) {
-                $this->setError(Lng::get('implementation'));
-                return false;
-            } elseif (!is_array($value)) {
-                $this->setError(Lng::get('struct.list'), []);
-                return false;
-            }
-
-            $typeKey = _String::new();
-
-            foreach ($this->structure as $stcKey => $stcVal) {
-
-                $key = key_exists($stcKey, $value) ? $stcKey : null;
-
-                if ($key === null && !$stcVal->isRequired()) {
-                    continue;
-                }
-
-                $subValue = ($key !== null) ? $value[$stcKey] : null;
-
-                if (!$typeKey->validate($key, false, false)) {
-                    $this->setErrorPath(
-                        message: $typeKey->getError(),
-                        currentPath: $stcKey,
-                        field: $typeKey,
-                    );
-                    return false;
-                }
-
-                $stcVal->setPath([...$this->path, $stcKey]);
-
-                $dataValidateValue = [
-                    'value'     => $subValue,
-                    'exception' => false,
-                ];
-
-                if ($stcVal instanceof TypeBase) {
-                    $dataValidateValue['selfField'] = false;
-                }
-
-                if (!$stcVal->validate(...$dataValidateValue)) {
-                    $this->setErrorPath(
-                        message: $stcVal->getError(),
-                        currentPath: $stcKey,
-                        field: $stcVal,
-                    );
-                    return false;
-                }
-            }
-
-            return true;
-        } catch (Exception $e) {
-
-            $this->setErrorPath(
-                message: $e->getMessage(),
-                currentPath: '',
-                field: null,
-            );
-
+        if ($this->errorImplementation()) {
+            $this->setError(Lng::get('implementation'));
             return false;
-        } finally {
-            static::$errorImplementation = false;
+        } elseif (!is_array($value)) {
+            $this->setError(Lng::get('struct.list'), []);
+            return false;
         }
+
+        $typeKey = _String::new();
+
+        foreach ($this->structure as $stcKey => $stcVal) {
+
+            $key = key_exists($stcKey, $value) ? $stcKey : null;
+
+            if ($key === null && !$stcVal->isRequired()) {
+                continue;
+            }
+
+            $subValue = ($key !== null) ? $value[$stcKey] : null;
+
+            if (!$typeKey->validate($key, false, false)) {
+                $this->setErrorPath(
+                    message: $typeKey->getError(),
+                    currentPath: $stcKey,
+                    field: $typeKey,
+                );
+                return false;
+            }
+
+            $stcVal->setPath([...$this->path, $stcKey]);
+
+            $dataValidateValue = [
+                'value'     => $subValue,
+                'exception' => false,
+            ];
+
+            if ($stcVal instanceof TypeBase) {
+                $dataValidateValue['selfField'] = false;
+            }
+
+            if (!$stcVal->validate(...$dataValidateValue)) {
+                $this->setErrorPath(
+                    message: $stcVal->getError(),
+                    currentPath: $stcKey,
+                    field: $stcVal,
+                );
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function info(): array {

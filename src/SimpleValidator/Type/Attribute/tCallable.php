@@ -29,6 +29,7 @@ trait tCallable {
                 backtrace: true,
                 tables: null,
             );
+            $this->errorImplementation = true;
             return;
         } elseif (!($callable instanceof Closure)) {
             static::exitError(
@@ -38,6 +39,7 @@ trait tCallable {
                 backtrace: true,
                 tables: null,
             );
+            $this->errorImplementation = true;
             return;
         }
 

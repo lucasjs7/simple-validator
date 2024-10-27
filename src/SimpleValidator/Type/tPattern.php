@@ -25,7 +25,12 @@ trait tPattern {
                 exception: new Exception,
                 backtrace: true,
             );
-            return new static;
+
+            $typeError = new static;
+
+            $typeError->errorImplementation = true;
+
+            return $typeError;
         }
 
         return static::$patterns[$name];
