@@ -95,6 +95,24 @@ $listTests = [
         'result' => false,
         'dataResult' => false,
     ],
+    '_String#' . __LINE__ => [
+        'test' => _String::new()->regex('/[A-Z]/'),
+        'value' => 'A',
+        'result' => true,
+        'dataResult' => true,
+    ],
+    '_String#' . __LINE__ => [
+        'test' => _String::new()->regex('/[0-9]/'),
+        'value' => 'Abc',
+        'result' => false,
+        'dataResult' => false,
+    ],
+    '_String#' . __LINE__ => [
+        'test' => _String::new()->regex('invalid_regex'),
+        'value' => '1',
+        'result' => false,
+        'dataResult' => false,
+    ],
 ];
 
 Base::testTypeList($listTests);
