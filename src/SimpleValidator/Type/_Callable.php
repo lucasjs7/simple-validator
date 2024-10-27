@@ -11,8 +11,8 @@ class _Callable extends TypeBase {
     use tCallable, tPattern, tRequired;
 
     public function __construct(
-        callable $callable,
-        ?string  $label = null,
+        ?string   $label = null,
+        ?callable $callable = null,
     ) {
         parent::__construct($label);
 
@@ -23,7 +23,7 @@ class _Callable extends TypeBase {
         ?string  $label = null,
         ?callable $callable = null,
     ): static {
-        return new static($callable, $label);
+        return new static($label, $callable);
     }
 
     public function typeValidate(

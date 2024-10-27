@@ -56,6 +56,8 @@ class Pt extends Data {
                     ],
                     'callable' => [
                         'invalid' => 'O valor é inválido.',
+                        'empty' => 'Não foi atribuida uma função para _Callable.',
+                        'anonymous' => 'A função atribuída a _Callable deve ser anônima.',
                     ],
                 ],
             ],

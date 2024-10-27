@@ -32,6 +32,7 @@ class TypeParser {
                 'date'      => _Date::class,
                 'interface' => _Interface::class,
                 'mixed'     => _Mixed::class,
+                'callable'  => _Callable::class,
                 default     => null,
             };
 

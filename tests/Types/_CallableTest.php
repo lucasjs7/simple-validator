@@ -3,6 +3,9 @@
 use Lucasjs7\SimpleValidator\Type\_Callable;
 use Tests\Base;
 
+function MyFunc() {
+}
+
 $listTests = [
     '_Callable#' . __LINE__ => [
         'test' => _Callable::new(null, function ($value) {
@@ -32,6 +35,12 @@ $listTests = [
         'test' => _Callable::new(null, function ($value) {
             return ($value === 'c');
         }),
+        'value' => 'C',
+        'result' => false,
+        'dataResult' => false,
+    ],
+    '_Callable#' . __LINE__ => [
+        'test' => _Callable::new(null, '\MyFunc'),
         'value' => 'C',
         'result' => false,
         'dataResult' => false,
