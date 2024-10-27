@@ -30,10 +30,12 @@ trait tMin {
             $this->attr->min->setError(true);
             $this->attr->max->setError(true);
 
-            AttrError::buildError(
+            $this->attrError(
                 attr: $this->attr,
                 errorMessage: Lng::get('type.attribute.min.greater'),
             );
+
+            return;
         }
 
         $isValid = match ($type) {

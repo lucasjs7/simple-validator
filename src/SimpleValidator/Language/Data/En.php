@@ -6,6 +6,7 @@ class En extends Data {
 
     public static function get(): array {
         return [
+            'implementation' => 'An error occurred during validation.',
             'path' => 'path',
             'field' => 'The following error occurred in field "{{label}}":',
             'type' => [

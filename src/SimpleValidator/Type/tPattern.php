@@ -11,7 +11,7 @@ trait tPattern {
     public function save(
         string $name,
     ): void {
-        static::$patterns[$name] = serialize($this);
+        static::$patterns[$name] = $this;
     }
 
     public static function pattern(
@@ -25,8 +25,9 @@ trait tPattern {
                 exception: new Exception,
                 backtrace: true,
             );
+            return new static;
         }
 
-        return unserialize(static::$patterns[$name]);
+        return static::$patterns[$name];
     }
 }

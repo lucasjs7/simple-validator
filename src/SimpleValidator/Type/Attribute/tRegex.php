@@ -10,6 +10,16 @@ trait tRegex {
     public function regex(
         string $pattern,
     ) {
+
+        if (@preg_match($pattern, '') === false) {
+            $this->attrError(
+                attr: $this->attr,
+                errorMessage: Lng::get('type.attribute.regex.pattern'),
+            );
+
+            return;
+        }
+
         $this->attr->regex->setValue($pattern);
 
         return $this;
@@ -26,11 +36,6 @@ trait tRegex {
 
         if ($isValid === 0) {
             throw new ValidatorException(Lng::get('type.attribute.regex.invalid', ['value' => $this->attr->regex->getValue()]));
-        } elseif ($isValid === false) {
-            AttrError::buildError(
-                attr: $this->attr,
-                errorMessage: Lng::get('type.attribute.regex.pattern'),
-            );
-        };
+        }
     }
 }

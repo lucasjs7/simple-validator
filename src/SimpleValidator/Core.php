@@ -5,9 +5,13 @@ namespace Lucasjs7\SimpleValidator;
 use Exception;
 use Lucasjs7\SimpleCliTable;
 use Lucasjs7\SimpleValidator\Language\{Language, eLanguage};
+use Lucasjs7\SimpleValidator\Type\Attribute\Attribute;
 use Lucasjs7\SimpleValidator\Type\TypeBase;
 
 abstract class Core {
+
+    public static eMode $mode = eMode::PRODUCTION;
+    protected static bool $errorImplementation = false;
 
     protected array  $path = [];
     protected string $errorMsg  = '';
@@ -82,55 +86,94 @@ abstract class Core {
         ?SimpleCliTable ...$tables,
     ): void {
 
-        $noCli = (php_sapi_name() !== 'cli');
-        $headerData = [
-            [self::genHeaderError($title)],
-            [$message],
-        ];
-
-        if ($noCli) {
-            echo '<pre>';
-        }
-
-        echo SimpleCliTable::build($headerData, true) . "\n";
-
-        foreach ($tables as $table) {
-            if ($table === null) continue;
-
-            echo $table->render() . "\n";
-        }
-
-        if ($backtrace) {
-            $trace = $exception->getTrace();
-            $lastTrace = (array_key_last($trace));
-            $bkTable = new SimpleCliTable;
-
-            $bkTable->setContainsHeader(true);
-            $bkTable->add(['', 'Backtrace', 'Function', 'Args']);
-
-            for ($i = $lastTrace, $n = 1; $i > 0; $i--, $n++) {
-                $traceFile     = $trace[$i]['file'] ?? '-';
-                $traceLine     = $trace[$i]['line'] ?? '-';
-                $traceFunction = $trace[$i]['function'] ?? '';
-                $traceArgs     = $trace[$i]['args'] ?? '';
-
-                $bkTable->add([
-                    "#$n",
-                    "$traceFile:$traceLine",
-                    $traceFunction,
-                    json_encode($traceArgs),
-                ]);
-            }
-
-            echo $bkTable->render();
-        }
-
-        if ($noCli) {
-            echo '</pre>';
-        }
+        static::$errorImplementation = true;
 
         self::logFile($title, $message, $exception);
-        exit;
+
+        if (static::$mode === eMode::DEBUG) {
+
+            $noCli = (php_sapi_name() !== 'cli');
+            $headerData = [
+                [self::genHeaderError($title)],
+                [$message],
+            ];
+
+            if ($noCli) {
+                echo '<pre>';
+            }
+
+            echo SimpleCliTable::build($headerData, true) . "\n";
+
+            foreach ($tables as $table) {
+                if ($table === null) continue;
+
+                echo $table->render() . "\n";
+            }
+
+            if ($backtrace) {
+                $trace = $exception->getTrace();
+                $lastTrace = (array_key_last($trace));
+                $bkTable = new SimpleCliTable;
+
+                $bkTable->setContainsHeader(true);
+                $bkTable->add(['', 'Backtrace', 'Function', 'Args']);
+
+                for ($i = $lastTrace, $n = 1; $i > 0; $i--, $n++) {
+                    $traceFile     = $trace[$i]['file'] ?? '-';
+                    $traceLine     = $trace[$i]['line'] ?? '-';
+                    $traceFunction = $trace[$i]['function'] ?? '';
+                    $traceArgs     = $trace[$i]['args'] ?? '';
+
+                    $bkTable->add([
+                        "#$n",
+                        "$traceFile:$traceLine",
+                        $traceFunction,
+                        json_encode($traceArgs),
+                    ]);
+                }
+
+                echo $bkTable->render();
+            }
+
+            if ($noCli) {
+                echo '</pre>';
+            }
+
+            exit;
+        }
+    }
+
+    public function attrError(
+        Attribute $attr,
+        string    $errorMessage,
+    ): void {
+        $titleHeader = 'Attribute Error';
+        $attrTable = new SimpleCliTable;
+
+        $attrTable->setContainsHeader(true);
+        $attrTable->add(['Attribute', 'Value', 'Error']);
+
+        foreach ($attr as $kAttr => $vAttr) {
+            $attrValeu = match (gettype($vAttr->getValue())) {
+                'array', 'object' => json_encode($vAttr->getValue()),
+                'NULL'            => '',
+                default           => $vAttr->getValue(),
+            };
+
+            $attrTable->add([
+                $kAttr,
+                $attrValeu,
+                $vAttr->getError() ? '*' : '',
+            ]);
+        }
+
+        $this->exitError(
+            title: $titleHeader,
+            message: $errorMessage,
+            exception: new Exception,
+            backtrace: true,
+            tables: $attrTable,
+        );
     }
 
     public static function logFile(

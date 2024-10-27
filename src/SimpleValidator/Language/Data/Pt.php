@@ -6,6 +6,7 @@ class Pt extends Data {
 
     public static function get(): array {
         return [
+            'implementation' => 'Ocorreu um erro durante a validação.',
             'path' => 'diretório',
             'field' => 'No campo "{{label}}" ocorreu o seguinte erro:',
             'type' => [

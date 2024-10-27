@@ -2,6 +2,7 @@
 
 namespace Lucasjs7\SimpleValidator;
 
+use Exception;
 use Lucasjs7\SimpleValidator\Type\{TypeBase, TypeParser};
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
@@ -32,58 +33,77 @@ class Map extends DataStructure {
         bool  $exception = true,
     ): bool {
 
-        $this->exception = $exception;
+        try {
 
-        $isRequiredType = $this->isRequired();
-        $isEmpty        = static::isEmpty($value);
+            $this->exception = $exception;
 
-        if (!$isRequiredType && $isEmpty) {
+            if (static::$errorImplementation) {
+                $this->setError(Lng::get('implementation'));
+                return false;
+            }
+
+            $isRequiredType = $this->isRequired();
+            $isEmpty        = static::isEmpty($value);
+
+            if (!$isRequiredType && $isEmpty) {
+                return true;
+            }
+
+            if (!is_array($value) || !is_array($value)) {
+                $this->setError(
+                    message: Lng::get('map.key_value'),
+                );
+                return false;
+            } elseif ($isRequiredType && $isEmpty) {
+                $this->setError(Lng::get('type.type_base.required'));
+                return false;
+            }
+
+            foreach ($value as $key => $val) {
+
+                if (!$this->typeKeys->validate($key, false, false)) {
+                    $this->setErrorPath(
+                        message: $this->typeKeys->getError(),
+                        currentPath: $key,
+                        field: $this->typeKeys,
+                    );
+                    return false;
+                }
+
+                $this->typeValues->setPath([...$this->path, $key]);
+
+                $dataValidateValue = [
+                    'value'     => $val,
+                    'exception' => false,
+                ];
+
+                if ($this->typeValues instanceof TypeBase) {
+                    $dataValidateValue['selfField'] = false;
+                }
+
+                if (!$this->typeValues->validate(...$dataValidateValue)) {
+                    $this->setErrorPath(
+                        message: $this->typeValues->getError(),
+                        currentPath: $key,
+                        field: $this->typeValues,
+                    );
+                    return false;
+                }
+            }
+
             return true;
-        }
+        } catch (Exception $e) {
 
-        if (!is_array($value) || !is_array($value)) {
-            $this->setError(
-                message: Lng::get('map.key_value'),
+            $this->setErrorPath(
+                message: $e->getMessage(),
+                currentPath: '',
+                field: null,
             );
+
             return false;
-        } elseif ($isRequiredType && $isEmpty) {
-            $this->setError(Lng::get('type.type_base.required'));
-            return false;
+        } finally {
+            static::$errorImplementation = false;
         }
-
-        foreach ($value as $key => $val) {
-
-            if (!$this->typeKeys->validate($key, false, false)) {
-                $this->setErrorPath(
-                    message: $this->typeKeys->getError(),
-                    currentPath: $key,
-                    field: $this->typeKeys,
-                );
-                return false;
-            }
-
-            $this->typeValues->setPath([...$this->path, $key]);
-
-            $dataValidateValue = [
-                'value'     => $val,
-                'exception' => false,
-            ];
-
-            if ($this->typeValues instanceof TypeBase) {
-                $dataValidateValue['selfField'] = false;
-            }
-
-            if (!$this->typeValues->validate(...$dataValidateValue)) {
-                $this->setErrorPath(
-                    message: $this->typeValues->getError(),
-                    currentPath: $key,
-                    field: $this->typeValues,
-                );
-                return false;
-            }
-        }
-
-        return true;
     }
 
     public function info(): array {

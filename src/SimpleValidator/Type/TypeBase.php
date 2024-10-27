@@ -4,7 +4,6 @@ namespace Lucasjs7\SimpleValidator\Type;
 
 use Exception;
 use Lucasjs7\SimpleValidator\Core;
-use Lucasjs7\SimpleValidator\Type\Attribute\AttrError;
 use Lucasjs7\SimpleValidator\Type\Attribute\Attribute;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
@@ -31,7 +30,11 @@ abstract class TypeBase extends Core implements iTypeBase {
 
         try {
             $this->exception = $exception;
-            $this->verifyConflicts();
+
+            if (static::$errorImplementation || $this->verifyConflicts()) {
+                $this->setError(Lng::get('implementation'));
+                return false;
+            }
 
             if ($isEmpty) {
 
@@ -43,6 +46,11 @@ abstract class TypeBase extends Core implements iTypeBase {
                     message: Lng::get('type.type_base.required'),
                 );
             } elseif (!$this->typeValidate($value)) {
+
+                if (static::$errorImplementation) {
+                    throw new Exception(Lng::get('implementation'));
+                }
+
                 $descType = Lng::get("type.desc_type_{$this->name()}");
 
                 throw new Exception(
@@ -52,6 +60,10 @@ abstract class TypeBase extends Core implements iTypeBase {
 
             $this->attrsValidate($value);
 
+            if (static::$errorImplementation) {
+                throw new Exception(Lng::get('implementation'));
+            }
+
             return true;
         } catch (Exception $e) {
 
@@ -60,22 +72,30 @@ abstract class TypeBase extends Core implements iTypeBase {
                 label: $this->attr->label->getValue(),
             );
             return false;
+        } finally {
+            static::$errorImplementation = false;
         }
     }
 
-    protected function verifyConflicts(): void {
+    protected function verifyConflicts(): bool {
+
         if (!$this->checkAttributes()) {
+
             foreach ($this->attr as $nameAttr => $attribute) {
                 if ($nameAttr != 'required' && $attribute->getValue() !== null) {
                     $attribute->setError(true);
                 }
             }
 
-            AttrError::buildError(
+            $this->attrError(
                 attr: $this->attr,
                 errorMessage: Lng::get('type.type_base.conflict'),
             );
+
+            return true;
         }
+
+        return false;
     }
 
     protected function checkAttributes(): bool {

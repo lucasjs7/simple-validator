@@ -75,6 +75,8 @@ class TypeParser {
                 exception: $e,
                 backtrace: true,
             );
+
+            return new _Interface;
         }
     }
 
