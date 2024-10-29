@@ -30,6 +30,7 @@ abstract class TypeBase extends Core implements iTypeBase {
 
         try {
             $this->exception = $exception;
+            $this->errorMsg  = '';
 
             if ($this->errorImplementation() || $this->verifyConflicts()) {
                 $this->setError(Lng::get('implementation'));
@@ -51,11 +52,14 @@ abstract class TypeBase extends Core implements iTypeBase {
                     throw new Exception(Lng::get('implementation'));
                 }
 
-                $descType = Lng::get("type.desc_type_{$this->name()}");
+                $msgError = $this->getError();
 
-                throw new Exception(
-                    message: Lng::get('type.type_base.type', ['type' => $descType]),
-                );
+                if (empty($msgError)) {
+                    $descType = Lng::get("type.desc_type_{$this->name()}");
+                    $msgError = Lng::get('type.type_base.type', ['type' => $descType]);
+                }
+
+                throw new Exception($msgError);
             }
 
             $this->attrsValidate($value);
