@@ -60,6 +60,9 @@ class Pt extends Data {
                         'empty' => 'Não foi atribuida uma função para _Callable.',
                         'anonymous' => 'A função atribuída a _Callable deve ser anônima.',
                     ],
+                    'file' => [
+                        'invalid' => 'O arquivo é inválido.',
+                    ]
                 ],
             ],
             'map' => [

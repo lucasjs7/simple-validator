@@ -33,6 +33,7 @@ class TypeParser {
                 'interface' => _Interface::class,
                 'mixed'     => _Mixed::class,
                 'callable'  => _Callable::class,
+                'file'      => _File::class,
                 default     => null,
             };
 
