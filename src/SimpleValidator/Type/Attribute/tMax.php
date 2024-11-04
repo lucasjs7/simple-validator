@@ -15,7 +15,11 @@ trait tMax {
         return $this;
     }
 
-    public function validateMax(mixed $value, string $type): void {
+    public function validateMax(
+        mixed  $value,
+        string $type,
+    ): void {
+
         if (static::isEmpty($this->attr->max->getValue())) {
             return;
         }
