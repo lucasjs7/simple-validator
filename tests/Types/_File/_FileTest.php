@@ -1,7 +1,5 @@
 <?php
 
-use Lucasjs7\SimpleValidator\Type\_Interface;
-
 include 'Base.php';
 
 $data = testUpload();
