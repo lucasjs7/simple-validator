@@ -52,6 +52,10 @@ class En extends Data {
                     'max' => [
                         'invalid' => 'The value must be equal to or less than {{value}}.',
                     ],
+                    'max_data_size' => [
+                        'over' => 'Maximum size is {{size}} bytes.',
+                        'invalid' => 'The specified maximum compute size is invalid.',
+                    ],
                     'format' => [
                         'invalid' => 'The value must be in the following format {{value}}.',
                     ],

@@ -52,6 +52,10 @@ class Pt extends Data {
                     'max' => [
                         'invalid' => 'O valor deve ser igual ou inferior a {{value}}.',
                     ],
+                    'max_data_size' => [
+                        'over' => 'O tamanho máximo é {{size}} bytes.',
+                        'invalid' => 'O tamanho máximo computacional especificado é inválido.',
+                    ],
                     'format' => [
                         'invalid' => 'O valor deve estar no seguinte formato {{value}}.',
                     ],

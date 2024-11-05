@@ -40,6 +40,24 @@ try {
             'result' => false,
             'dataResult' => false,
         ],
+        'testUpload#' . __LINE__ => [
+            'test' => _File::new()->max('0.01B'),
+            'value' => $_FILES['file'],
+            'result' => false,
+            'dataResult' => false,
+        ],
+        'testUpload#' . __LINE__ => [
+            'test' => _File::new()->max('1MB'),
+            'value' => $_FILES['file'],
+            'result' => true,
+            'dataResult' => true,
+        ],
+        'testUpload#' . __LINE__ => [
+            'test' => _File::new()->max('343'),
+            'value' => $_FILES['file'],
+            'result' => false,
+            'dataResult' => false,
+        ],
     ];
 
     $resultType = testTypeList($listTests);
