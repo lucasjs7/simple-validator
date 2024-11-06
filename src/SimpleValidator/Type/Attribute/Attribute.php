@@ -15,6 +15,7 @@ class Attribute {
     public readonly AttrData $required;
     public readonly AttrData $width;
     public readonly AttrData $height;
+    public readonly AttrData $ext;
 
     public function __construct() {
         $this->unsigned = new AttrData;
@@ -28,6 +29,7 @@ class Attribute {
         $this->required = new AttrData;
         $this->width    = new AttrData;
         $this->height   = new AttrData;
+        $this->ext      = new AttrData;
 
         $this->required->setValue(false);
     }

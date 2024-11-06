@@ -62,6 +62,9 @@ class En extends Data {
                     'height' => [
                         'over' => 'Image height must be at most {{value}} pixels.',
                     ],
+                    'ext' => [
+                        'invalid' => 'The file format is invalid.',
+                    ],
                     'format' => [
                         'invalid' => 'The value must be in the following format {{value}}.',
                     ],

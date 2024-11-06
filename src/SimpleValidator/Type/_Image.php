@@ -38,6 +38,7 @@ class _Image extends _File {
     public function attrsValidate(
         mixed $value,
     ): void {
+        parent::attrsValidate($value);
         $this->validateMax($value);
         $this->validateHeight($value);
         $this->validateWidth($value);

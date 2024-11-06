@@ -3,14 +3,14 @@
 namespace Lucasjs7\SimpleValidator\Type;
 
 use Lucasjs7\SimpleValidator\Struct;
-use Lucasjs7\SimpleValidator\Type\Attribute\tMaxDataSize;
+use Lucasjs7\SimpleValidator\Type\Attribute\{tMaxDataSize, tExt};
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 class _File extends TypeBase {
 
     private static array $patterns = [];
 
-    use tPattern, tRequired, tMaxDataSize;
+    use tPattern, tRequired, tMaxDataSize, tExt;
 
     public function typeValidate(
         mixed $value,
@@ -39,5 +39,6 @@ class _File extends TypeBase {
         mixed $value,
     ): void {
         $this->validateMax($value);
+        $this->validateExt($value);
     }
 }

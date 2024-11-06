@@ -62,6 +62,9 @@ class Pt extends Data {
                     'height' => [
                         'over' => 'A altura da imagem deve ser no máximo {{value}} pixels.',
                     ],
+                    'ext' => [
+                        'invalid' => 'O formato do arquivo é inválido.',
+                    ],
                     'format' => [
                         'invalid' => 'O valor deve estar no seguinte formato {{value}}.',
                     ],

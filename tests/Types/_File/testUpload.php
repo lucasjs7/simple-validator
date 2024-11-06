@@ -89,6 +89,18 @@ try {
             'result' => true,
             'dataResult' => true,
         ],
+        'testUpload#' . __LINE__ => [
+            'test' => _Image::new()->ext('.jpeg', '.xml'),
+            'value' => $_FILES['img'],
+            'result' => false,
+            'dataResult' => false,
+        ],
+        'testUpload#' . __LINE__ => [
+            'test' => _Image::new()->ext('.png', '.jpg'),
+            'value' => $_FILES['img'],
+            'result' => true,
+            'dataResult' => true,
+        ],
     ];
 
     $resultType = testTypeList($listTests);
