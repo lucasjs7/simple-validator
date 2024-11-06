@@ -3,8 +3,17 @@
 use Lucasjs7\SimpleValidator\Type\_Callable;
 use Tests\Base;
 
-function MyFunc() {
+function MyFunc(mixed $value) {
+    return ($value === 'C');
 }
+
+class MyClassTest {
+    public static function verify(mixed $value): bool {
+        return ($value === 'A');
+    }
+}
+
+$myClassTest = new MyClassTest;
 
 $listTests = [
     '_Callable#' . __LINE__ => [
@@ -42,6 +51,30 @@ $listTests = [
     '_Callable#' . __LINE__ => [
         'test' => _Callable::new(null, '\MyFunc'),
         'value' => 'C',
+        'result' => true,
+        'dataResult' => true,
+    ],
+    '_Callable#' . __LINE__ => [
+        'test' => _Callable::new(null, [MyClassTest::class, 'verify']),
+        'value' => 'A',
+        'result' => true,
+        'dataResult' => true,
+    ],
+    '_Callable#' . __LINE__ => [
+        'test' => _Callable::new(null, [MyClassTest::class, 'verify']),
+        'value' => 'Z',
+        'result' => false,
+        'dataResult' => false,
+    ],
+    '_Callable#' . __LINE__ => [
+        'test' => _Callable::new(null, [$myClassTest, 'verify']),
+        'value' => 'A',
+        'result' => true,
+        'dataResult' => true,
+    ],
+    '_Callable#' . __LINE__ => [
+        'test' => _Callable::new(null, [$myClassTest, 'verify']),
+        'value' => 'Z',
         'result' => false,
         'dataResult' => false,
     ],

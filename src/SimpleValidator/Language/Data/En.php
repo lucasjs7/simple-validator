@@ -71,7 +71,6 @@ class En extends Data {
                     'callable' => [
                         'invalid' => 'The value is invalid.',
                         'empty' => 'No function has been assigned to _Callable.',
-                        'anonymous' => 'The function assigned to _Callable must be anonymous.',
                     ],
                     'file' => [
                         'invalid' => 'The file is invalid.',

@@ -31,20 +31,13 @@ trait tCallable {
             );
             $this->errorImplementation = true;
             return;
-        } elseif (!($callable instanceof Closure)) {
-            static::exitError(
-                title: 'Callable Error',
-                message: Lng::get('type.attribute.callable.anonymous'),
-                exception: new Exception,
-                backtrace: true,
-                tables: null,
-            );
-            $this->errorImplementation = true;
-            return;
         }
 
-        $newCallable = $callable->bindTo($this);
-        $isValid  = ($newCallable($value) === true);
+        if ($callable instanceof Closure) {
+            $callable = $callable->bindTo($this);
+        }
+
+        $isValid = ($callable($value) === true);
 
         if (!$isValid) {
             throw new ValidatorException(
