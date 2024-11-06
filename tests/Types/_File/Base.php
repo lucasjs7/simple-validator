@@ -12,6 +12,7 @@ function testUpload() {
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($curl, CURLOPT_POSTFIELDS, [
         'file' => new CURLFile(__DIR__ . DIRECTORY_SEPARATOR . 'file.txt'),
+        'img'  => new CURLFile(__DIR__ . DIRECTORY_SEPARATOR . 'cat.jpg'),
     ]);
 
     $response = curl_exec($curl);

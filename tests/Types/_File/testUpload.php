@@ -1,6 +1,7 @@
 <?php
 
 use Lucasjs7\SimpleValidator\Type\_File;
+use Lucasjs7\SimpleValidator\Type\_Image;
 use Lucasjs7\SimpleValidator\Type\TypeParser;
 
 include '/var/www/html/vendor/autoload.php';
@@ -57,6 +58,36 @@ try {
             'value' => $_FILES['file'],
             'result' => false,
             'dataResult' => false,
+        ],
+        'testUpload#' . __LINE__ => [
+            'test' => _File::new()->max('343B'),
+            'value' => $_FILES['img'],
+            'result' => false,
+            'dataResult' => false,
+        ],
+        'testUpload#' . __LINE__ => [
+            'test' => _Image::new()->width(10),
+            'value' => $_FILES['img'],
+            'result' => false,
+            'dataResult' => false,
+        ],
+        'testUpload#' . __LINE__ => [
+            'test' => _Image::new()->width(98),
+            'value' => $_FILES['img'],
+            'result' => true,
+            'dataResult' => true,
+        ],
+        'testUpload#' . __LINE__ => [
+            'test' => _Image::new()->height(146),
+            'value' => $_FILES['img'],
+            'result' => false,
+            'dataResult' => false,
+        ],
+        'testUpload#' . __LINE__ => [
+            'test' => _Image::new()->height(147),
+            'value' => $_FILES['img'],
+            'result' => true,
+            'dataResult' => true,
         ],
     ];
 

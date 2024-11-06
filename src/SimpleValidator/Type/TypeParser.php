@@ -34,6 +34,7 @@ class TypeParser {
                 'mixed'     => _Mixed::class,
                 'callable'  => _Callable::class,
                 'file'      => _File::class,
+                'image'     => _Image::class,
                 default     => null,
             };
 

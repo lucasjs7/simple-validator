@@ -56,6 +56,12 @@ class Pt extends Data {
                         'over' => 'O tamanho máximo é {{size}} bytes.',
                         'invalid' => 'O tamanho máximo computacional especificado é inválido.',
                     ],
+                    'width' => [
+                        'over' => 'A largura da imagem deve ser no máximo {{value}} pixels.',
+                    ],
+                    'height' => [
+                        'over' => 'A altura da imagem deve ser no máximo {{value}} pixels.',
+                    ],
                     'format' => [
                         'invalid' => 'O valor deve estar no seguinte formato {{value}}.',
                     ],

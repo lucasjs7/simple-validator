@@ -56,6 +56,12 @@ class En extends Data {
                         'over' => 'Maximum size is {{size}} bytes.',
                         'invalid' => 'The specified maximum compute size is invalid.',
                     ],
+                    'width' => [
+                        'over' => 'Image width must be at most {{value}} pixels.',
+                    ],
+                    'height' => [
+                        'over' => 'Image height must be at most {{value}} pixels.',
+                    ],
                     'format' => [
                         'invalid' => 'The value must be in the following format {{value}}.',
                     ],
