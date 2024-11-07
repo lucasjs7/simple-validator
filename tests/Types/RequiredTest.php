@@ -4,7 +4,7 @@ use Lucasjs7\SimpleValidator\Map;
 use Lucasjs7\SimpleValidator\Slice;
 use Lucasjs7\SimpleValidator\Struct;
 use Tests\Base;
-use Lucasjs7\SimpleValidator\Type\{_Bool, _Date, _Float, _Int, _Interface, _String};
+use Lucasjs7\SimpleValidator\Type\{_Bool, _Date, _Float, _Int, _Interface, _String, TypeParser};
 
 $listTests = [
     'Required#' . __LINE__ => [
@@ -278,6 +278,30 @@ $listTests = [
             'name3' => 'type: string',
         ]),
         'result' => false,
+        'dataResult' => false,
+    ],
+    'Required#' . __LINE__ => [
+        'test' => TypeParser::new('type: int'),
+        'value' => null,
+        'result' => true,
+        'dataResult' => false,
+    ],
+    'Required#' . __LINE__ => [
+        'test' => TypeParser::new('type: int | required'),
+        'value' => null,
+        'result' => false,
+        'dataResult' => false,
+    ],
+    'Required#' . __LINE__ => [
+        'test' => TypeParser::new('type: int | required: true'),
+        'value' => null,
+        'result' => false,
+        'dataResult' => false,
+    ],
+    'Required#' . __LINE__ => [
+        'test' => TypeParser::new('type: int | required: false'),
+        'value' => null,
+        'result' => true,
         'dataResult' => false,
     ],
 ];

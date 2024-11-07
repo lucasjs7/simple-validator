@@ -62,7 +62,9 @@ class TypeParser {
                     $options = array_map('trim', explode(',', $value));
                     $instance->{$key}(...$options);
                 } elseif ($value !== null) {
-                    $instance->{$key}($value);
+                    $vBool = filter_var($value, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE);
+                    $pValue = ($vBool !== null) ? $vBool : $value;
+                    $instance->{$key}($pValue);
                 } else {
                     $instance->{$key}();
                 }
