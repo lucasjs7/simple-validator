@@ -88,7 +88,7 @@ class TypeParser {
         }
     }
 
-    private static function checkOptions(
+    public static function checkOptions(
         string $value,
     ): array {
         $dataVal = explode('|', $value);
