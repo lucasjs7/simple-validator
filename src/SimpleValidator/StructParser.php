@@ -2,114 +2,133 @@
 
 namespace Lucasjs7\SimpleValidator;
 
-use Lucasjs7\SimpleValidator\Type\TypeParser;
+use Exception;
 use ReflectionClass;
 use ReflectionIntersectionType;
 use ReflectionMethod;
 use ReflectionUnionType;
+use Lucasjs7\SimpleValidator\Type\TypeParser;
+use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 class StructParser {
 
     public static function new(
         object|string $class,
-    ): Struct|false {
+    ): Struct {
 
-        $dataStruct = [];
+        try {
 
-        $rfMethod = new ReflectionMethod($class, '__construct');
-        $parameters = [];
+            $dataStruct = [];
 
-        foreach ($rfMethod->getParameters() as $param) {
-            $parameters[$param->name] = ['required' => (!$param->isOptional())];
-        }
+            $rfMethod = new ReflectionMethod($class, '__construct');
+            $parameters = [];
 
-        $rfClass = new ReflectionClass($class);
-
-        foreach ($rfClass->getProperties() as $prop) {
-
-            if (!key_exists($prop->name, $parameters)) {
-                continue;
+            foreach ($rfMethod->getParameters() as $param) {
+                $parameters[$param->name] = ['required' => (!$param->isOptional())];
             }
 
-            if (!$prop->hasType()) {
-                return false;
-            } elseif ($prop->getType() instanceof ReflectionUnionType) {
-                return false;
-            } elseif ($prop->getType() instanceof ReflectionIntersectionType) {
-                return false;
-            }
+            $rfClass = new ReflectionClass($class);
 
-            $type  = $prop->getType();
-            $tName = $type->getName();
+            foreach ($rfClass->getProperties() as $prop) {
 
-            $docValidate = null;
-            $parserRequired = null;
-            $parserType = null;
-
-            if (strpos($prop->getDocComment(), '@validate') !== false) {
-
-                preg_match('/@validate\s+(.*)$/m', $prop->getDocComment(), $mtDoc);
-
-                $docValidate = $mtDoc[1];
-
-                $dataOpt = TypeParser::checkOptions($docValidate);
-
-                if (key_exists('required', $dataOpt)) {
-                    $parserRequired = $dataOpt['required'] ?? true;
+                if (!key_exists($prop->name, $parameters)) {
+                    continue;
                 }
 
-                if (key_exists('type', $dataOpt)) {
+                if (!$prop->hasType()) {
+                    throw new Exception;
+                } elseif ($prop->getType() instanceof ReflectionUnionType) {
+                    throw new Exception;
+                } elseif ($prop->getType() instanceof ReflectionIntersectionType) {
+                    throw new Exception;
+                }
 
-                    $parserType = match ($dataOpt['type']) {
-                        'int'       => ($tName === 'int') ? 'int' : false,
-                        'float'     => ($tName === 'float') ? 'float' : false,
-                        'bool'      => ($tName === 'bool') ? 'bool' : false,
-                        'string'    => ($tName === 'string') ? 'string' : false,
-                        'date'      => ($tName === 'string') ? 'date' : false,
-                        'file'      => ($tName === 'array') ? 'file' : false,
-                        'image'     => ($tName === 'array') ? 'image' : false,
-                        'mixed'     => 'mixed',
-                        'interface' => 'interface',
-                        'callable'  => 'callable',
-                        default => false,
-                    };
+                $type  = $prop->getType();
+                $tName = $type->getName();
 
-                    if ($parserType === false) {
-                        return false;
+                $docValidate = null;
+                $parserRequired = null;
+                $parserType = null;
+
+                if (strpos($prop->getDocComment(), '@validate') !== false) {
+
+                    preg_match('/@validate\s+(.*)$/m', $prop->getDocComment(), $mtDoc);
+
+                    $docValidate = $mtDoc[1];
+
+                    $dataOpt = TypeParser::checkOptions($docValidate);
+
+                    if (key_exists('required', $dataOpt)) {
+                        $parserRequired = $dataOpt['required'] ?? true;
+                    }
+
+                    if (key_exists('type', $dataOpt)) {
+
+                        $parserType = match ($dataOpt['type']) {
+                            'int'       => ($tName === 'int') ? 'int' : false,
+                            'float'     => ($tName === 'float') ? 'float' : false,
+                            'bool'      => ($tName === 'bool') ? 'bool' : false,
+                            'string'    => ($tName === 'string') ? 'string' : false,
+                            'date'      => ($tName === 'string') ? 'date' : false,
+                            'file'      => ($tName === 'array') ? 'file' : false,
+                            'image'     => ($tName === 'array') ? 'image' : false,
+                            'mixed'     => 'mixed',
+                            'interface' => 'interface',
+                            'callable'  => 'callable',
+                            default => false,
+                        };
+
+                        if ($parserType === false) {
+                            throw new Exception;
+                        }
                     }
                 }
+
+                $validTypes = ['int', 'float', 'bool', 'string', 'mixed'];
+
+                if ($parserType === null && !in_array($tName, $validTypes)) {
+                    throw new Exception;
+                }
+
+                $isRequired  = $parameters[$prop->name]['required'];
+
+                if ($isRequired && ($parserRequired === false || $parserRequired === 'false')) {
+                    throw new Exception;
+                }
+
+                $strParser  = ($parserType === null) ? "type: $tName | $docValidate" : $docValidate;
+                $typeParser = TypeParser::new($strParser);
+
+                if ($typeParser === false) {
+                    throw new Exception;
+                }
+
+                if ($isRequired) {
+                    $typeParser->required();
+                }
+
+                $dataStruct[$prop->name] = $typeParser;
             }
 
-            $validTypes = ['int', 'float', 'bool', 'string', 'mixed'];
-
-            if ($parserType === null && !in_array($tName, $validTypes)) {
-                return false;
+            if (empty($dataStruct)) {
+                throw new Exception;
             }
 
-            $isRequired  = $parameters[$prop->name]['required'];
+            return Struct::new($dataStruct);
+        } catch (Exception $e) {
 
-            if ($isRequired && ($parserRequired === false || $parserRequired === 'false')) {
-                return false;
-            }
+            Core::exitError(
+                title: 'TypeParser',
+                message: Lng::get('implementation'),
+                exception: $e,
+                backtrace: true,
+            );
 
-            $strParser  = ($parserType === null) ? "type: $tName | $docValidate" : $docValidate;
-            $typeParser = TypeParser::new($strParser);
+            $typeError = new Struct([]);
 
-            if ($typeParser === false) {
-                return false;
-            }
+            $typeError->errorImplementation = true;
 
-            if ($isRequired) {
-                $typeParser->required();
-            }
-
-            $dataStruct[] = $typeParser;
+            return $typeError;
         }
-
-        if (empty($dataStruct)) {
-            return false;
-        }
-
-        return Struct::new($dataStruct);
     }
 }
