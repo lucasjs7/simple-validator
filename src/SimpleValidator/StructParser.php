@@ -24,7 +24,21 @@ class StructParser {
             $parameters = [];
 
             foreach ($rfMethod->getParameters() as $param) {
-                $parameters[$param->name] = ['required' => (!$param->isOptional())];
+
+                $attribute = $param->getAttributes(TypeParser::class);
+                $attrValue = null;
+
+                foreach ($attribute as $attr) {
+                    if ($attr->getName() === TypeParser::class) {
+                        $attrValue = key_exists(0, $attr->getArguments()) ? $attr->getArguments()[0] : '';
+                    }
+                }
+
+                $parameters[$param->name]['required'] = (!$param->isOptional());
+
+                if ($attrValue !== null) {
+                    $parameters[$param->name]['attribute'] = $attrValue;
+                }
             }
 
             $rfClass = new ReflectionClass($class);
@@ -50,7 +64,16 @@ class StructParser {
                 $parserRequired = null;
                 $parserType = null;
 
-                if (strpos($prop->getDocComment(), '@validate') !== false) {
+                $existsAttr       = isset($parameters[$prop->name]['attribute']);
+                $existsDocComment = (strpos($prop->getDocComment(), '@validate') !== false);
+
+                if ($existsAttr && $existsDocComment) {
+                    throw new Exception;
+                }
+
+                if ($existsAttr) {
+                    $docValidate = $parameters[$prop->name]['attribute'];
+                } elseif ($existsDocComment) {
 
                     preg_match('/@validate\s+(.*)$/m', $prop->getDocComment(), $mtDoc);
 

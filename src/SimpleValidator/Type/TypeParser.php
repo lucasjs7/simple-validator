@@ -2,10 +2,12 @@
 
 namespace Lucasjs7\SimpleValidator\Type;
 
+use Attribute;
 use Exception;
 use Lucasjs7\SimpleValidator\Core;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
+#[Attribute]
 class TypeParser {
 
     public static function new(
