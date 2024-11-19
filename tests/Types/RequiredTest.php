@@ -45,7 +45,7 @@ $listTests = [
     ],
     'Required#' . __LINE__ => [
         'test' => _Date::new()->required(),
-        'value' => '01-01-0001',
+        'value' => '0001-01-01',
         'result' => true,
         'dataResult' => true,
     ],
