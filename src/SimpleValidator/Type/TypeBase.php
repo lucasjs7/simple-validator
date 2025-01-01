@@ -138,7 +138,8 @@ abstract class TypeBase extends Core implements iTypeBase {
         }
 
         foreach ($listAttr as $k => $v) {
-            if ($v === null) {
+
+            if ($v === null || $k === 'callable') {
                 continue;
             }
 
