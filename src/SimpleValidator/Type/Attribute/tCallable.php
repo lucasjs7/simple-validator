@@ -40,9 +40,14 @@ trait tCallable {
         $isValid = ($callable($value) === true);
 
         if (!$isValid) {
-            throw new ValidatorException(
-                message: Lng::get('type.attribute.callable.invalid'),
-            );
+
+            $msgError = $this->getError();
+
+            if (empty($msgError)) {
+                $msgError = Lng::get('type.attribute.callable.invalid');
+            }
+
+            throw new ValidatorException(message: $msgError);
         };
     }
 }
