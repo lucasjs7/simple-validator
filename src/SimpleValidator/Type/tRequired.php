@@ -7,7 +7,7 @@ trait tRequired {
     public function required(
         bool $value = true,
     ): static {
-        $this->attr->required->setValue($value);
+        $this->getAttr()->required->setValue($value);
         return $this;
     }
 }

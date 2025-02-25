@@ -10,7 +10,7 @@ trait tMin {
     public function min(
         float $value,
     ): static {
-        $this->attr->min->setValue($value);
+        $this->getAttr()->min->setValue($value);
         return $this;
     }
 
@@ -18,20 +18,20 @@ trait tMin {
         mixed $value,
         string $type,
     ): void {
-        $minIsEmpty = static::isEmpty($this->attr->min->getValue());
+        $minIsEmpty = static::isEmpty($this->getAttr()->min->getValue());
 
         if ($minIsEmpty) {
             return;
         }
 
-        $maxIsEmpty = static::isEmpty($this->attr->max->getValue());
+        $maxIsEmpty = static::isEmpty($this->getAttr()->max->getValue());
 
-        if (!$maxIsEmpty && $this->attr->min->getValue() > $this->attr->max->getValue()) {
-            $this->attr->min->setError(true);
-            $this->attr->max->setError(true);
+        if (!$maxIsEmpty && $this->getAttr()->min->getValue() > $this->getAttr()->max->getValue()) {
+            $this->getAttr()->min->setError(true);
+            $this->getAttr()->max->setError(true);
 
             $this->attrError(
-                attr: $this->attr,
+                attr: $this->getAttr(),
                 errorMessage: Lng::get('type.attribute.min.greater'),
             );
 
@@ -39,8 +39,8 @@ trait tMin {
         }
 
         $isValid = match ($type) {
-            'int', 'float' => ($value >= $this->attr->min->getValue()),
-            'string'       => (mb_strlen($value) >= $this->attr->min->getValue()),
+            'int', 'float' => ($value >= $this->getAttr()->min->getValue()),
+            'string'       => (mb_strlen($value) >= $this->getAttr()->min->getValue()),
         };
 
         if (!$isValid) {
@@ -51,7 +51,7 @@ trait tMin {
             };
 
             throw new ValidatorException(
-                message: Lng::get($msgPath, ['value' => $this->attr->min->getValue()]),
+                message: Lng::get($msgPath, ['value' => $this->getAttr()->min->getValue()]),
             );
         };
     }

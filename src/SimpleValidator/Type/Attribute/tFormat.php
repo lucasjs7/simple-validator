@@ -11,7 +11,7 @@ trait tFormat {
     public function format(
         string $value,
     ): static {
-        $this->attr->format->setValue($value);
+        $this->getAttr()->format->setValue($value);
 
         return $this;
     }
@@ -19,11 +19,11 @@ trait tFormat {
     public function validateFormat(
         string $value,
     ): void {
-        if (static::isEmpty($this->attr->format->getValue())) {
+        if (static::isEmpty($this->getAttr()->format->getValue())) {
             return;
         }
 
-        $strFormat  = $this->attr->format->getValue();
+        $strFormat  = $this->getAttr()->format->getValue();
         $dateFormat = DateTime::createFromFormat($strFormat, $value);
 
         if ($dateFormat === false || $dateFormat->format($strFormat) != $value) {

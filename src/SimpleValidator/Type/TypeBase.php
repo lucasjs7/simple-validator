@@ -9,7 +9,7 @@ use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 abstract class TypeBase extends Core implements iTypeBase {
 
-    public readonly Attribute $attr;
+    protected Attribute $attr;
 
     public function __construct(
         ?string $label = null,
@@ -17,7 +17,25 @@ abstract class TypeBase extends Core implements iTypeBase {
         parent::__construct();
 
         $this->attr = new Attribute;
-        $this->attr->label->setValue($label);
+        $this->getAttr()->label->setValue($label);
+    }
+
+    public function getAttr(): Attribute {
+        return $this->attr;
+    }
+
+    public function __clone(): void {
+
+        $listProps = get_object_vars($this->getAttr());
+        $newAttr   = new Attribute;
+
+        foreach ($listProps as $kProp => $vProp) {
+            if ($vProp !== null && $vProp->getValue() !== null && method_exists($newAttr, $kProp)) {
+                $newAttr->{$kProp}($vProp->getValue());
+            }
+        }
+
+        $this->attr = $newAttr;
     }
 
     public function validate(
@@ -39,7 +57,7 @@ abstract class TypeBase extends Core implements iTypeBase {
 
             if ($isEmpty) {
 
-                if (!$this->attr->required->getValue()) {
+                if (!$this->getAttr()->required->getValue()) {
                     return true;
                 }
 
@@ -73,7 +91,7 @@ abstract class TypeBase extends Core implements iTypeBase {
 
             $this->setError(
                 message: $e->getMessage(),
-                label: $this->attr->label->getValue(),
+                label: $this->getAttr()->label->getValue(),
             );
             return false;
         }
@@ -83,14 +101,14 @@ abstract class TypeBase extends Core implements iTypeBase {
 
         if (!$this->checkAttributes()) {
 
-            foreach ($this->attr as $nameAttr => $attribute) {
+            foreach ($this->getAttr() as $nameAttr => $attribute) {
                 if ($nameAttr != 'required' && $attribute->getValue() !== null) {
                     $attribute->setError(true);
                 }
             }
 
             $this->attrError(
-                attr: $this->attr,
+                attr: $this->getAttr(),
                 errorMessage: Lng::get('type.type_base.conflict'),
             );
 
@@ -101,13 +119,13 @@ abstract class TypeBase extends Core implements iTypeBase {
     }
 
     protected function checkAttributes(): bool {
-        $emptyRegex    = self::isEmpty($this->attr->regex->getValue());
-        $emptyMax      = self::isEmpty($this->attr->max->getValue());
-        $emptyMin      = self::isEmpty($this->attr->min->getValue());
-        $emptyOptions  = self::isEmpty($this->attr->options->getValue());
-        $emptyFormat   = self::isEmpty($this->attr->format->getValue());
-        $emptyUnsigned = self::isEmpty($this->attr->unsigned->getValue());
-        $emptyCallable = self::isEmpty($this->attr->callable->getValue());
+        $emptyRegex    = self::isEmpty($this->getAttr()->regex->getValue());
+        $emptyMax      = self::isEmpty($this->getAttr()->max->getValue());
+        $emptyMin      = self::isEmpty($this->getAttr()->min->getValue());
+        $emptyOptions  = self::isEmpty($this->getAttr()->options->getValue());
+        $emptyFormat   = self::isEmpty($this->getAttr()->format->getValue());
+        $emptyUnsigned = self::isEmpty($this->getAttr()->unsigned->getValue());
+        $emptyCallable = self::isEmpty($this->getAttr()->callable->getValue());
 
         $countGroups = 0;
 
@@ -133,7 +151,7 @@ abstract class TypeBase extends Core implements iTypeBase {
         $class = trim(substr(static::class, strrpos(static::class, '\\') + 1), '_');
         $rtn[] = 'type: ' . strtolower($class);
 
-        foreach ($this->attr as $name => $value) {
+        foreach ($this->getAttr() as $name => $value) {
             $listAttr[$name] = $value->getValue();
         }
 
@@ -156,7 +174,7 @@ abstract class TypeBase extends Core implements iTypeBase {
     public function label(
         string $value,
     ): static {
-        $this->attr->label->setValue($value);
+        $this->getAttr()->label->setValue($value);
 
         return $this;
     }
@@ -170,7 +188,7 @@ abstract class TypeBase extends Core implements iTypeBase {
     public function required(
         bool $value = true,
     ): static {
-        $this->attr->required->setValue($value);
+        $this->getAttr()->required->setValue($value);
         return $this;
     }
 }

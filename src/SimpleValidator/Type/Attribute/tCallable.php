@@ -12,14 +12,14 @@ trait tCallable {
     public function function(
         callable $value,
     ): static {
-        $this->attr->callable->setValue($value);
+        $this->getAttr()->callable->setValue($value);
 
         return $this;
     }
 
     public function validateCallable(mixed $value): void {
 
-        $callable = $this->attr->callable->getValue();
+        $callable = $this->getAttr()->callable->getValue();
 
         if (!is_callable($callable)) {
             static::exitError(

@@ -10,7 +10,7 @@ trait tUnsigned {
     public function unsigned(
         bool $value = true,
     ): static {
-        $this->attr->unsigned->setValue($value);
+        $this->getAttr()->unsigned->setValue($value);
 
         return $this;
     }
@@ -18,7 +18,7 @@ trait tUnsigned {
     public function validateUnsigned(
         mixed $value,
     ): void {
-        if ($this->attr->unsigned->getValue() !== true) {
+        if ($this->getAttr()->unsigned->getValue() !== true) {
             return;
         }
 

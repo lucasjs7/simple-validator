@@ -10,7 +10,7 @@ trait tHeight {
     public function height(
         int $value,
     ): static {
-        $this->attr->height->setValue($value);
+        $this->getAttr()->height->setValue($value);
         return $this;
     }
 
@@ -18,17 +18,17 @@ trait tHeight {
         mixed $value,
     ): void {
 
-        if (static::isEmpty($this->attr->height->getValue())) {
+        if (static::isEmpty($this->getAttr()->height->getValue())) {
             return;
         }
 
         $imgSize = getimagesize($value['tmp_name']);
-        $isValid = (isset($imgSize[1]) && $imgSize[1] <= $this->attr->height->getValue());
+        $isValid = (isset($imgSize[1]) && $imgSize[1] <= $this->getAttr()->height->getValue());
 
         if (!$isValid) {
 
             throw new ValidatorException(
-                message: Lng::get('type.attribute.height.over', ['value' => $this->attr->height->getValue()]),
+                message: Lng::get('type.attribute.height.over', ['value' => $this->getAttr()->height->getValue()]),
             );
         };
     }

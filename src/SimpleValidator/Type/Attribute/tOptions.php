@@ -10,18 +10,18 @@ trait tOptions {
     public function options(
         string ...$values
     ): static {
-        $this->attr->options->setValue($values);
+        $this->getAttr()->options->setValue($values);
         return $this;
     }
 
     public function validateOptions(
         string $value,
     ): void {
-        if (static::isEmpty($this->attr->options->getValue())) {
+        if (static::isEmpty($this->getAttr()->options->getValue())) {
             return;
         }
 
-        $isValid = in_array($value, $this->attr->options->getValue());
+        $isValid = in_array($value, $this->getAttr()->options->getValue());
 
         if (!$isValid) {
             throw new ValidatorException(Lng::get('type.attribute.options.invalid'));

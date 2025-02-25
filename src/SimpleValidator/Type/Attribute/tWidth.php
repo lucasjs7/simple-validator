@@ -10,7 +10,7 @@ trait tWidth {
     public function width(
         int $value,
     ): static {
-        $this->attr->width->setValue($value);
+        $this->getAttr()->width->setValue($value);
         return $this;
     }
 
@@ -18,17 +18,17 @@ trait tWidth {
         mixed $value,
     ): void {
 
-        if (static::isEmpty($this->attr->width->getValue())) {
+        if (static::isEmpty($this->getAttr()->width->getValue())) {
             return;
         }
 
         $imgSize = getimagesize($value['tmp_name']);
-        $isValid = (isset($imgSize[0]) && $imgSize[0] <= $this->attr->width->getValue());
+        $isValid = (isset($imgSize[0]) && $imgSize[0] <= $this->getAttr()->width->getValue());
 
         if (!$isValid) {
 
             throw new ValidatorException(
-                message: Lng::get('type.attribute.width.over', ['value' => $this->attr->width->getValue()]),
+                message: Lng::get('type.attribute.width.over', ['value' => $this->getAttr()->width->getValue()]),
             );
         };
     }

@@ -13,14 +13,14 @@ trait tRegex {
 
         if (@preg_match($pattern, '') === false) {
             $this->attrError(
-                attr: $this->attr,
+                attr: $this->getAttr(),
                 errorMessage: Lng::get('type.attribute.regex.pattern'),
             );
 
             return $this;
         }
 
-        $this->attr->regex->setValue($pattern);
+        $this->getAttr()->regex->setValue($pattern);
 
         return $this;
     }
@@ -28,14 +28,14 @@ trait tRegex {
     public function validateRegex(
         mixed $value,
     ): void {
-        if (static::isEmpty($this->attr->regex->getValue())) {
+        if (static::isEmpty($this->getAttr()->regex->getValue())) {
             return;
         }
 
-        $isValid = preg_match($this->attr->regex->getValue(), $value);
+        $isValid = preg_match($this->getAttr()->regex->getValue(), $value);
 
         if ($isValid === 0) {
-            throw new ValidatorException(Lng::get('type.attribute.regex.invalid', ['value' => $this->attr->regex->getValue()]));
+            throw new ValidatorException(Lng::get('type.attribute.regex.invalid', ['value' => $this->getAttr()->regex->getValue()]));
         }
     }
 }

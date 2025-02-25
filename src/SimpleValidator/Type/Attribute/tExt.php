@@ -11,7 +11,7 @@ trait tExt {
         string ...$values
     ): static {
 
-        $this->attr->ext->setValue(array_map(function ($v) {
+        $this->getAttr()->ext->setValue(array_map(function ($v) {
             return trim($v, '.');
         }, $values));
 
@@ -22,12 +22,12 @@ trait tExt {
         array $value,
     ): void {
 
-        if (static::isEmpty($this->attr->ext->getValue())) {
+        if (static::isEmpty($this->getAttr()->ext->getValue())) {
             return;
         }
 
         $fileExt = substr($value['name'], (strrpos($value['name'], '.') + 1));
-        $isValid = in_array($fileExt, $this->attr->ext->getValue());
+        $isValid = in_array($fileExt, $this->getAttr()->ext->getValue());
 
         if (!$isValid) {
             throw new ValidatorException(Lng::get('type.attribute.ext.invalid'));

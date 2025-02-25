@@ -16,7 +16,7 @@ class _Callable extends TypeBase {
     ) {
         parent::__construct($label);
 
-        $this->attr->callable->setValue($callable);
+        $this->getAttr()->callable->setValue($callable);
     }
 
     public static function new(
@@ -49,7 +49,7 @@ class _Callable extends TypeBase {
     ) {
         $this->setError(
             message: $message,
-            label: $this->attr->label->getValue(),
+            label: $this->getAttr()->label->getValue(),
         );
     }
 }

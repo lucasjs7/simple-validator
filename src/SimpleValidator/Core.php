@@ -205,7 +205,7 @@ abstract class Core {
     public function isRequired(): bool {
 
         if ($this instanceof TypeBase) {
-            if ($this->attr->required->getValue()) {
+            if ($this->getAttr()->required->getValue()) {
                 return true;
             }
         } elseif ($this instanceof Struct) {

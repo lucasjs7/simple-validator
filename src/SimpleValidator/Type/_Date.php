@@ -15,8 +15,8 @@ class _Date extends TypeBase {
     public function __construct() {
         parent::__construct();
 
-        if ($this->attr->format->getValue() === null) {
-            $this->attr->format->setValue(static::$defaultFormat);
+        if ($this->getAttr()->format->getValue() === null) {
+            $this->getAttr()->format->setValue(static::$defaultFormat);
         }
     }
 

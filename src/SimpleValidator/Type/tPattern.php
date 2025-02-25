@@ -11,7 +11,7 @@ trait tPattern {
     public function save(
         string $name,
     ): void {
-        static::$patterns[$name] = $this;
+        static::$patterns[$name] = clone $this;
     }
 
     public static function pattern(

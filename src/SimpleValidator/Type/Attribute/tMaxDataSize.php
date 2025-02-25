@@ -16,14 +16,14 @@ trait tMaxDataSize {
 
         if ($dataSize === false) {
             $this->attrError(
-                attr: $this->attr,
+                attr: $this->getAttr(),
                 errorMessage: Lng::get('type.attribute.max_data_size.invalid'),
             );
 
             return $this;
         }
 
-        $this->attr->max->setValue($dataSize);
+        $this->getAttr()->max->setValue($dataSize);
 
         return $this;
     }
@@ -32,15 +32,15 @@ trait tMaxDataSize {
         mixed  $value,
     ): void {
 
-        if (static::isEmpty($this->attr->max->getValue())) {
+        if (static::isEmpty($this->getAttr()->max->getValue())) {
             return;
         }
 
-        $isValid = (key_exists('size', $value) && $value['size'] <= $this->attr->max->getValue());
+        $isValid = (key_exists('size', $value) && $value['size'] <= $this->getAttr()->max->getValue());
 
         if (!$isValid) {
             throw new ValidatorException(
-                message: Lng::get('type.attribute.max_data_size.over', ['size' => $this->attr->max->getValue()]),
+                message: Lng::get('type.attribute.max_data_size.over', ['size' => $this->getAttr()->max->getValue()]),
             );
         };
     }
