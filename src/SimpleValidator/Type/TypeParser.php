@@ -60,7 +60,7 @@ class TypeParser {
                     );
                 }
 
-                if ($key === 'options') {
+                if ($key === 'options' || $key === 'ext') {
                     $options = array_map('trim', explode(',', $value));
                     $instance->{$key}(...$options);
                 } elseif ($value !== null) {
