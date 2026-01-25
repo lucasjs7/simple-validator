@@ -96,7 +96,7 @@ try {
             'dataResult' => false,
         ],
         'testUpload#' . __LINE__ => [
-            'test' => _Image::new()->ext('.png', '.jpg'),
+            'test' => TypeParser::new('type: image | ext: png, jpg'),
             'value' => $_FILES['img'],
             'result' => true,
             'dataResult' => true,
