@@ -89,6 +89,7 @@ $validator = StructParser::new(UserDTO::class);
 
 - PHP 8.1 ou superior
 - Composer
+- Extensão BCMath
 
 <a id="installation-via-composer"></a>
 ### Instalação via Composer
