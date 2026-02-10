@@ -167,13 +167,13 @@ class Product {
     public function __construct(
         #[TypeParser('type: string | min: 3 | max: 200')]
         public string $name,
-        
+
         #[TypeParser('type: float | unsigned')]
         public float $price,
-        
+
         #[TypeParser('type: string | options: ativo, rascunho, arquivado')]
         public string $status,
-        
+
         #[TypeParser('type: string | max: 1000')]
         public ?string $description = null
     ) {}
@@ -193,17 +193,17 @@ class Product {
      * @validate type: string | min: 3 | max: 200
      */
     public string $name;
-    
+
     /**
      * @validate type: float | unsigned
      */
     public float $price;
-    
+
     /**
      * @validate type: string | options: ativo, rascunho, arquivado
      */
     public string $status;
-    
+
     public function __construct(
         string $name,
         float $price,

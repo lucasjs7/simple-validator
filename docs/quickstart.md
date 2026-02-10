@@ -60,10 +60,10 @@ $userData = [
 
 try {
     $validator->validate($userData);
-    
+
     // Validação passou! Continue com sua lógica...
     echo "Dados do usuário válidos!";
-    
+
 } catch (ValidatorException $e) {
     // Validação falhou
     echo "Erro de validação: " . $e->getMessage();
@@ -84,18 +84,18 @@ try {
     // Obter a mensagem de erro
     $message = $e->getMessage();
     // Exemplo: "O valor deve ter pelo menos 3 caracteres (caminho: name)."
-    
+
     // Obter o caminho do campo que falhou
     $errorPath = $e->getErrorPath();
     // Exemplo: ['name']
-    
+
     // Para estruturas aninhadas, o caminho mostra a localização completa
     // Exemplo: ['usuarios', 0, 'endereco', 'cep']
 }
 ```
 
 > **Dica:** Você também pode usar o método `debug()` durante o desenvolvimento para obter saída de erro detalhada:
-> 
+>
 > ```php
 > $e->debug(); // Imprime informações formatadas do erro e encerra execução
 > ```

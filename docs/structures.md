@@ -222,13 +222,13 @@ use Lucasjs7\SimpleValidator\Type\{_String, _Int, _Float, _Bool, _Date};
 $orderValidator = Struct::new([
     'id'         => _Int::new()->required(),
     'created_at' => _Date::new()->format('Y-m-d H:i:s')->required(),
-    
+
     'customer' => Struct::new([
         'name'  => _String::new()->min(2)->max(100)->required(),
         'email' => _String::new()->regex('/^[\w\.-]+@[\w\.-]+\.\w+$/')->required(),
         'phone' => _String::new()->regex('/^\+?[\d\s-]+$/'),
     ]),
-    
+
     'items' => Slice::new(
         Struct::new([
             'product_id'  => _Int::new()->required(),
@@ -241,7 +241,7 @@ $orderValidator = Struct::new([
             ),
         ])
     ),
-    
+
     'shipping' => Struct::new([
         'method'  => _String::new()->options('padrao', 'express', 'entrega_rapida')->required(),
         'address' => Struct::new([
@@ -252,7 +252,7 @@ $orderValidator = Struct::new([
             'country' => _String::new()->max(2)->required(),
         ]),
     ]),
-    
+
     'notes' => _String::new()->max(1000),
 ]);
 ```
