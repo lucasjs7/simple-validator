@@ -1,4 +1,15 @@
 {
+	"name": "lucasjs7/simple-validator",
+	"description": "SimpleValidator is a lightweight and flexible library for data validation in PHP using data structures like Struct, Map, and Slice.",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "lucasjs7",
+			"email": "lucasjs.developer@gmail.com",
+			"homepage": "https://github.com/lucasjs7",
+			"role": "Developer"
+		}
+	],
 	"autoload": {
 		"psr-4": {
 			"Lucasjs7\\": "src/"
@@ -12,7 +23,8 @@
 	},
 	"require": {
 		"lucasjs7/simple-cli-table": "^1.03",
-		"lucasjs7/convert-data-size": "^1.0"
+		"lucasjs7/convert-data-size": "^1.0",
+		"ext-bcmath": "*"
 	},
 	"require-dev": {
 		"pestphp/pest": "^2.34"
