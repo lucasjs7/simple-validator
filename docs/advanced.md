@@ -229,7 +229,7 @@ Por padrão, o método `validate()` lança uma `ValidatorException` quando a val
 use Lucasjs7\SimpleValidator\Struct;
 
 $validator = Struct::new([
-    'email' => 'type: string | required',
+    'email' => 'type: string | regex: /^[\w\.-]+@[\w\.-]+\.\w+$/ | required',
 ]);
 
 $data = ['email' => ''];
@@ -271,7 +271,7 @@ use Lucasjs7\SimpleValidator\Struct;
 
 $validator = Struct::new([
     'name'  => 'type: string | required',
-    'email' => 'type: string | max: 255',
+    'email' => 'type: string | regex: /^[\w\.-]+@[\w\.-]+\.\w+$/',
 ]);
 
 print_r($validator->info());
@@ -279,6 +279,6 @@ print_r($validator->info());
 // Array
 // (
 //     [name] => type: string | required: true
-//     [email] => type: string | max: 255
+//     [email] => type: string | regex: /^[\w\.-]+@[\w\.-]+\.\w+$/
 // )
 ```

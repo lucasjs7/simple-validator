@@ -34,14 +34,14 @@ use Lucasjs7\SimpleValidator\Type\_Int;
 
 $validator = Struct::new([
     'name'  => _String::new()->min(3)->max(100)->required(),
-    'email' => _String::new()->max(255)->required(),
+    'email' => _String::new()->regex('/^[\w\.-]+@[\w\.-]+\.\w+$/')->required(),
     'age'   => _Int::new()->min(18)->max(120)->required(),
 ]);
 ```
 
 Neste exemplo:
 - `name` deve ser uma string com entre 3 e 100 caracteres, e é obrigatório
-- `email` deve ser uma string com no máximo 255 caracteres, e é obrigatório
+- `email` deve ser um endereço de e-mail válido, e é obrigatório
 - `age` deve ser um inteiro entre 18 e 120, e é obrigatório
 
 <a id="validating-data"></a>

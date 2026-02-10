@@ -41,7 +41,7 @@ use Lucasjs7\SimpleValidator\Type\_Int;
 
 $userValidator = Struct::new([
     'name'     => _String::new()->min(2)->max(100)->required(),
-    'email'    => _String::new()->max(255)->required(),
+    'email' => _String::new()->regex('/^[\w\.-]+@[\w\.-]+\.\w+$/')->required(),
     'age'      => _Int::new()->min(0)->max(150),
     'nickname' => _String::new()->max(50),
 ]);
@@ -57,7 +57,7 @@ Você pode aninhar Structs para validar objetos dentro de objetos:
 ```php
 $userValidator = Struct::new([
     'name'    => _String::new()->required(),
-    'email'   => _String::new()->required(),
+    'email'   => _String::new()->regex('/^[\w\.-]+@[\w\.-]+\.\w+$/')->required(),
     'address' => Struct::new([
         'street'  => _String::new()->max(200)->required(),
         'city'    => _String::new()->max(100)->required(),
@@ -205,7 +205,7 @@ $usersMapValidator = Map::new(
     _String::new(),  // Chave: ID de usuário como string
     Struct::new([
         'name'  => _String::new()->required(),
-        'email' => _String::new()->required(),
+        'email' => _String::new()->regex('/^[\w\.-]+@[\w\.-]+\.\w+$/')->required(),
     ])
 );
 ```
@@ -225,7 +225,7 @@ $orderValidator = Struct::new([
     
     'customer' => Struct::new([
         'name'  => _String::new()->min(2)->max(100)->required(),
-        'email' => _String::new()->max(255)->required(),
+        'email' => _String::new()->regex('/^[\w\.-]+@[\w\.-]+\.\w+$/')->required(),
         'phone' => _String::new()->regex('/^\+?[\d\s-]+$/'),
     ]),
     
