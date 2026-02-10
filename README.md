@@ -1,55 +1,157 @@
 # SimpleValidator
 
-Uma biblioteca de validação de dados poderosa e expressiva para PHP.
+- [Conheça o SimpleValidator](#meet-simplevalidator)
+    - [Por que SimpleValidator?](#why-simplevalidator)
+- [Instalando o SimpleValidator](#installing-simplevalidator)
+    - [Requisitos](#requirements)
+    - [Instalação via Composer](#installation-via-composer)
+- [Configuração](#configuration)
+    - [Definindo o Idioma](#setting-the-language)
+    - [Modo Debug](#debug-mode)
+- [Próximos Passos](#next-steps)
+- [Licença](#license)
 
-## Documentação
+<a id="meet-simplevalidator"></a>
+## Conheça o SimpleValidator
 
-- **Começando**
-    - [Instalação](docs/installation.md)
-    - [Início Rápido (Quickstart)](docs/quickstart.md)
+SimpleValidator é uma biblioteca de validação de dados leve e flexível para PHP. Ela permite validar estruturas de dados complexas, como arrays aninhados, APIs JSON e formulários, usando uma sintaxe fluente expressiva ou definições baseadas em strings.
 
-- **Conceitos Principais**
-    - [Estruturas de Dados](docs/structures.md)
-    - [Tipos Disponíveis](docs/types.md)
-    - [Regras Disponíveis](docs/rules.md)
+Seja construindo um formulário de contato simples ou validando payloads de API complexos com objetos e arrays aninhados, o SimpleValidator fornece ferramentas poderosas para garantir que seus dados atendam aos requisitos da sua aplicação.
 
-- **Avançado**
-    - [Recursos Avançados](docs/advanced.md)
+<a id="why-simplevalidator"></a>
+### Por que SimpleValidator?
 
-## Exemplo Rápido
+Existem várias razões pelas quais o SimpleValidator pode ser a escolha certa para o seu projeto:
+
+#### Sintaxe Expressiva
+
+O SimpleValidator permite definir regras de validação de forma clara e legível. Você pode usar a API fluente com encadeamento de métodos ou uma sintaxe baseada em string fácil de armazenar e configurar:
 
 ```php
-use Lucasjs7\SimpleValidator\Struct;
-use Lucasjs7\SimpleValidator\Type\_String;
-use Lucasjs7\SimpleValidator\ValidatorException;
+// Sintaxe Fluente
+_String::new()->min(3)->max(100)->required()
 
-$validator = Struct::new([
-    'name'  => 'type: string | min: 3 | required',
-    'age'   => 'type: int | min: 18 | max: 120',
-    // Você pode misturar a sintaxe de string com objetos fluentes
-    'email' => _String::new()->regex('/^[\w\.-]+@[\w\.-]+\.\w+$/')->required(),
-]);
-
-$data = [
-    'name'  => 'John Doe',
-    'age'   => 25,
-    'email' => 'john@example.com',
-];
-
-try {
-    $validator->validate($data);
-    echo "Dados válidos!";
-} catch (ValidatorException $e) {
-    echo "Erro: " . $e->getMessage();
-}
+// Sintaxe String
+'type: string | min: 3 | max: 100 | required'
 ```
 
-## Instalação
+#### Estruturas de Dados Aninhadas
+
+Diferente de muitas bibliotecas de validação, o SimpleValidator foi construído desde o início para lidar com dados aninhados. Ele fornece três estruturas poderosas: `Struct`, `Slice` e `Map` que podem ser combinadas para validar qualquer formato de dado.
+
+```php
+use Lucasjs7\SimpleValidator\{Struct, Slice, Map};
+use Lucasjs7\SimpleValidator\Type\{_String, _Int};
+
+$validator = Struct::new([
+    // Struct: Objeto aninhado
+    'user' => Struct::new([
+        'name' => _String::new()->required(),
+    ]),
+
+    // Slice: Lista de strings
+    'tags' => Slice::new(
+        _String::new()->min(3)
+    ),
+
+    // Map: Chaves dinâmicas
+    'settings' => Map::new(
+        _String::new(), // Chave (string)
+        _Int::new()     // Valor (int)
+    ),
+]);
+```
+
+#### Cobertura Reflection
+
+O SimpleValidator pode criar validadores automaticamente a partir de suas classes PHP existentes usando Reflection. Não há necessidade de duplicar suas regras de validação - basta anotar os parâmetros do construtor ou propriedades.
+
+```php
+use Lucasjs7\SimpleValidator\StructParser;
+
+class UserDTO {
+    public function __construct(
+        public string $name,
+        public string $email,
+    ) {
+        // ...
+    }
+}
+
+$validator = StructParser::new(UserDTO::class);
+```
+
+<a id="installing-simplevalidator"></a>
+## Instalando o SimpleValidator
+
+<a id="requirements"></a>
+### Requisitos
+
+- PHP 8.1 ou superior
+- Composer
+
+<a id="installation-via-composer"></a>
+### Instalação via Composer
+
+Você pode instalar o SimpleValidator usando o Composer:
 
 ```bash
 composer require lucasjs7/simple-validator
 ```
 
+Isso instalará automaticamente as dependências necessárias:
+
+- `lucasjs7/simple-cli-table` - Para saída de erros formatada em modo debug
+- `lucasjs7/convert-data-size` - Para validação de tamanho de arquivo
+
+<a id="configuration"></a>
+## Configuração
+
+O SimpleValidator funciona "out of the box" com padrões sensatos, mas você pode personalizar seu comportamento.
+
+<a id="setting-the-language"></a>
+### Definindo o Idioma
+
+Por padrão, o SimpleValidator usa Inglês para mensagens de erro. Você pode alterar para Português:
+
+```php
+use Lucasjs7\SimpleValidator\Language\Language;
+use Lucasjs7\SimpleValidator\Language\eLanguage;
+
+// Definir idioma para Português (Brasil)
+Language::set(eLanguage::PT);
+
+// Definir idioma para Inglês (padrão)
+Language::set(eLanguage::EN);
+```
+
+<a id="debug-mode"></a>
+### Modo Debug
+
+Em produção, o SimpleValidator lança exceções com mensagens de erro limpas. Durante o desenvolvimento, você pode habilitar o modo debug para saída de erro detalhada com rastreamento (backtrace):
+
+```php
+use Lucasjs7\SimpleValidator\Core;
+use Lucasjs7\SimpleValidator\eMode;
+
+// Habilitar modo debug (mostra erros detalhados com backtrace)
+Core::$mode = eMode::DEBUG;
+
+// Modo produção (padrão - lança exceções limpas)
+Core::$mode = eMode::PRODUCTION;
+```
+
+<a id="next-steps"></a>
+## Próximos Passos
+
+Agora que você instalou o SimpleValidator, pode querer aprender mais sobre:
+
+- **[Início Rápido (Quickstart)](docs/quickstart.md)** - Aprenda o básico com exemplos completos
+- **[Estruturas de Dados](docs/structures.md)** - Entenda Struct, Slice e Map
+- **[Tipos Disponíveis](docs/types.md)** - Explore todos os tipos de validação
+- **[Regras Disponíveis](docs/rules.md)** - Saiba sobre regras como min, max, regex
+
+<a id="license"></a>
 ## Licença
 
 SimpleValidator é um software de código aberto licenciado sob a [licença MIT](LICENSE).
