@@ -103,15 +103,19 @@ try {
 <a id="optional-fields"></a>
 ## Uma Nota sobre Campos Opcionais
 
-Por padrão, todos os campos são **opcionais**. Se um campo não estiver presente nos dados de entrada e você não o marcou como `required()`, a validação passará:
+Por padrão todos os campos são **opcionais**. Se um campo não estiver presente nos dados de entrada, a validação passará.
+
+No entanto, se o campo for fornecido ele deverá obedecer às regras de validação.
 
 ```php
 $validator = Struct::new([
-    'nickname' => _String::new()->max(50), // Campo opcional
+    'nickname' => _String::new()->max(6),
 ]);
 
-// Isso passa porque nickname é opcional
-$validator->validate([]);
+$validator->validate([]); // Válido
+$validator->validate(['nickname' => 'Name']); // Válido
+$validator->validate(['nickname' => null]); // Inválido
+$validator->validate(['nickname' => 'TooLongName']); // Inválido
 ```
 
 Para tornar um campo obrigatório, use o método `required()`:
