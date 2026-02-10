@@ -107,7 +107,7 @@ Core::$mode = eMode::PRODUCTION;
 
 Agora que você instalou o SimpleValidator, pode querer aprender mais sobre:
 
-- **[Início Rápido (Quickstart)](/docs/quickstart.md)** - Aprenda o básico com exemplos completos
-- **[Estruturas de Dados](/docs/structures.md)** - Entenda Struct, Slice e Map
-- **[Tipos Disponíveis](/docs/types.md)** - Explore todos os tipos de validação
-- **[Regras Disponíveis](/docs/rules.md)** - Saiba sobre regras como min, max, regex
+- **[Início Rápido (Quickstart)](quickstart.md)** - Aprenda o básico com exemplos completos
+- **[Estruturas de Dados](structures.md)** - Entenda Struct, Slice e Map
+- **[Tipos Disponíveis](types.md)** - Explore todos os tipos de validação
+- **[Regras Disponíveis](rules.md)** - Saiba sobre regras como min, max, regex
