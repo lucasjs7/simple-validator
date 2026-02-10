@@ -38,9 +38,45 @@ _String::new()->min(3)->max(100)->required()
 
 Diferente de muitas bibliotecas de validação, o SimpleValidator foi construído desde o início para lidar com dados aninhados. Ele fornece três estruturas poderosas: `Struct`, `Slice` e `Map` que podem ser combinadas para validar qualquer formato de dado.
 
+```php
+use Lucasjs7\SimpleValidator\{Struct, Slice, Map};
+use Lucasjs7\SimpleValidator\Type\{_String, _Int};
+
+$validator = Struct::new([
+    // Struct: Objeto aninhado
+    'user' => Struct::new([
+        'name' => _String::new()->required(),
+    ]),
+
+    // Slice: Lista de strings
+    'tags' => Slice::new(
+        _String::new()->min(3)
+    ),
+
+    // Map: Chaves dinâmicas
+    'settings' => Map::new(
+        _String::new(), // Chave (string)
+        _Int::new()     // Valor (int)
+    ),
+]);
+```
+
 #### Cobertura Reflection
 
 O SimpleValidator pode criar validadores automaticamente a partir de suas classes PHP existentes usando Reflection. Não há necessidade de duplicar suas regras de validação - basta anotar os parâmetros do construtor ou propriedades.
+
+```php
+use Lucasjs7\SimpleValidator\StructParser;
+
+class UserDTO {
+    public function __construct(
+        public string $name,
+        public string $email,
+    ) {}
+}
+
+$validator = StructParser::new(UserDTO::class);
+```
 
 <a id="installing-simplevalidator"></a>
 ## Instalando o SimpleValidator
