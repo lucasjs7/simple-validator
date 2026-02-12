@@ -3,7 +3,7 @@ description: >-
   Uma biblioteca de validação PHP leve e fluente, que abrange estruturas de
   dados aninhadas (Struct, Slice, Map) e validação baseada em reflexão
   (reflection).
-icon: rabbit-running
+icon: sparkle
 layout:
   width: default
   title:
@@ -22,7 +22,7 @@ layout:
     visible: true
 ---
 
-# Início Rápido
+# Primeiros Passos
 
 ### Conheça o SimpleValidator
 
