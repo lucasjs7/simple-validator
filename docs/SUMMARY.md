@@ -1,4 +1,4 @@
 # Table of contents
 
-* [Primeiros Passos](README.md)
-* [Início Rápido](inicio-rapido.md)
+* [Primeiros Passos](getting-started.md)
+* [Início Rápido](quickstart.md)
