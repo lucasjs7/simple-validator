@@ -14,3 +14,7 @@
 * [Images & media](basics/images-and-media.md)
 * [Interactive blocks](basics/interactive-blocks.md)
 * [Integrations](basics/integrations.md)
+
+***
+
+* [Início Rápido](inicio-rapido.md)
