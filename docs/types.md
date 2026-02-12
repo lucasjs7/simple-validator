@@ -2,7 +2,7 @@
 description: >-
   O SimpleValidator oferece uma variedade de tipos para validação de dados:
   String, Int, Float, Bool, Date, File, Image, Mixed, etc.
-icon: cubes
+icon: list-check
 layout:
   width: default
   title:
@@ -29,12 +29,12 @@ O SimpleValidator fornece uma variedade de tipos para validar diferentes tipos d
 
 Todos os tipos compartilham alguns métodos comuns:
 
-| Método | Descrição |
-| :--- | :--- |
-| `new(?string $label)` | Cria uma nova instância com um label opcional para mensagens de erro |
-| `required(bool $value = true)` | Torna o campo obrigatório |
-| `label(string $value)` | Define um nome legível para mensagens de erro |
-| `info()` | Retorna uma representação em string das regras de validação |
+| Método                         | Descrição                                                            |
+| ------------------------------ | -------------------------------------------------------------------- |
+| `new(?string $label)`          | Cria uma nova instância com um label opcional para mensagens de erro |
+| `required(bool $value = true)` | Torna o campo obrigatório                                            |
+| `label(string $value)`         | Define um nome legível para mensagens de erro                        |
+| `info()`                       | Retorna uma representação em string das regras de validação          |
 
 ### Tipos String
 
@@ -52,12 +52,12 @@ $validator = _String::new();
 
 **Regras Disponíveis**
 
-| Método | Descrição | Exemplo |
-| :--- | :--- | :--- |
-| `min(int $length)` | Comprimento mínimo de caracteres | `->min(3)` |
-| `max(int $length)` | Comprimento máximo de caracteres | `->max(100)` |
-| `options(string ...$values)` | O valor deve ser uma das opções fornecidas | `->options('ativo', 'inativo')` |
-| `regex(string $pattern)` | O valor deve corresponder à expressão regular | `->regex('/^[a-z]+$/')` |
+| Método                       | Descrição                                     | Exemplo                         |
+| ---------------------------- | --------------------------------------------- | ------------------------------- |
+| `min(int $length)`           | Comprimento mínimo de caracteres              | `->min(3)`                      |
+| `max(int $length)`           | Comprimento máximo de caracteres              | `->max(100)`                    |
+| `options(string ...$values)` | O valor deve ser uma das opções fornecidas    | `->options('ativo', 'inativo')` |
+| `regex(string $pattern)`     | O valor deve corresponder à expressão regular | `->regex('/^[a-z]+$/')`         |
 
 **Exemplos**
 
@@ -96,11 +96,11 @@ $validator = _Int::new();
 
 **Regras Disponíveis**
 
-| Método | Descrição | Exemplo |
-| :--- | :--- | :--- |
-| `min(int $value)` | Valor numérico mínimo | `->min(0)` |
-| `max(int $value)` | Valor numérico máximo | `->max(100)` |
-| `unsigned()` | O valor deve ser positivo (> 0) | `->unsigned()` |
+| Método            | Descrição                       | Exemplo        |
+| ----------------- | ------------------------------- | -------------- |
+| `min(int $value)` | Valor numérico mínimo           | `->min(0)`     |
+| `max(int $value)` | Valor numérico máximo           | `->max(100)`   |
+| `unsigned()`      | O valor deve ser positivo (> 0) | `->unsigned()` |
 
 **Exemplos**
 
@@ -138,11 +138,11 @@ $validator = _Float::new();
 
 **Regras Disponíveis**
 
-| Método | Descrição | Exemplo |
-| :--- | :--- | :--- |
-| `min(float $value)` | Valor numérico mínimo | `->min(0.0)` |
-| `max(float $value)` | Valor numérico máximo | `->max(99.99)` |
-| `unsigned()` | O valor deve ser positivo (> 0) | `->unsigned()` |
+| Método              | Descrição                       | Exemplo        |
+| ------------------- | ------------------------------- | -------------- |
+| `min(float $value)` | Valor numérico mínimo           | `->min(0.0)`   |
+| `max(float $value)` | Valor numérico máximo           | `->max(99.99)` |
+| `unsigned()`        | O valor deve ser positivo (> 0) | `->unsigned()` |
 
 **Exemplos**
 
@@ -207,8 +207,8 @@ $validator = _Date::new();
 
 **Regras Disponíveis**
 
-| Método | Descrição | Exemplo |
-| :--- | :--- | :--- |
+| Método                   | Descrição                                   | Exemplo             |
+| ------------------------ | ------------------------------------------- | ------------------- |
 | `format(string $format)` | Formato de data esperado (formato PHP date) | `->format('Y-m-d')` |
 
 O formato padrão é `Y-m-d`.
@@ -249,10 +249,10 @@ $validator = _File::new();
 
 **Regras Disponíveis**
 
-| Método | Descrição | Exemplo |
-| :--- | :--- | :--- |
+| Método                       | Descrição                       | Exemplo                |
+| ---------------------------- | ------------------------------- | ---------------------- |
 | `ext(string ...$extensions)` | Extensões de arquivo permitidas | `->ext('pdf', 'docx')` |
-| `max(string $size)` | Tamanho máximo do arquivo | `->max('5MB')` |
+| `max(string $size)`          | Tamanho máximo do arquivo       | `->max('5MB')`         |
 
 **Exemplos**
 
@@ -289,10 +289,10 @@ $validator = _Image::new();
 
 Herda todas as regras de `_File`, mais:
 
-| Método | Descrição | Exemplo |
-| :--- | :--- | :--- |
-| `width(int $maxWidth)` | Largura máxima em pixels | `->width(1920)` |
-| `height(int $maxHeight)` | Altura máxima em pixels | `->height(1080)` |
+| Método                   | Descrição                | Exemplo          |
+| ------------------------ | ------------------------ | ---------------- |
+| `width(int $maxWidth)`   | Largura máxima em pixels | `->width(1920)`  |
+| `height(int $maxHeight)` | Altura máxima em pixels  | `->height(1080)` |
 
 **Exemplos**
 
@@ -386,9 +386,9 @@ $emailDomainValidator = _Callable::new('Email Corporativo')
 
 **Como Funciona**
 
-- O callable recebe o valor a ser validado
-- A função é vinculada à instância de `_Callable`, então você pode usar `$this->error()` para definir mensagens de erro personalizadas
-- Retorna `true` para válido, `false` para inválido
+* O callable recebe o valor a ser validado
+* A função é vinculada à instância de `_Callable`, então você pode usar `$this->error()` para definir mensagens de erro personalizadas
+* Retorna `true` para válido, `false` para inválido
 
 **Exemplos**
 

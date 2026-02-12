@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Primeiros Passos](getting-started.md)
+* [Primeiros Passos](README.md)
 * [Início Rápido](quickstart.md)
 * [Estruturas de Dados](structures.md)
 * [Tipos Disponíveis](types.md)

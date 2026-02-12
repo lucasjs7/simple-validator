@@ -2,7 +2,7 @@
 description: >-
   Recursos avançados: Padrões reutilizáveis, Validação baseada em Reflection,
   Type Parser, e Validação sem exceções.
-icon: star
+icon: gear-complex
 layout:
   width: default
   title:

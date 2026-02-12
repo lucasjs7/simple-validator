@@ -2,7 +2,7 @@
 description: >-
   O SimpleValidator oferece três estruturas poderosas para validar dados
   complexos: Struct, Slice e Map.
-icon: layers
+icon: cubes
 layout:
   width: default
   title:
@@ -27,11 +27,11 @@ layout:
 
 O SimpleValidator oferece três estruturas poderosas para validar dados complexos:
 
-| Estrutura | Descrição | Caso de Uso |
-| :--- | :--- | :--- |
-| **Struct** | Valida objetos com chaves conhecidas | Formulários, corpos de requisição API |
-| **Slice** | Valida arrays indexados onde todos os itens seguem as mesmas regras | Listas de produtos, tags, IDs |
-| **Map** | Valida pares chave-valor com chaves dinâmicas | Metadados, configurações, traduções |
+| Estrutura  | Descrição                                                           | Caso de Uso                           |
+| ---------- | ------------------------------------------------------------------- | ------------------------------------- |
+| **Struct** | Valida objetos com chaves conhecidas                                | Formulários, corpos de requisição API |
+| **Slice**  | Valida arrays indexados onde todos os itens seguem as mesmas regras | Listas de produtos, tags, IDs         |
+| **Map**    | Valida pares chave-valor com chaves dinâmicas                       | Metadados, configurações, traduções   |
 
 Essas estruturas podem ser aninhadas arbitrariamente para validar qualquer formato de dado que sua aplicação precisar.
 

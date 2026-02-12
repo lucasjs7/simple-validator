@@ -2,7 +2,7 @@
 description: >-
   Regras são métodos que adicionam restrições aos tipos: required, min, max,
   regex, etc.
-icon: list-check
+icon: octagon-check
 layout:
   width: default
   title:
@@ -69,11 +69,13 @@ _String::new()->label('Nome Completo')  // Via método
 {% endcode %}
 
 **Sem label:**
+
 ```
 O valor é obrigatório (caminho: nome_completo).
 ```
 
 **Com label:**
+
 ```
 O campo 'Nome Completo' é obrigatório.
 ```
@@ -84,9 +86,9 @@ O campo 'Nome Completo' é obrigatório.
 
 A regra `min` define uma restrição mínima. Seu comportamento depende do tipo:
 
-| Tipo | Comportamento |
-| :--- | :--- |
-| `_String` | Mínimo de caracteres |
+| Tipo             | Comportamento         |
+| ---------------- | --------------------- |
+| `_String`        | Mínimo de caracteres  |
 | `_Int`, `_Float` | Valor numérico mínimo |
 
 {% code title="Regra min" %}
@@ -109,10 +111,10 @@ _Float::new()->min(0.0)
 
 A regra `max` define uma restrição máxima. Seu comportamento depende do tipo:
 
-| Tipo | Comportamento |
-| :--- | :--- |
-| `_String` | Máximo de caracteres |
-| `_Int`, `_Float` | Valor numérico máximo |
+| Tipo              | Comportamento                                       |
+| ----------------- | --------------------------------------------------- |
+| `_String`         | Máximo de caracteres                                |
+| `_Int`, `_Float`  | Valor numérico máximo                               |
 | `_File`, `_Image` | Tamanho máximo do arquivo (como string ex: `'5MB'`) |
 
 {% code title="Regra max" %}
@@ -233,13 +235,13 @@ _Date::new()->format('Y-m-d H:i:s')
 
 **Formatos Comuns**
 
-| Formato | Exemplo | Descrição |
-| :--- | :--- | :--- |
-| `Y-m-d` | 2024-12-25 | Data ISO (padrão) |
-| `d/m/Y` | 25/12/2024 | Brasileiro/Europeu |
-| `m/d/Y` | 12/25/2024 | Americano |
-| `Y-m-d H:i:s` | 2024-12-25 14:30:00 | Datetime |
-| `d-m-Y` | 25-12-2024 | Traços |
+| Formato       | Exemplo             | Descrição          |
+| ------------- | ------------------- | ------------------ |
+| `Y-m-d`       | 2024-12-25          | Data ISO (padrão)  |
+| `d/m/Y`       | 25/12/2024          | Brasileiro/Europeu |
+| `m/d/Y`       | 12/25/2024          | Americano          |
+| `Y-m-d H:i:s` | 2024-12-25 14:30:00 | Datetime           |
+| `d-m-Y`       | 25-12-2024          | Traços             |
 
 ### Regras de Arquivo
 
@@ -305,41 +307,41 @@ Regras são definidas como uma string delimitada por pipe:
 type: <tipo> | regra: valor | regra: valor | flag
 ```
 
-- `type` é sempre obrigatório primeiro
-- Regras com valores usam o formato `regra: valor`
-- Flags (como `required` ou `unsigned`) não precisam de valor
+* `type` é sempre obrigatório primeiro
+* Regras com valores usam o formato `regra: valor`
+* Flags (como `required` ou `unsigned`) não precisam de valor
 
 #### Tipos Disponíveis
 
-| String do Tipo | Classe |
-| :--- | :--- |
-| `string` | `_String` |
-| `int` | `_Int` |
-| `float` | `_Float` |
-| `bool` | `_Bool` |
-| `date` | `_Date` |
-| `file` | `_File` |
-| `image` | `_Image` |
-| `mixed` | `_Mixed` |
-| `interface` | `_Interface` |
-| `callable` | `_Callable` |
+| String do Tipo | Classe       |
+| -------------- | ------------ |
+| `string`       | `_String`    |
+| `int`          | `_Int`       |
+| `float`        | `_Float`     |
+| `bool`         | `_Bool`      |
+| `date`         | `_Date`      |
+| `file`         | `_File`      |
+| `image`        | `_Image`     |
+| `mixed`        | `_Mixed`     |
+| `interface`    | `_Interface` |
+| `callable`     | `_Callable`  |
 
 #### Regras Disponíveis em Sintaxe String
 
-| Regra | Exemplo |
-| :--- | :--- |
-| `required` | `required` |
-| `label` | `label: Nome Completo` |
-| `min` | `min: 3` |
-| `max` | `max: 100` |
-| `unsigned` | `unsigned` |
-| `options` | `options: a, b, c` |
-| `regex` | `regex: /^[a-z]+$/` |
-| `format` | `format: Y-m-d` |
-| `pattern` | `pattern: meuPadrao` |
-| `ext` | `ext: jpg, png, pdf` |
-| `width` | `width: 1920` |
-| `height` | `height: 1080` |
+| Regra      | Exemplo                |
+| ---------- | ---------------------- |
+| `required` | `required`             |
+| `label`    | `label: Nome Completo` |
+| `min`      | `min: 3`               |
+| `max`      | `max: 100`             |
+| `unsigned` | `unsigned`             |
+| `options`  | `options: a, b, c`     |
+| `regex`    | `regex: /^[a-z]+$/`    |
+| `format`   | `format: Y-m-d`        |
+| `pattern`  | `pattern: meuPadrao`   |
+| `ext`      | `ext: jpg, png, pdf`   |
+| `width`    | `width: 1920`          |
+| `height`   | `height: 1080`         |
 
 #### Exemplos
 
