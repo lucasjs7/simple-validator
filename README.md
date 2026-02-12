@@ -1,14 +1,14 @@
-# Início Rápido (Quickstart)
+# SimpleValidator
 
-Uma biblioteca de validação PHP leve e fluente, que abrange estruturas de dados aninhadas (Struct, Slice, Map) e validação baseada em reflexão (reflection).
+A lightweight, fluent PHP validation library embracing nested data structures (Struct, Slice, Map) and reflection-based validation.
 
-### Documentação
+### Documentation
 
-Para obter informações detalhadas sobre o uso e exemplos, acesse a documentação oficial:
+For detailed information on usage and examples, visit the official documentation:
 
 [ljs.gitbook.io/simplevalidator/](https://ljs.gitbook.io/simplevalidator/)
 
 <a id="license"></a>
-## Licença
+## License
 
-SimpleValidator é um software de código aberto licenciado sob a [licença MIT](LICENSE).
+SimpleValidator is open-sourced software licensed under the [MIT license](LICENSE).
