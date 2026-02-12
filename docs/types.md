@@ -1,62 +1,67 @@
+---
+description: >-
+  O SimpleValidator oferece uma variedade de tipos para validação de dados:
+  String, Int, Float, Bool, Date, File, Image, Mixed, etc.
+icon: list-check
+layout:
+  width: default
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
+  tags:
+    visible: true
+---
+
 # Tipos Disponíveis
 
-- [Introdução](#introduction)
-- [Tipos String](#string-types)
-    - [String](#type-string)
-- [Tipos Numéricos](#numeric-types)
-    - [Int](#type-int)
-    - [Float](#type-float)
-- [Tipos Booleanos](#boolean-types)
-    - [Bool](#type-bool)
-- [Tipos de Data](#date-types)
-    - [Date](#type-date)
-- [Tipos de Arquivo](#file-types)
-    - [File](#type-file)
-    - [Image](#type-image)
-- [Tipos Especiais](#special-types)
-    - [Mixed](#type-mixed)
-    - [Interface](#type-interface)
-    - [Callable](#type-callable)
-
-<a id="introduction"></a>
-## Introdução
+### Introdução
 
 O SimpleValidator fornece uma variedade de tipos para validar diferentes tipos de dados. Cada tipo é uma classe no namespace `Lucasjs7\SimpleValidator\Type`.
 
 Todos os tipos compartilham alguns métodos comuns:
 
-| Método | Descrição |
-|--------|-----------|
-| `new(?string $label)` | Cria uma nova instância com um label opcional para mensagens de erro |
-| `required(bool $value = true)` | Torna o campo obrigatório |
-| `label(string $value)` | Define um nome legível para mensagens de erro |
-| `info()` | Retorna uma representação em string das regras de validação |
+| Método                         | Descrição                                                            |
+| ------------------------------ | -------------------------------------------------------------------- |
+| `new(?string $label)`          | Cria uma nova instância com um label opcional para mensagens de erro |
+| `required(bool $value = true)` | Torna o campo obrigatório                                            |
+| `label(string $value)`         | Define um nome legível para mensagens de erro                        |
+| `info()`                       | Retorna uma representação em string das regras de validação          |
 
-<a id="string-types"></a>
-## Tipos String
+### Tipos String
 
-<a id="type-string"></a>
-### String
+#### String
 
 O tipo `_String` valida se um valor é uma string.
 
+{% code title="Definindo String" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_String;
 
 $validator = _String::new();
 ```
+{% endcode %}
 
-#### Regras Disponíveis
+**Regras Disponíveis**
 
-| Método | Descrição | Exemplo |
-|--------|-----------|---------|
-| `min(int $length)` | Comprimento mínimo de caracteres | `->min(3)` |
-| `max(int $length)` | Comprimento máximo de caracteres | `->max(100)` |
-| `options(string ...$values)` | O valor deve ser uma das opções fornecidas | `->options('ativo', 'inativo')` |
-| `regex(string $pattern)` | O valor deve corresponder à expressão regular | `->regex('/^[a-z]+$/')` |
+| Método                       | Descrição                                     | Exemplo                         |
+| ---------------------------- | --------------------------------------------- | ------------------------------- |
+| `min(int $length)`           | Comprimento mínimo de caracteres              | `->min(3)`                      |
+| `max(int $length)`           | Comprimento máximo de caracteres              | `->max(100)`                    |
+| `options(string ...$values)` | O valor deve ser uma das opções fornecidas    | `->options('ativo', 'inativo')` |
+| `regex(string $pattern)`     | O valor deve corresponder à expressão regular | `->regex('/^[a-z]+$/')`         |
 
-#### Exemplos
+**Exemplos**
 
+{% code title="Exemplos de String" %}
 ```php
 // Nome de usuário: 3-20 caracteres alfanuméricos
 $username = _String::new('Usuário')
@@ -73,31 +78,33 @@ $status = _String::new()
 // Bio: opcional, máx 500 caracteres
 $bio = _String::new()->max(500);
 ```
+{% endcode %}
 
-<a id="numeric-types"></a>
-## Tipos Numéricos
+### Tipos Numéricos
 
-<a id="type-int"></a>
-### Int
+#### Int
 
 O tipo `_Int` valida se um valor é um número inteiro.
 
+{% code title="Definindo Int" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Int;
 
 $validator = _Int::new();
 ```
+{% endcode %}
 
-#### Regras Disponíveis
+**Regras Disponíveis**
 
-| Método | Descrição | Exemplo |
-|--------|-----------|---------|
-| `min(int $value)` | Valor numérico mínimo | `->min(0)` |
-| `max(int $value)` | Valor numérico máximo | `->max(100)` |
-| `unsigned()` | O valor deve ser positivo (> 0) | `->unsigned()` |
+| Método            | Descrição                       | Exemplo        |
+| ----------------- | ------------------------------- | -------------- |
+| `min(int $value)` | Valor numérico mínimo           | `->min(0)`     |
+| `max(int $value)` | Valor numérico máximo           | `->max(100)`   |
+| `unsigned()`      | O valor deve ser positivo (> 0) | `->unsigned()` |
 
-#### Exemplos
+**Exemplos**
 
+{% code title="Exemplos de Int" %}
 ```php
 // Idade: 0 a 150
 $age = _Int::new('Idade')
@@ -115,28 +122,31 @@ $score = _Int::new()
     ->min(-100)
     ->max(100);
 ```
+{% endcode %}
 
-<a id="type-float"></a>
-### Float
+#### Float
 
 O tipo `_Float` valida se um valor é um número de ponto flutuante.
 
+{% code title="Definindo Float" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Float;
 
 $validator = _Float::new();
 ```
+{% endcode %}
 
-#### Regras Disponíveis
+**Regras Disponíveis**
 
-| Método | Descrição | Exemplo |
-|--------|-----------|---------|
-| `min(float $value)` | Valor numérico mínimo | `->min(0.0)` |
-| `max(float $value)` | Valor numérico máximo | `->max(99.99)` |
-| `unsigned()` | O valor deve ser positivo (> 0) | `->unsigned()` |
+| Método              | Descrição                       | Exemplo        |
+| ------------------- | ------------------------------- | -------------- |
+| `min(float $value)` | Valor numérico mínimo           | `->min(0.0)`   |
+| `max(float $value)` | Valor numérico máximo           | `->max(99.99)` |
+| `unsigned()`        | O valor deve ser positivo (> 0) | `->unsigned()` |
 
-#### Exemplos
+**Exemplos**
 
+{% code title="Exemplos de Float" %}
 ```php
 // Preço: número positivo
 $price = _Float::new('Preço')
@@ -153,23 +163,25 @@ $temperature = _Float::new()
     ->min(-50.0)
     ->max(50.0);
 ```
+{% endcode %}
 
-<a id="boolean-types"></a>
-## Tipos Booleanos
+### Tipos Booleanos
 
-<a id="type-bool"></a>
-### Bool
+#### Bool
 
 O tipo `_Bool` valida se um valor é booleano.
 
+{% code title="Definindo Bool" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Bool;
 
 $validator = _Bool::new();
 ```
+{% endcode %}
 
-#### Exemplos
+**Exemplos**
 
+{% code title="Exemplos de Bool" %}
 ```php
 // Flag Ativo
 $isActive = _Bool::new('Ativo')->required();
@@ -177,31 +189,33 @@ $isActive = _Bool::new('Ativo')->required();
 // Inscrição na newsletter (opcional)
 $newsletter = _Bool::new();
 ```
+{% endcode %}
 
-<a id="date-types"></a>
-## Tipos de Data
+### Tipos de Data
 
-<a id="type-date"></a>
-### Date
+#### Date
 
 O tipo `_Date` valida se um valor é uma string correspondente a um formato de data.
 
+{% code title="Definindo Date" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Date;
 
 $validator = _Date::new();
 ```
+{% endcode %}
 
-#### Regras Disponíveis
+**Regras Disponíveis**
 
-| Método | Descrição | Exemplo |
-|--------|-----------|---------|
+| Método                   | Descrição                                   | Exemplo             |
+| ------------------------ | ------------------------------------------- | ------------------- |
 | `format(string $format)` | Formato de data esperado (formato PHP date) | `->format('Y-m-d')` |
 
 O formato padrão é `Y-m-d`.
 
-#### Exemplos
+**Exemplos**
 
+{% code title="Exemplos de Date" %}
 ```php
 // Data de nascimento: formato YYYY-MM-DD
 $birthDate = _Date::new('Data de Nascimento')
@@ -217,30 +231,32 @@ $createdAt = _Date::new()
 $brDate = _Date::new()
     ->format('d/m/Y');
 ```
+{% endcode %}
 
-<a id="file-types"></a>
-## Tipos de Arquivo
+### Tipos de Arquivo
 
-<a id="type-file"></a>
-### File
+#### File
 
 O tipo `_File` valida arquivos enviados (espera o formato `$_FILES` do PHP).
 
+{% code title="Definindo File" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_File;
 
 $validator = _File::new();
 ```
+{% endcode %}
 
-#### Regras Disponíveis
+**Regras Disponíveis**
 
-| Método | Descrição | Exemplo |
-|--------|-----------|---------|
+| Método                       | Descrição                       | Exemplo                |
+| ---------------------------- | ------------------------------- | ---------------------- |
 | `ext(string ...$extensions)` | Extensões de arquivo permitidas | `->ext('pdf', 'docx')` |
-| `max(string $size)` | Tamanho máximo do arquivo | `->max('5MB')` |
+| `max(string $size)`          | Tamanho máximo do arquivo       | `->max('5MB')`         |
 
-#### Exemplos
+**Exemplos**
 
+{% code title="Exemplos de File" %}
 ```php
 // Somente documentos PDF, máx 10MB
 $document = _File::new('Documento')
@@ -253,31 +269,34 @@ $attachment = _File::new()
     ->ext('pdf', 'doc', 'docx', 'txt')
     ->max('5MB');
 ```
+{% endcode %}
 
 > **Nota:** O tipo `_File` espera dados no formato `$_FILES` do PHP com as chaves: `name`, `type`, `size`, `tmp_name`, `full_path`, e `error`.
 
-<a id="type-image"></a>
-### Image
+#### Image
 
 O tipo `_Image` estende `_File` com validações específicas para imagens.
 
+{% code title="Definindo Image" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Image;
 
 $validator = _Image::new();
 ```
+{% endcode %}
 
-#### Regras Disponíveis
+**Regras Disponíveis**
 
 Herda todas as regras de `_File`, mais:
 
-| Método | Descrição | Exemplo |
-|--------|-----------|---------|
-| `width(int $maxWidth)` | Largura máxima em pixels | `->width(1920)` |
-| `height(int $maxHeight)` | Altura máxima em pixels | `->height(1080)` |
+| Método                   | Descrição                | Exemplo          |
+| ------------------------ | ------------------------ | ---------------- |
+| `width(int $maxWidth)`   | Largura máxima em pixels | `->width(1920)`  |
+| `height(int $maxHeight)` | Altura máxima em pixels  | `->height(1080)` |
 
-#### Exemplos
+**Exemplos**
 
+{% code title="Exemplos de Image" %}
 ```php
 // Avatar: JPEG/PNG, máx 2MB, máx 500x500
 $avatar = _Image::new('Avatar')
@@ -294,47 +313,51 @@ $heroImage = _Image::new()
     ->width(1920)
     ->height(1080);
 ```
+{% endcode %}
 
-<a id="special-types"></a>
-## Tipos Especiais
+### Tipos Especiais
 
-<a id="type-mixed"></a>
-### Mixed
+#### Mixed
 
 O tipo `_Mixed` aceita qualquer valor. Útil para campos onde você só se importa com a presença, não com o tipo.
 
+{% code title="Exemplo de Mixed" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Mixed;
 
 $anyValue = _Mixed::new()->required();
 ```
+{% endcode %}
 
-<a id="type-interface"></a>
-### Interface
+#### Interface
 
 O tipo `_Interface` é similar ao `_Mixed` mas considera strings vazias como valores vazios.
 
+{% code title="Exemplo de Interface" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Interface;
 
 $requiredValue = _Interface::new()->required();
 ```
+{% endcode %}
 
-<a id="type-callable"></a>
-### Callable
+#### Callable
 
 O tipo `_Callable` permite definir lógica de validação personalizada usando uma função.
 
+{% code title="Definindo Callable" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Callable;
 
 $validator = _Callable::new();
 ```
+{% endcode %}
 
-#### Definindo Validação Personalizada
+**Definindo Validação Personalizada**
 
 Você pode passar o callable no construtor ou usar o método `function()`:
 
+{% code title="Callable Customizado" %}
 ```php
 // Pelo construtor
 $cpfValidator = _Callable::new(
@@ -359,15 +382,17 @@ $emailDomainValidator = _Callable::new('Email Corporativo')
     })
     ->required();
 ```
+{% endcode %}
 
-#### Como Funciona
+**Como Funciona**
 
-- O callable recebe o valor a ser validado
-- A função é vinculada à instância de `_Callable`, então você pode usar `$this->error()` para definir mensagens de erro personalizadas
-- Retorna `true` para válido, `false` para inválido
+* O callable recebe o valor a ser validado
+* A função é vinculada à instância de `_Callable`, então você pode usar `$this->error()` para definir mensagens de erro personalizadas
+* Retorna `true` para válido, `false` para inválido
 
-#### Exemplos
+**Exemplos**
 
+{% code title="Exemplos de Callable" %}
 ```php
 // Validar telefone brasileiro
 $phone = _Callable::new('Telefone')
@@ -391,3 +416,4 @@ $username = _Callable::new('Usuário')
         return true;
     });
 ```
+{% endcode %}

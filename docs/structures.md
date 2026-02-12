@@ -1,39 +1,47 @@
+---
+description: >-
+  O SimpleValidator oferece três estruturas poderosas para validar dados
+  complexos: Struct, Slice e Map.
+icon: cubes
+layout:
+  width: default
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
+  tags:
+    visible: true
+---
+
 # Estruturas de Dados
 
-- [Introdução](#introduction)
-- [Struct](#struct)
-    - [Definindo uma Struct](#defining-a-struct)
-    - [Structs Aninhadas](#nested-structs)
-    - [Validando com Struct](#validating-with-struct)
-- [Slice](#slice)
-    - [Definindo uma Slice](#defining-a-slice)
-    - [Slice de Structs](#slice-of-structs)
-- [Map](#map)
-    - [Definindo um Map](#defining-a-map)
-    - [Map com Valores Complexos](#map-with-complex-values)
-- [Combinando Estruturas](#combining-structures)
-
-<a id="introduction"></a>
-## Introdução
+### Introdução
 
 O SimpleValidator oferece três estruturas poderosas para validar dados complexos:
 
-| Estrutura | Descrição | Caso de Uso |
-|-----------|-----------|-------------|
-| **Struct** | Valida objetos com chaves conhecidas | Formulários, corpos de requisição API |
-| **Slice** | Valida arrays indexados onde todos os itens seguem as mesmas regras | Listas de produtos, tags, IDs |
-| **Map** | Valida pares chave-valor com chaves dinâmicas | Metadados, configurações, traduções |
+| Estrutura  | Descrição                                                           | Caso de Uso                           |
+| ---------- | ------------------------------------------------------------------- | ------------------------------------- |
+| **Struct** | Valida objetos com chaves conhecidas                                | Formulários, corpos de requisição API |
+| **Slice**  | Valida arrays indexados onde todos os itens seguem as mesmas regras | Listas de produtos, tags, IDs         |
+| **Map**    | Valida pares chave-valor com chaves dinâmicas                       | Metadados, configurações, traduções   |
 
 Essas estruturas podem ser aninhadas arbitrariamente para validar qualquer formato de dado que sua aplicação precisar.
 
-<a id="struct"></a>
-## Struct
+### Struct
 
 A `Struct` é a estrutura mais comumente usada. Ela valida um array associativo (objeto) onde as chaves são conhecidas antecipadamente.
 
-<a id="defining-a-struct"></a>
-### Definindo uma Struct
+#### Definindo uma Struct
 
+{% code title="Exemplo de Struct" %}
 ```php
 use Lucasjs7\SimpleValidator\Struct;
 use Lucasjs7\SimpleValidator\Type\_String;
@@ -41,19 +49,20 @@ use Lucasjs7\SimpleValidator\Type\_Int;
 
 $userValidator = Struct::new([
     'name'     => _String::new()->min(2)->max(100)->required(),
-    'email' => _String::new()->regex('/^[\w\.-]+@[\w\.-]+\.\w+$/')->required(),
+    'email'    => _String::new()->regex('/^[\w\.-]+@[\w\.-]+\.\w+$/')->required(),
     'age'      => _Int::new()->min(0)->max(150),
     'nickname' => _String::new()->max(50),
 ]);
 ```
+{% endcode %}
 
 Cada chave no array representa um nome de campo, e o valor define as regras de validação para esse campo.
 
-<a id="nested-structs"></a>
-### Structs Aninhadas
+#### Structs Aninhadas
 
 Você pode aninhar Structs para validar objetos dentro de objetos:
 
+{% code title="Structs Aninhadas" %}
 ```php
 $userValidator = Struct::new([
     'name'    => _String::new()->required(),
@@ -66,9 +75,11 @@ $userValidator = Struct::new([
     ]),
 ]);
 ```
+{% endcode %}
 
 Isso valida dados como:
 
+{% code title="Dados de exemplo" %}
 ```php
 $userData = [
     'name'  => 'João Silva',
@@ -81,12 +92,13 @@ $userData = [
     ],
 ];
 ```
+{% endcode %}
 
-<a id="validating-with-struct"></a>
-### Validando com Struct
+#### Validando com Struct
 
 Use o método `validate()` para validar os dados:
 
+{% code title="Validação" %}
 ```php
 use Lucasjs7\SimpleValidator\ValidatorException;
 
@@ -98,15 +110,15 @@ try {
     print_r($e->getErrorPath()); // Mostra o caminho para o campo com erro
 }
 ```
+{% endcode %}
 
-<a id="slice"></a>
-## Slice
+### Slice
 
 A `Slice` valida arrays indexados (listas) onde cada item deve seguir as mesmas regras de validação.
 
-<a id="defining-a-slice"></a>
-### Definindo uma Slice
+#### Definindo uma Slice
 
+{% code title="Exemplo de Slice" %}
 ```php
 use Lucasjs7\SimpleValidator\Slice;
 use Lucasjs7\SimpleValidator\Type\_Int;
@@ -122,19 +134,22 @@ $tagsValidator = Slice::new(
     _String::new()->min(1)->required()
 );
 ```
+{% endcode %}
 
 Isso valida dados como:
 
+{% code title="Validação de Slice" %}
 ```php
 $idsValidator->validate([1, 2, 3, 4, 5]);
 $tagsValidator->validate(['php', 'laravel', 'validacao']);
 ```
+{% endcode %}
 
-<a id="slice-of-structs"></a>
-### Slice de Structs
+#### Slice de Structs
 
 Um padrão comum é validar uma lista de objetos:
 
+{% code title="Slice de Structs" %}
 ```php
 $productsValidator = Slice::new(
     Struct::new([
@@ -144,9 +159,11 @@ $productsValidator = Slice::new(
     ])
 );
 ```
+{% endcode %}
 
 Isso valida dados como:
 
+{% code title="Dados de exemplo" %}
 ```php
 $products = [
     ['id' => 1, 'name' => 'Widget', 'price' => 9.99],
@@ -156,15 +173,15 @@ $products = [
 
 $productsValidator->validate($products);
 ```
+{% endcode %}
 
-<a id="map"></a>
-## Map
+### Map
 
 O `Map` valida arrays associativos onde as chaves são dinâmicas (desconhecidas de antemão), mas tanto as chaves quanto os valores devem seguir regras específicas.
 
-<a id="defining-a-map"></a>
-### Definindo um Map
+#### Definindo um Map
 
+{% code title="Exemplo de Map" %}
 ```php
 use Lucasjs7\SimpleValidator\Map;
 use Lucasjs7\SimpleValidator\Type\_String;
@@ -176,9 +193,11 @@ $scoresValidator = Map::new(
     _Int::new()      // Regras para valor
 );
 ```
+{% endcode %}
 
 Isso valida dados como:
 
+{% code title="Validação de Map" %}
 ```php
 $scores = [
     'joao'  => 95,
@@ -188,12 +207,13 @@ $scores = [
 
 $scoresValidator->validate($scores);
 ```
+{% endcode %}
 
-<a id="map-with-complex-values"></a>
-### Map com Valores Complexos
+#### Map com Valores Complexos
 
 Valores de Map podem ser de qualquer tipo, incluindo Structs:
 
+{% code title="Map complexo" %}
 ```php
 $settingsValidator = Map::new(
     _String::new()->min(1),         // Chave: string não vazia
@@ -209,12 +229,13 @@ $usersMapValidator = Map::new(
     ])
 );
 ```
+{% endcode %}
 
-<a id="combining-structures"></a>
-## Combinando Estruturas
+### Combinando Estruturas
 
 O verdadeiro poder do SimpleValidator vem da combinação dessas estruturas. Aqui está um exemplo complexo que valida um pedido de e-commerce:
 
+{% code title="Exemplo Completo" %}
 ```php
 use Lucasjs7\SimpleValidator\{Struct, Slice, Map};
 use Lucasjs7\SimpleValidator\Type\{_String, _Int, _Float, _Bool, _Date};
@@ -256,5 +277,6 @@ $orderValidator = Struct::new([
     'notes' => _String::new()->max(1000),
 ]);
 ```
+{% endcode %}
 
 Este único validador pode verificar um objeto de pedido completo com informações aninhadas do cliente, uma lista de itens com atributos dinâmicos e detalhes de envio!

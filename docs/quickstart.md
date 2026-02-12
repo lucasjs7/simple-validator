@@ -1,14 +1,8 @@
-# Início Rápido (Quickstart)
+---
+icon: rabbit-running
+---
 
-- [Introdução](#introduction)
-- [Início Rápido](#quickstart)
-    - [Definindo um Validador](#defining-a-validator)
-    - [Validando Dados](#validating-data)
-    - [Exibindo Erros de Validação](#displaying-validation-errors)
-- [Uma Nota sobre Campos Opcionais](#optional-fields)
-- [Duas Opções de Sintaxe](#two-syntax-options)
-    - [Sintaxe Fluente](#fluent-syntax)
-    - [Sintaxe String](#string-syntax)
+# Início Rápido
 
 <a id="introduction"></a>
 ## Introdução

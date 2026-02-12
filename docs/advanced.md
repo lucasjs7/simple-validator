@@ -1,33 +1,41 @@
+---
+description: >-
+  Recursos avançados: Padrões reutilizáveis, Validação baseada em Reflection,
+  Type Parser, e Validação sem exceções.
+icon: gear-complex
+layout:
+  width: default
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
+  tags:
+    visible: true
+---
+
 # Recursos Avançados
 
-- [Introdução](#introduction)
-- [Padrões Reutilizáveis](#patterns)
-    - [Salvando Padrões](#saving-patterns)
-    - [Usando Padrões](#using-patterns)
-- [Validação Baseada em Reflection](#reflection)
-    - [Do Construtor de Classe](#from-constructor)
-    - [De Método](#from-method)
-    - [De Função](#from-function)
-    - [Usando Atributos PHP](#using-attributes)
-    - [Usando DocBlocks](#using-docblocks)
-- [Validação Sem Exceções](#without-exceptions)
-- [Obtendo Informações do Validador](#validator-info)
-
-<a id="introduction"></a>
-## Introdução
+### Introdução
 
 Esta página cobre recursos avançados do SimpleValidator que ajudam você a escrever código de validação mais limpo e fácil de manter.
 
-<a id="patterns"></a>
-## Padrões Reutilizáveis
+### Padrões Reutilizáveis
 
 Se você se encontrar usando a mesma configuração de validação repetidamente, pode salvá-la como um padrão nomeado e reutilizá-la em toda a sua aplicação.
 
-<a id="saving-patterns"></a>
-### Salvando Padrões
+#### Salvando Padrões
 
 Use o método `save()` para armazenar uma configuração de validação:
 
+{% code title="Salvando Padrões" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Date;
 use Lucasjs7\SimpleValidator\Type\_String;
@@ -44,14 +52,15 @@ _String::new()
     ->regex('/^[a-zA-Z0-9_]+$/')
     ->save('usuario');
 ```
+{% endcode %}
 
 > **Dica:** Salve seus padrões no início do processo de bootstrap da sua aplicação, como em um Service Provider ou arquivo de configuração.
 
-<a id="using-patterns"></a>
-### Usando Padrões
+#### Usando Padrões
 
 Use o método `pattern()` para recuperar uma configuração salva:
 
+{% code title="Usando Padrões" %}
 ```php
 use Lucasjs7\SimpleValidator\Struct;
 use Lucasjs7\SimpleValidator\Type\_Date;
@@ -63,25 +72,27 @@ $validator = Struct::new([
     'created_at' => _Date::pattern('datetime'),
 ]);
 ```
+{% endcode %}
 
 Você também pode usar padrões na sintaxe de string:
 
+{% code title="Padrões na sintaxe string" %}
 ```php
 $validator = Struct::new([
     'birth_date' => 'type: date | pattern: brasileiro | required',
 ]);
 ```
+{% endcode %}
 
-<a id="reflection"></a>
-## Validação Baseada em Reflection
+### Validação Baseada em Reflection
 
 A classe `StructParser` pode criar validadores automaticamente a partir do seu código PHP existente usando Reflection. Isso elimina a necessidade de duplicar suas definições de campo.
 
-<a id="from-constructor"></a>
-### Do Construtor de Classe
+#### Do Construtor de Classe
 
 Crie um validador a partir de um construtor de classe:
 
+{% code title="Validação de Construtor" %}
 ```php
 use Lucasjs7\SimpleValidator\StructParser;
 
@@ -103,17 +114,19 @@ $validator->validate($data);
 // Se a validação passar, crie o objeto com segurança
 $user = new User(...$data);
 ```
+{% endcode %}
 
 **Como funciona:**
-- Parâmetros obrigatórios tornam-se campos `required`
-- Parâmetros opcionais (com valores padrão) tornam-se campos opcionais
-- Tipos são inferidos a partir das dicas de tipo (type hints) do PHP
 
-<a id="from-method"></a>
-### De Método
+* Parâmetros obrigatórios tornam-se campos `required`
+* Parâmetros opcionais (com valores padrão) tornam-se campos opcionais
+* Tipos são inferidos a partir das dicas de tipo (type hints) do PHP
+
+#### De Método
 
 Crie um validador a partir dos parâmetros de qualquer método:
 
+{% code title="Validação de Método" %}
 ```php
 class OrderService {
     public function createOrder(
@@ -136,12 +149,13 @@ $data = [
 
 $validator->validate($data);
 ```
+{% endcode %}
 
-<a id="from-function"></a>
-### De Função
+#### De Função
 
 Crie um validador a partir de uma função:
 
+{% code title="Validação de Função" %}
 ```php
 function processPayment(
     string $cardNumber,
@@ -153,12 +167,13 @@ function processPayment(
 
 $validator = StructParser::function('processPayment');
 ```
+{% endcode %}
 
-<a id="using-attributes"></a>
-### Usando Atributos PHP
+#### Usando Atributos PHP
 
 Para mais controle sobre as regras de validação, use o atributo `#[TypeParser]` nos parâmetros do construtor:
 
+{% code title="Atributos PHP" %}
 ```php
 use Lucasjs7\SimpleValidator\StructParser;
 use Lucasjs7\SimpleValidator\Type\TypeParser;
@@ -181,12 +196,13 @@ class Product {
 
 $validator = StructParser::new(Product::class);
 ```
+{% endcode %}
 
-<a id="using-docblocks"></a>
-### Usando DocBlocks
+#### Usando DocBlocks
 
 Alternativamente, você pode usar anotações `@validate` nos DocBlocks das propriedades:
 
+{% code title="DocBlocks" %}
 ```php
 class Product {
     /**
@@ -217,14 +233,15 @@ class Product {
 
 $validator = StructParser::new(Product::class);
 ```
+{% endcode %}
 
 > **Nota:** A restrição `required` é determinada automaticamente com base se o parâmetro do construtor é opcional. Parâmetros sem valores padrão são obrigatórios.
 
-<a id="without-exceptions"></a>
-## Validação Sem Exceções
+### Validação Sem Exceções
 
 Por padrão, o método `validate()` lança uma `ValidatorException` quando a validação falha. Se você preferir lidar com erros sem exceções, passe `false` como segundo parâmetro:
 
+{% code title="Sem Exceção" %}
 ```php
 use Lucasjs7\SimpleValidator\Struct;
 
@@ -241,17 +258,19 @@ if ($validator->validate(value: $data, exception: false)) {
     echo "Validação falhou: " . $validator->getError();
 }
 ```
+{% endcode %}
 
 Esta abordagem é útil quando:
-- Você está validando múltiplos conjuntos de dados e quer coletar todos os erros
-- Você prefere um estilo de código mais procedural
-- Você está integrando com código que não usa exceções
 
-<a id="validator-info"></a>
-## Obtendo Informações do Validador
+* Você está validando múltiplos conjuntos de dados e quer coletar todos os erros
+* Você prefere um estilo de código mais procedural
+* Você está integrando com código que não usa exceções
+
+### Obtendo Informações do Validador
 
 O método `info()` retorna uma representação em string das regras de um validador. Isso é útil para debugging ou gerar documentação:
 
+{% code title="Info do Validator" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_String;
 
@@ -263,9 +282,11 @@ $validator = _String::new()
 echo $validator->info();
 // Saída: "type: string | min: 3 | max: 100 | required: true"
 ```
+{% endcode %}
 
 Para estruturas (`Struct`), `info()` retorna um array:
 
+{% code title="Info de Struct" %}
 ```php
 use Lucasjs7\SimpleValidator\Struct;
 
@@ -282,3 +303,4 @@ print_r($validator->info());
 //     [email] => type: string | regex: /^[\w\.-]+@[\w\.-]+\.\w+$/
 // )
 ```
+{% endcode %}
