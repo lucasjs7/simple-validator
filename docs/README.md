@@ -106,79 +106,14 @@ $validator = StructParser::new(UserDTO::class);
 ```
 {% endcode %}
 
-### Instalação
-
-#### Requisitos
-
-* PHP 8.1 ou superior
-* Composer
-* Extensão BCMath
-
-#### Instalação via Composer
-
-Você pode instalar o SimpleValidator usando o Composer:
-
-{% code title="Terminal" %}
-```bash
-composer require lucasjs7/simple-validator
-```
-{% endcode %}
-
-Isso instalará automaticamente as dependências necessárias:
-
-* `lucasjs7/simple-cli-table` - Para saída de erros formatada em modo debug
-* `lucasjs7/convert-data-size` - Para validação de tamanho de arquivo
-
-### Configuração
-
-O SimpleValidator funciona "out of the box" com padrões sensatos, mas você pode personalizar seu comportamento.
-
-#### Definindo o Idioma
-
-Por padrão, o SimpleValidator usa Inglês para mensagens de erro.
-
-Você pode alterar para Português:
-
-{% code title="Definindo o idioma" %}
-```php
-use Lucasjs7\SimpleValidator\Language\Language;
-use Lucasjs7\SimpleValidator\Language\eLanguage;
-
-// Definir idioma para Português (Brasil)
-Language::set(eLanguage::PT);
-
-// Definir idioma para Inglês (padrão)
-Language::set(eLanguage::EN);
-```
-{% endcode %}
-
-#### Modo Debug
-
-Em produção, o SimpleValidator lança exceções com mensagens de erro limpas.
-
-Durante o desenvolvimento, você pode habilitar o modo debug para saída de erro detalhada com rastreamento (backtrace):
-
-{% code title="Ativando modo DEBUG" %}
-```php
-use Lucasjs7\SimpleValidator\Core;
-use Lucasjs7\SimpleValidator\eMode;
-
-// Habilitar modo debug (mostra erros detalhados com backtrace)
-Core::$mode = eMode::DEBUG;
-
-// Modo produção (padrão - lança exceções limpas)
-Core::$mode = eMode::PRODUCTION;
-```
-{% endcode %}
-
 ### Próximos Passos
 
 Agora que você instalou o SimpleValidator, pode querer aprender mais sobre:
 
-* **Início Rápido (Quickstart)** - Aprenda o básico com exemplos completos
-* **Estruturas de Dados** - Entenda Struct, Slice e Map
-* **Tipos Disponíveis** - Explore todos os tipos de validação
-* **Regras Disponíveis** - Saiba sobre regras como min, max, regex
+* [**Início Rápido**](quickstart.md) - Aprenda o básico com exemplos completos
+* [**Estruturas de Dados**](structures.md) - Entenda Struct, Slice e Map
+* [**Tipos Disponíveis**](types.md) - Explore todos os tipos de validação
+* [**Regras Disponíveis**](rules.md) - Saiba sobre regras como min, max, regex
 
 ### Licença
 
