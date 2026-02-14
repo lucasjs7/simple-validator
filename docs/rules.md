@@ -23,15 +23,15 @@ layout:
 
 # Regras Disponíveis
 
-### Introdução
+## Introdução
 
 Regras são métodos que adicionam restrições aos tipos. Cada tipo suporta regras diferentes com base no que faz sentido para aquele tipo de dado. Esta página documenta todas as regras disponíveis e quais tipos as suportam.
 
-### Regras Comuns
+## Regras Comuns
 
 Essas regras estão disponíveis em todos os tipos.
 
-#### required
+### required
 
 A regra `required` torna um campo obrigatório. Sem esta regra, os campos são opcionais por padrão.
 
@@ -53,7 +53,7 @@ _String::new()->required(false) // Mesmo que não chamar required()
 ```
 {% endcode %}
 
-#### label
+### label
 
 A regra `label` define um nome legível para o campo, usado em mensagens de erro.
 
@@ -79,9 +79,9 @@ O valor é obrigatório (caminho: nome_completo).
 O campo 'Nome Completo' é obrigatório.
 ```
 
-### Regras de Tamanho
+## Regras de Tamanho
 
-#### min
+### min
 
 A regra `min` define uma restrição mínima. Seu comportamento depende do tipo:
 
@@ -106,7 +106,7 @@ _Float::new()->min(0.0)
 ```
 {% endcode %}
 
-#### max
+### max
 
 A regra `max` define uma restrição máxima. Seu comportamento depende do tipo:
 
@@ -131,7 +131,7 @@ _File::new()->max('5MB')
 ```
 {% endcode %}
 
-#### unsigned
+### unsigned
 
 A regra `unsigned` garante que um valor numérico seja positivo (>= 0).
 
@@ -151,9 +151,9 @@ _Float::new()->unsigned()
 
 Isso é equivalente a `->min(0)` mas é mais semântico e legível.
 
-### Regras de Conteúdo
+## Regras de Conteúdo
 
-#### options
+### options
 
 A regra `options` restringe o valor a um conjunto predefinido de valores permitidos (como um enum).
 
@@ -171,7 +171,7 @@ _String::new()->options('rascunho', 'publicado', 'arquivado')
 
 Se o valor não for uma das opções, a validação falha com uma mensagem de erro listando as opções válidas.
 
-#### regex
+### regex
 
 A regra `regex` valida o valor contra um padrão de expressão regular.
 
@@ -210,9 +210,9 @@ _String::new()->regex('/^[a-z0-9_]+$/')
 ```
 {% endcode %}
 
-### Regras de Data
+## Regras de Data
 
-#### format
+### format
 
 A regra `format` especifica o formato de data esperado usando caracteres de formato de data do PHP.
 
@@ -242,9 +242,9 @@ _Date::new()->format('Y-m-d H:i:s')
 | `Y-m-d H:i:s` | 2024-12-25 14:30:00 | Datetime           |
 | `d-m-Y`       | 25-12-2024          | Traços             |
 
-### Regras de Arquivo
+## Regras de Arquivo
 
-#### ext
+### ext
 
 A regra `ext` especifica extensões de arquivo permitidas.
 
@@ -262,7 +262,7 @@ _Image::new()->ext('jpg', 'jpeg', 'png', 'webp')
 ```
 {% endcode %}
 
-#### width
+### width
 
 A regra `width` define a largura máxima em pixels para imagens.
 
@@ -278,7 +278,7 @@ _Image::new()->width(1920)
 ```
 {% endcode %}
 
-#### height
+### height
 
 A regra `height` define a altura máxima em pixels para imagens.
 
@@ -294,11 +294,11 @@ _Image::new()->height(1080)
 ```
 {% endcode %}
 
-### Sintaxe String
+## Sintaxe String
 
 O SimpleValidator suporta uma sintaxe baseada em string para definir regras de validação. Isso é útil quando você quer armazenar regras em arquivos de configuração ou banco de dados.
 
-#### Visão Geral da Sintaxe
+### Visão Geral da Sintaxe
 
 Regras são definidas como uma string delimitada por pipe:
 
@@ -310,7 +310,7 @@ type: <tipo> | regra: valor | regra: valor | flag
 * Regras com valores usam o formato `regra: valor`
 * Flags (como `required` ou `unsigned`) não precisam de valor
 
-#### Tipos Disponíveis
+### Tipos Disponíveis
 
 | String do Tipo | Classe       |
 | -------------- | ------------ |
@@ -325,7 +325,7 @@ type: <tipo> | regra: valor | regra: valor | flag
 | `interface`    | `_Interface` |
 | `callable`     | `_Callable`  |
 
-#### Regras Disponíveis em Sintaxe String
+### Regras Disponíveis em Sintaxe String
 
 | Regra      | Exemplo                |
 | ---------- | ---------------------- |
@@ -342,7 +342,7 @@ type: <tipo> | regra: valor | regra: valor | flag
 | `width`    | `width: 1920`          |
 | `height`   | `height: 1080`         |
 
-#### Exemplos
+### Exemplos
 
 {% code title="Exemplos Sintaxe String" %}
 ```php
