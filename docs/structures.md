@@ -43,6 +43,7 @@ A `Struct` é a estrutura mais comumente usada. Ela valida um array associativo 
 
 {% tabs %}
 {% tab title="Sintaxe String" %}
+{% code fullWidth="false" %}
 ```php
 use Lucasjs7\SimpleValidator\Struct;
 
@@ -53,6 +54,7 @@ $userValidator = Struct::new([
     'nickname' => 'type: string | max: 50',
 ]);
 ```
+{% endcode %}
 {% endtab %}
 
 {% tab title="Sintaxe Fluente" %}
