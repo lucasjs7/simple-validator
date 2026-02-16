@@ -12,9 +12,9 @@
 
 ## Base
 
-* [Estruturas de Dados](structures.md)
 * [Tipos Disponíveis](types.md)
 * [Regras Disponíveis](rules.md)
+* [Estruturas de Dados](structures.md)
 
 ## Avançado
 
