@@ -250,21 +250,21 @@ $validator = _Bool::new();
 {% tabs %}
 {% tab title="Sintaxe String" %}
 ```php
-// Flag Ativo
-$isActive = TypeParser::new('type: bool | label: Ativo | required');
+// Termos de Serviço: obrigatório
+$termsAccepted = TypeParser::new('type: bool | label: Termos | required');
 
-// Inscrição na newsletter (opcional)
-$newsletter = TypeParser::new('type: bool');
+// Receber Notificações: opcional
+$notifications = TypeParser::new('type: bool');
 ```
 {% endtab %}
 
 {% tab title="Sintaxe Fluente" %}
 ```php
-// Flag Ativo
-$isActive = _Bool::new('Ativo')->required();
+// Termos de Serviço: obrigatório
+$termsAccepted = _Bool::new('Termos')->required();
 
-// Inscrição na newsletter (opcional)
-$newsletter = _Bool::new();
+// Receber Notificações: opcional
+$notifications = _Bool::new();
 ```
 {% endtab %}
 {% endtabs %}
