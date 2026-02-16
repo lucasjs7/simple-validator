@@ -258,8 +258,6 @@ _String::new()->regex('/^[a-z0-9_]+$/');
 {% endtab %}
 {% endtabs %}
 
-> **Aviso:** Ao usar regex na sintaxe de string, tenha cuidado com o caractere `|` pois ele é usado como delimitador. Considere usar sintaxe fluente para padrões complexos.
-
 **Padrões Comuns**
 
 {% tabs %}
