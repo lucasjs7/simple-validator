@@ -42,13 +42,23 @@ Todos os tipos compartilham alguns métodos comuns:
 
 O tipo `_String` valida se um valor é uma string.
 
-{% code title="Definindo String" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+use Lucasjs7\SimpleValidator\Type\TypeParser;
+
+$validator = TypeParser::new('type: string');
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_String;
 
 $validator = _String::new();
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 **Regras Disponíveis**
 
@@ -61,24 +71,33 @@ $validator = _String::new();
 
 **Exemplos**
 
-{% code title="Exemplos de String" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
 ```php
 // Nome de usuário: 3-20 caracteres alfanuméricos
-$username = _String::new('Usuário')
-    ->min(3)
-    ->max(20)
-    ->regex('/^[a-zA-Z0-9_]+$/')
-    ->required();
+$username = TypeParser::new('type: string | label: Usuário | min: 3 | max: 20 | regex: /^[a-zA-Z0-9_]+$/ | required');
 
 // Status: deve ser uma das opções
-$status = _String::new()
-    ->options('pendente', 'aprovado', 'rejeitado')
-    ->required();
+$status = TypeParser::new('type: string | options: pendente, aprovado, rejeitado | required');
+
+// Bio: opcional, máx 500 caracteres
+$bio = TypeParser::new('type: string | max: 500');
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
+```php
+// Nome de usuário: 3-20 caracteres alfanuméricos
+$username = _String::new('Usuário')->min(3)->max(20)->regex('/^[a-zA-Z0-9_]+$/')->required();
+
+// Status: deve ser uma das opções
+$status = _String::new()->options('pendente', 'aprovado', 'rejeitado')->required();
 
 // Bio: opcional, máx 500 caracteres
 $bio = _String::new()->max(500);
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 ### Tipos Numéricos
 
@@ -86,13 +105,23 @@ $bio = _String::new()->max(500);
 
 O tipo `_Int` valida se um valor é um número inteiro.
 
-{% code title="Definindo Int" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+use Lucasjs7\SimpleValidator\Type\TypeParser;
+
+$validator = TypeParser::new('type: int');
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Int;
 
 $validator = _Int::new();
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 **Regras Disponíveis**
 
@@ -104,37 +133,55 @@ $validator = _Int::new();
 
 **Exemplos**
 
-{% code title="Exemplos de Int" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
 ```php
 // Idade: 0 a 150
-$age = _Int::new('Idade')
-    ->min(0)
-    ->max(150)
-    ->required();
+$age = TypeParser::new('type: int | label: Idade | min: 0 | max: 150 | required');
 
 // Quantidade: inteiro positivo
-$quantity = _Int::new()
-    ->unsigned()
-    ->required();
+$quantity = TypeParser::new('type: int | unsigned | required');
 
 // Pontuação: -100 a 100
-$score = _Int::new()
-    ->min(-100)
-    ->max(100);
+$score = TypeParser::new('type: int | min: -100 | max: 100');
 ```
-{% endcode %}
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
+```php
+// Idade: 0 a 150
+$age = _Int::new('Idade')->min(0)->max(150)->required();
+
+// Quantidade: inteiro positivo
+$quantity = _Int::new()->unsigned()->required();
+
+// Pontuação: -100 a 100
+$score = _Int::new()->min(-100)->max(100);
+```
+{% endtab %}
+{% endtabs %}
 
 #### Float
 
 O tipo `_Float` valida se um valor é um número de ponto flutuante.
 
-{% code title="Definindo Float" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+use Lucasjs7\SimpleValidator\Type\TypeParser;
+
+$validator = TypeParser::new('type: float');
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Float;
 
 $validator = _Float::new();
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 **Regras Disponíveis**
 
@@ -146,24 +193,33 @@ $validator = _Float::new();
 
 **Exemplos**
 
-{% code title="Exemplos de Float" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
 ```php
 // Preço: número positivo
-$price = _Float::new('Preço')
-    ->unsigned()
-    ->required();
+$price = TypeParser::new('type: float | label: Preço | unsigned | required');
 
 // Classificação: 0.0 a 5.0
-$rating = _Float::new()
-    ->min(0.0)
-    ->max(5.0);
+$rating = TypeParser::new('type: float | min: 0.0 | max: 5.0');
 
 // Temperatura: pode ser negativo
-$temperature = _Float::new()
-    ->min(-50.0)
-    ->max(50.0);
+$temperature = TypeParser::new('type: float | min: -50.0 | max: 50.0');
 ```
-{% endcode %}
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
+```php
+// Preço: número positivo
+$price = _Float::new('Preço')->unsigned()->required();
+
+// Classificação: 0.0 a 5.0
+$rating = _Float::new()->min(0.0)->max(5.0);
+
+// Temperatura: pode ser negativo
+$temperature = _Float::new()->min(-50.0)->max(50.0);
+```
+{% endtab %}
+{% endtabs %}
 
 ### Tipos Booleanos
 
@@ -171,17 +227,38 @@ $temperature = _Float::new()
 
 O tipo `_Bool` valida se um valor é booleano.
 
-{% code title="Definindo Bool" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+use Lucasjs7\SimpleValidator\Type\TypeParser;
+
+$validator = TypeParser::new('type: bool');
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Bool;
 
 $validator = _Bool::new();
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 **Exemplos**
 
-{% code title="Exemplos de Bool" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+// Flag Ativo
+$isActive = TypeParser::new('type: bool | label: Ativo | required');
+
+// Inscrição na newsletter (opcional)
+$newsletter = TypeParser::new('type: bool');
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 // Flag Ativo
 $isActive = _Bool::new('Ativo')->required();
@@ -189,7 +266,8 @@ $isActive = _Bool::new('Ativo')->required();
 // Inscrição na newsletter (opcional)
 $newsletter = _Bool::new();
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 ### Tipos de Data
 
@@ -197,13 +275,23 @@ $newsletter = _Bool::new();
 
 O tipo `_Date` valida se um valor é uma string correspondente a um formato de data.
 
-{% code title="Definindo Date" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+use Lucasjs7\SimpleValidator\Type\TypeParser;
+
+$validator = TypeParser::new('type: date');
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Date;
 
 $validator = _Date::new();
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 **Regras Disponíveis**
 
@@ -215,23 +303,33 @@ O formato padrão é `Y-m-d`.
 
 **Exemplos**
 
-{% code title="Exemplos de Date" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
 ```php
 // Data de nascimento: formato YYYY-MM-DD
-$birthDate = _Date::new('Data de Nascimento')
-    ->format('Y-m-d')
-    ->required();
+$birthDate = TypeParser::new('type: date | label: Data de Nascimento | format: Y-m-d | required');
 
 // Criado em: formato datetime
-$createdAt = _Date::new()
-    ->format('Y-m-d H:i:s')
-    ->required();
+$createdAt = TypeParser::new('type: date | format: Y-m-d H:i:s | required');
 
 // Formato de data brasileiro
-$brDate = _Date::new()
-    ->format('d/m/Y');
+$brDate = TypeParser::new('type: date | format: d/m/Y');
 ```
-{% endcode %}
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
+```php
+// Data de nascimento: formato YYYY-MM-DD
+$birthDate = _Date::new('Data de Nascimento')->format('Y-m-d')->required();
+
+// Criado em: formato datetime
+$createdAt = _Date::new()->format('Y-m-d H:i:s')->required();
+
+// Formato de data brasileiro
+$brDate = _Date::new()->format('d/m/Y');
+```
+{% endtab %}
+{% endtabs %}
 
 ### Tipos de Arquivo
 
@@ -239,13 +337,23 @@ $brDate = _Date::new()
 
 O tipo `_File` valida arquivos enviados (espera o formato `$_FILES` do PHP).
 
-{% code title="Definindo File" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+use Lucasjs7\SimpleValidator\Type\TypeParser;
+
+$validator = TypeParser::new('type: file');
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_File;
 
 $validator = _File::new();
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 **Regras Disponíveis**
 
@@ -256,20 +364,27 @@ $validator = _File::new();
 
 **Exemplos**
 
-{% code title="Exemplos de File" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
 ```php
 // Somente documentos PDF, máx 10MB
-$document = _File::new('Documento')
-    ->ext('pdf')
-    ->max('10MB')
-    ->required();
+$document = TypeParser::new('type: file | label: Documento | ext: pdf | max: 10MB | required');
 
 // Múltiplas extensões permitidas
-$attachment = _File::new()
-    ->ext('pdf', 'doc', 'docx', 'txt')
-    ->max('5MB');
+$attachment = TypeParser::new('type: file | ext: pdf, doc, docx, txt | max: 5MB');
 ```
-{% endcode %}
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
+```php
+// Somente documentos PDF, máx 10MB
+$document = _File::new('Documento')->ext('pdf')->max('10MB')->required();
+
+// Múltiplas extensões permitidas
+$attachment = _File::new()->ext('pdf', 'doc', 'docx', 'txt')->max('5MB');
+```
+{% endtab %}
+{% endtabs %}
 
 > **Nota:** O tipo `_File` espera dados no formato `$_FILES` do PHP com as chaves: `name`, `type`, `size`, `tmp_name`, `full_path`, e `error`.
 
@@ -277,13 +392,23 @@ $attachment = _File::new()
 
 O tipo `_Image` estende `_File` com validações específicas para imagens.
 
-{% code title="Definindo Image" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+use Lucasjs7\SimpleValidator\Type\TypeParser;
+
+$validator = TypeParser::new('type: image');
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Image;
 
 $validator = _Image::new();
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 **Regras Disponíveis**
 
@@ -296,24 +421,27 @@ Herda todas as regras de `_File`, mais:
 
 **Exemplos**
 
-{% code title="Exemplos de Image" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
 ```php
 // Avatar: JPEG/PNG, máx 2MB, máx 500x500
-$avatar = _Image::new('Avatar')
-    ->ext('jpg', 'jpeg', 'png')
-    ->max('2MB')
-    ->width(500)
-    ->height(500)
-    ->required();
+$avatar = TypeParser::new('type: image | label: Avatar | ext: jpg, jpeg, png | max: 2MB | width: 500 | height: 500 | required');
 
 // Imagem Hero: dimensões maiores permitidas
-$heroImage = _Image::new()
-    ->ext('jpg', 'png', 'webp')
-    ->max('5MB')
-    ->width(1920)
-    ->height(1080);
+$heroImage = TypeParser::new('type: image | ext: jpg, png, webp | max: 5MB | width: 1920 | height: 1080');
 ```
-{% endcode %}
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
+```php
+// Avatar: JPEG/PNG, máx 2MB, máx 500x500
+$avatar = _Image::new('Avatar')->ext('jpg', 'jpeg', 'png')->max('2MB')->width(500)->height(500)->required();
+
+// Imagem Hero: dimensões maiores permitidas
+$heroImage = _Image::new()->ext('jpg', 'png', 'webp')->max('5MB')->width(1920)->height(1080);
+```
+{% endtab %}
+{% endtabs %}
 
 ### Tipos Especiais
 
@@ -321,25 +449,45 @@ $heroImage = _Image::new()
 
 O tipo `_Mixed` aceita qualquer valor. Útil para campos onde você só se importa com a presença, não com o tipo.
 
-{% code title="Exemplo de Mixed" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+use Lucasjs7\SimpleValidator\Type\TypeParser;
+
+$anyValue = TypeParser::new('type: mixed | required');
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Mixed;
 
 $anyValue = _Mixed::new()->required();
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 #### Interface
 
 O tipo `_Interface` é similar ao `_Mixed` mas considera strings vazias como valores vazios.
 
-{% code title="Exemplo de Interface" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+use Lucasjs7\SimpleValidator\Type\TypeParser;
+
+$requiredValue = TypeParser::new('type: interface | required');
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 use Lucasjs7\SimpleValidator\Type\_Interface;
 
 $requiredValue = _Interface::new()->required();
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 #### Callable
 
