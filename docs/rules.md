@@ -262,24 +262,49 @@ _String::new()->regex('/^[a-z0-9_]+$/');
 
 **Padrões Comuns**
 
-{% code title="Padrões regex comuns" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
 ```php
+use Lucasjs7\SimpleValidator\Type\TypeParser;
+
 // Email (básico)
-->regex('/^[\w\.-]+@[\w\.-]+\.\w+$/')
+$emailValidator = TypeParser::new('type: string | regex: /^[\w\.-]+@[\w\.-]+\.\w+$/');
 
 // Alphanumérico apenas
-->regex('/^[a-zA-Z0-9]+$/')
+$alphanumericValidator = TypeParser::new('type: string | regex: /^[a-zA-Z0-9]+$/');
 
 // CEP Brasileiro
-->regex('/^\d{5}-?\d{3}$/')
+$cepValidator = TypeParser::new('type: string | regex: /^\d{5}-?\d{3}$/');
 
 // Telefone com código de país opcional
-->regex('/^\+?\d{10,15}$/')
+$phoneValidator = TypeParser::new('type: string | regex: /^\+?\d{10,15}$/');
 
 // Formato slug
-->regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')
+$slugValidator = TypeParser::new('type: string | regex: /^[a-z0-9]+(?:-[a-z0-9]+)*$/');
 ```
-{% endcode %}
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
+```php
+use Lucasjs7\SimpleValidator\Type\_String;
+
+// Email (básico)
+$emailValidator = _String::new()->regex('/^[\w\.-]+@[\w\.-]+\.\w+$/');
+
+// Alphanumérico apenas
+$alphanumericValidator = _String::new()->regex('/^[a-zA-Z0-9]+$/');
+
+// CEP Brasileiro
+$cepValidator = _String::new()->regex('/^\d{5}-?\d{3}$/');
+
+// Telefone com código de país opcional
+$phoneValidator = _String::new()->regex('/^\+?\d{10,15}$/');
+
+// Formato slug
+$slugValidator = _String::new()->regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/');
+```
+{% endtab %}
+{% endtabs %}
 
 ### Regras de Data
 
