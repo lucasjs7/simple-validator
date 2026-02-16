@@ -41,7 +41,21 @@ A `Struct` é a estrutura mais comumente usada. Ela valida um array associativo 
 
 #### Definindo uma Struct
 
-{% code title="Exemplo de Struct" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+use Lucasjs7\SimpleValidator\Struct;
+
+$userValidator = Struct::new([
+    'name'     => 'type: string | min: 2 | max: 100 | required',
+    'email'    => 'type: string | regex: /^[\w\.-]+@[\w\.-]+\.\w+$/ | required',
+    'age'      => 'type: int | min: 0 | max: 150',
+    'nickname' => 'type: string | max: 50',
+]);
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 use Lucasjs7\SimpleValidator\Struct;
 use Lucasjs7\SimpleValidator\Type\_String;
@@ -54,7 +68,8 @@ $userValidator = Struct::new([
     'nickname' => _String::new()->max(50),
 ]);
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 Cada chave no array representa um nome de campo, e o valor define as regras de validação para esse campo.
 
@@ -62,7 +77,23 @@ Cada chave no array representa um nome de campo, e o valor define as regras de v
 
 Você pode aninhar Structs para validar objetos dentro de objetos:
 
-{% code title="Structs Aninhadas" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+$userValidator = Struct::new([
+    'name'    => 'type: string | required',
+    'email'   => 'type: string | regex: /^[\w\.-]+@[\w\.-]+\.\w+$/ | required',
+    'address' => Struct::new([
+        'street'  => 'type: string | max: 200 | required',
+        'city'    => 'type: string | max: 100 | required',
+        'zipcode' => 'type: string | regex: /^\d{5}-?\d{3}$/ | required',
+        'country' => 'type: string | max: 2 | required',
+    ]),
+]);
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 $userValidator = Struct::new([
     'name'    => _String::new()->required(),
@@ -75,7 +106,8 @@ $userValidator = Struct::new([
     ]),
 ]);
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 Isso valida dados como:
 
@@ -118,7 +150,24 @@ A `Slice` valida arrays indexados (listas) onde cada item deve seguir as mesmas 
 
 #### Definindo uma Slice
 
-{% code title="Exemplo de Slice" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+use Lucasjs7\SimpleValidator\Slice;
+
+// Uma lista de inteiros positivos
+$idsValidator = Slice::new(
+    'type: int | unsigned | required'
+);
+
+// Uma lista de strings não vazias
+$tagsValidator = Slice::new(
+    'type: string | min: 1 | required'
+);
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 use Lucasjs7\SimpleValidator\Slice;
 use Lucasjs7\SimpleValidator\Type\_Int;
@@ -134,7 +183,8 @@ $tagsValidator = Slice::new(
     _String::new()->min(1)->required()
 );
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 Isso valida dados como:
 
@@ -149,7 +199,20 @@ $tagsValidator->validate(['php', 'laravel', 'validacao']);
 
 Um padrão comum é validar uma lista de objetos:
 
-{% code title="Slice de Structs" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+$productsValidator = Slice::new(
+    Struct::new([
+        'id'    => 'type: int | required',
+        'name'  => 'type: string | min: 1 | max: 200 | required',
+        'price' => 'type: float | unsigned | required',
+    ])
+);
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 $productsValidator = Slice::new(
     Struct::new([
@@ -159,7 +222,8 @@ $productsValidator = Slice::new(
     ])
 );
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 Isso valida dados como:
 
@@ -181,7 +245,20 @@ O `Map` valida arrays associativos onde as chaves são dinâmicas (desconhecidas
 
 #### Definindo um Map
 
-{% code title="Exemplo de Map" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+use Lucasjs7\SimpleValidator\Map;
+
+// Chaves deve ser strings, valores devem ser inteiros
+$scoresValidator = Map::new(
+    'type: string',  // Regras para chave
+    'type: int'      // Regras para valor
+);
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 use Lucasjs7\SimpleValidator\Map;
 use Lucasjs7\SimpleValidator\Type\_String;
@@ -193,7 +270,8 @@ $scoresValidator = Map::new(
     _Int::new()      // Regras para valor
 );
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 Isso valida dados como:
 
@@ -213,7 +291,26 @@ $scoresValidator->validate($scores);
 
 Valores de Map podem ser de qualquer tipo, incluindo Structs:
 
-{% code title="Map complexo" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+$settingsValidator = Map::new(
+    'type: string | min: 1',         // Chave: string não vazia
+    'type: interface | required'     // Valor: qualquer tipo, mas obrigatório (interface similar a mixed)
+);
+
+// Ou com valores Struct
+$usersMapValidator = Map::new(
+    'type: string',  // Chave: ID de usuário como string
+    Struct::new([
+        'name'  => 'type: string | required',
+        'email' => 'type: string | regex: /^[\w\.-]+@[\w\.-]+\.\w+$/ | required',
+    ])
+);
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 $settingsValidator = Map::new(
     _String::new()->min(1),         // Chave: string não vazia
@@ -229,13 +326,58 @@ $usersMapValidator = Map::new(
     ])
 );
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 ### Combinando Estruturas
 
 O verdadeiro poder do SimpleValidator vem da combinação dessas estruturas. Aqui está um exemplo complexo que valida um pedido de e-commerce:
 
-{% code title="Exemplo Completo" %}
+{% tabs %}
+{% tab title="Sintaxe String" %}
+```php
+use Lucasjs7\SimpleValidator\{Struct, Slice, Map};
+
+$orderValidator = Struct::new([
+    'id'         => 'type: int | required',
+    'created_at' => 'type: date | format: Y-m-d H:i:s | required',
+
+    'customer' => Struct::new([
+        'name'  => 'type: string | min: 2 | max: 100 | required',
+        'email' => 'type: string | regex: /^[\w\.-]+@[\w\.-]+\.\w+$/ | required',
+        'phone' => 'type: string | regex: /^\+?[\d\s-]+$/',
+    ]),
+
+    'items' => Slice::new(
+        Struct::new([
+            'product_id'  => 'type: int | required',
+            'name'        => 'type: string | max: 200 | required',
+            'quantity'    => 'type: int | min: 1 | required',
+            'unit_price'  => 'type: float | unsigned | required',
+            'attributes'  => Map::new(
+                'type: string',
+                'type: string'
+            ),
+        ])
+    ),
+
+    'shipping' => Struct::new([
+        'method'  => 'type: string | options: padrao, express, entrega_rapida | required',
+        'address' => Struct::new([
+            'street'  => 'type: string | max: 200 | required',
+            'city'    => 'type: string | max: 100 | required',
+            'state'   => 'type: string | max: 2 | required',
+            'zipcode' => 'type: string | required',
+            'country' => 'type: string | max: 2 | required',
+        ]),
+    ]),
+
+    'notes' => 'type: string | max: 1000',
+]);
+```
+{% endtab %}
+
+{% tab title="Sintaxe Fluente" %}
 ```php
 use Lucasjs7\SimpleValidator\{Struct, Slice, Map};
 use Lucasjs7\SimpleValidator\Type\{_String, _Int, _Float, _Bool, _Date};
@@ -277,6 +419,7 @@ $orderValidator = Struct::new([
     'notes' => _String::new()->max(1000),
 ]);
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 Este único validador pode verificar um objeto de pedido completo com informações aninhadas do cliente, uma lista de itens com atributos dinâmicos e detalhes de envio!
