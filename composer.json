@@ -24,7 +24,8 @@
 	"require": {
 		"lucasjs7/simple-cli-table": "^1.03",
 		"lucasjs7/convert-data-size": "^1.0",
-		"ext-bcmath": "*"
+		"ext-bcmath": "*",
+		"ext-mbstring": "*"
 	},
 	"require-dev": {
 		"pestphp/pest": "^2.34"
