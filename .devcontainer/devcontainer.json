@@ -1,6 +1,15 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "features": {
-    "ghcr.io/devcontainers/features/php:1": {}
-  }
+	"name": "simple-validator-devcontainer",
+	"image": "mcr.microsoft.com/devcontainers/php:1-8.2-jammy",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"bmewburn.vscode-intelephense-client",
+				"xdebug.php-debug",
+				"sebastianbergmann.php-test-framework-pest"
+			]
+		}
+	},
+	"postCreateCommand": "composer install",
+	"remoteUser": "vscode"
 }
