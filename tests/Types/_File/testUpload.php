@@ -4,7 +4,7 @@ use Lucasjs7\SimpleValidator\Type\_File;
 use Lucasjs7\SimpleValidator\Type\_Image;
 use Lucasjs7\SimpleValidator\Type\TypeParser;
 
-include '/var/www/html/vendor/autoload.php';
+include __DIR__ . '/../../../vendor/autoload.php';
 include 'Base.php';
 
 $status = false;

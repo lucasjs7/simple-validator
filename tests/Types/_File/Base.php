@@ -6,8 +6,9 @@ use Lucasjs7\SimpleValidator\Type\_String;
 function testUpload() {
 
     $curl = curl_init();
+    $host = getenv('UPLOAD_TEST_HOST') ?: 'host.docker.internal';
 
-    curl_setopt($curl, CURLOPT_URL, 'host.docker.internal/tests/Types/_File/testUpload.php');
+    curl_setopt($curl, CURLOPT_URL, "{$host}/tests/Types/_File/testUpload.php");
     curl_setopt($curl, CURLOPT_POST, 1);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($curl, CURLOPT_POSTFIELDS, [

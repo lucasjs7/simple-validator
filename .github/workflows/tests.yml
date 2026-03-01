@@ -40,5 +40,10 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-interaction --no-progress
 
+    - name: Start PHP server
+      run: php -S localhost:8000 -t . > /dev/null 2>&1 &
+
     - name: Execute tests
       run: ./vendor/bin/pest --ci
+      env:
+        UPLOAD_TEST_HOST: localhost:8000
