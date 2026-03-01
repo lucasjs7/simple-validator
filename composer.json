@@ -31,6 +31,7 @@
 		"pestphp/pest": "^2.34"
 	},
 	"config": {
+        "preferred-install": "dist",
 		"allow-plugins": {
 			"pestphp/pest-plugin": true
 		}
