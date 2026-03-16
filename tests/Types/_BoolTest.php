@@ -1,172 +1,48 @@
 <?php
 
 use Lucasjs7\SimpleValidator\Type\_Bool;
-use Tests\Base;
 
-$listTests = [
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => 'true',
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => 'True',
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => 'TRUE',
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => true,
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => 1,
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => '1',
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => 'false',
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => 'False',
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => 'FALSE',
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => false,
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => 0,
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => '0',
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => '2',
-        'result' => false,
-        'dataResult' => false,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => 2,
-        'result' => false,
-        'dataResult' => false,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => '-1',
-        'result' => false,
-        'dataResult' => false,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => -1,
-        'result' => false,
-        'dataResult' => false,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => 't',
-        'result' => false,
-        'dataResult' => false,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => 'T',
-        'result' => false,
-        'dataResult' => false,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => 'f',
-        'result' => false,
-        'dataResult' => false,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => 'F',
-        'result' => false,
-        'dataResult' => false,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new()->required(),
-        'value' => null,
-        'result' => false,
-        'dataResult' => false,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => null,
-        'result' => true,
-        'dataResult' => false,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => '',
-        'result' => false,
-        'dataResult' => false,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => 1.2,
-        'result' => false,
-        'dataResult' => false,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => [],
-        'result' => false,
-        'dataResult' => false,
-    ],
-    '_Bool#' . __LINE__ => [
-        'test' => _Bool::new(),
-        'value' => function () {
-        },
-        'result' => false,
-        'dataResult' => false,
-    ],
-];
+describe('Bool', function () {
 
-Base::testTypeList($listTests);
+    it('True', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'true string'  => [_Bool::new(), 'true', true, true],
+            'True string'  => [_Bool::new(), 'True', true, true],
+            'TRUE string'  => [_Bool::new(), 'TRUE', true, true],
+            'true bool'    => [_Bool::new(), true, true, true],
+            '1 int'        => [_Bool::new(), 1, true, true],
+            '1 string'     => [_Bool::new(), '1', true, true],
+            'false string' => [_Bool::new(), 'false', true, true],
+            'False string' => [_Bool::new(), 'False', true, true],
+            'FALSE string' => [_Bool::new(), 'FALSE', true, true],
+            'false bool'   => [_Bool::new(), false, true, true],
+            '0 int'        => [_Bool::new(), 0, true, true],
+            '0 string'     => [_Bool::new(), '0', true, true],
+        ]);
 
-Base::testSlice('_Bool/Slice#1', $listTests);
+    it('False', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            '2 string'     => [_Bool::new(), '2', false, false],
+            '2 int'        => [_Bool::new(), 2, false, false],
+            '-1 string'    => [_Bool::new(), '-1', false, false],
+            '-1 int'       => [_Bool::new(), -1, false, false],
+            't string'     => [_Bool::new(), 't', false, false],
+            'T string'     => [_Bool::new(), 'T', false, false],
+            'f string'     => [_Bool::new(), 'f', false, false],
+            'F string'     => [_Bool::new(), 'F', false, false],
+            'null'         => [_Bool::new()->required(), null, false, false],
+            'empty string' => [_Bool::new(), '', false, false],
+            '1.2 float'    => [_Bool::new(), 1.2, false, false],
+            'empty array'  => [_Bool::new(), [], false, false],
+            'callable'     => [_Bool::new(), function () {}, false, false],
+        ]);
 
-Base::testMap('_Bool/Map#1', $listTests);
+    it('Mixed', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'null' => [_Bool::new(), null, true, false],
+        ]);
 
-Base::testStruct('_Bool/Struct#1', $listTests);
+});

@@ -1,136 +1,42 @@
 <?php
 
-use Tests\Base;
 use Lucasjs7\SimpleValidator\Type\_Int;
 
-$listTests = [
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new()->max(10),
-		'value' => 10,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new()->min(10),
-		'value' => 10,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new()->unsigned(),
-		'value' => 0,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new()->max(10)->min(5),
-		'value' => 10,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new()->max(10)->min(5),
-		'value' => 5,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new()->max(10)->unsigned(),
-		'value' => 0,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new()->max(10)->unsigned(),
-		'value' => 10,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new()->max(10),
-		'value' => 11,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new()->min(10),
-		'value' => 9,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new()->unsigned(),
-		'value' => -1,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new()->max(10)->min(5),
-		'value' => 11,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new()->max(10)->min(5),
-		'value' => 4,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new()->max(10)->unsigned(),
-		'value' => -1,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new()->max(10)->unsigned(),
-		'value' => 11,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new(),
-		'value' => null,
-		'result' => true,
-		'dataResult' => false,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new(),
-		'value' => true,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new(),
-		'value' => '',
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new(),
-		'value' => 1.2,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new(),
-		'value' => [],
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Int#' . __LINE__ => [
-		'test' => _Int::new(),
-		'value' => function () {
-		},
-		'result' => false,
-		'dataResult' => false,
-	],
-];
+describe('Int', function () {
 
-Base::testTypeList($listTests);
+    it('True', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'max exactly 10'          => [_Int::new()->max(10), 10, true, true],
+            'min exactly 10'          => [_Int::new()->min(10), 10, true, true],
+            'unsigned zero'           => [_Int::new()->unsigned(), 0, true, true],
+            'max 10 min 5 exactly 10' => [_Int::new()->max(10)->min(5), 10, true, true],
+            'max 10 min 5 exactly 5'  => [_Int::new()->max(10)->min(5), 5, true, true],
+            'max 10 unsigned zero'    => [_Int::new()->max(10)->unsigned(), 0, true, true],
+            'max 10 unsigned 10'      => [_Int::new()->max(10)->unsigned(), 10, true, true],
+        ]);
 
-Base::testSlice('_Int/Slice', $listTests);
+    it('False', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'max 10 overflow 11'       => [_Int::new()->max(10), 11, false, false],
+            'min 10 underflow 9'       => [_Int::new()->min(10), 9, false, false],
+            'unsigned negative'        => [_Int::new()->unsigned(), -1, false, false],
+            'max 10 min 5 overflow 11' => [_Int::new()->max(10)->min(5), 11, false, false],
+            'max 10 min 5 underflow 4' => [_Int::new()->max(10)->min(5), 4, false, false],
+            'max 10 unsigned negative' => [_Int::new()->max(10)->unsigned(), -1, false, false],
+            'max 10 unsigned 11'       => [_Int::new()->max(10)->unsigned(), 11, false, false],
+            'bool true instead of int' => [_Int::new(), true, false, false],
+            'empty string'             => [_Int::new(), '', false, false],
+            'float instead of int'     => [_Int::new(), 1.2, false, false],
+            'empty array'              => [_Int::new(), [], false, false],
+            'closure'                  => [_Int::new(), function () {}, false, false],
+        ]);
 
-Base::testMap('_Int/Map', $listTests);
+    it('Mixed', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'null value' => [_Int::new(), null, true, false],
+        ]);
 
-Base::testStruct('_Int/Struct', $listTests);
+});

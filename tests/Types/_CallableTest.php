@@ -1,7 +1,6 @@
 <?php
 
 use Lucasjs7\SimpleValidator\Type\_Callable;
-use Tests\Base;
 
 function MyFunc(mixed $value) {
     return ($value === 'C');
@@ -15,75 +14,25 @@ class MyClassTest {
 
 $myClassTest = new MyClassTest;
 
-$listTests = [
-    '_Callable#' . __LINE__ => [
-        'test' => _Callable::new(null, function ($value) {
-            return ($value === 2);
-        }),
-        'value' => 2,
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Callable#' . __LINE__ => [
-        'test' => _Callable::new(null, function ($value) {
-            return ($value === 't');
-        }),
-        'value' => 't',
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Callable#' . __LINE__ => [
-        'test' => _Callable::new(null, function ($value) {
-            return ($value === 'a');
-        }),
-        'value' => 1,
-        'result' => false,
-        'dataResult' => false,
-    ],
-    '_Callable#' . __LINE__ => [
-        'test' => _Callable::new(null, function ($value) {
-            return ($value === 'c');
-        }),
-        'value' => 'C',
-        'result' => false,
-        'dataResult' => false,
-    ],
-    '_Callable#' . __LINE__ => [
-        'test' => _Callable::new(null, '\MyFunc'),
-        'value' => 'C',
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Callable#' . __LINE__ => [
-        'test' => _Callable::new(null, [MyClassTest::class, 'verify']),
-        'value' => 'A',
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Callable#' . __LINE__ => [
-        'test' => _Callable::new(null, [MyClassTest::class, 'verify']),
-        'value' => 'Z',
-        'result' => false,
-        'dataResult' => false,
-    ],
-    '_Callable#' . __LINE__ => [
-        'test' => _Callable::new(null, [$myClassTest, 'verify']),
-        'value' => 'A',
-        'result' => true,
-        'dataResult' => true,
-    ],
-    '_Callable#' . __LINE__ => [
-        'test' => _Callable::new(null, [$myClassTest, 'verify']),
-        'value' => 'Z',
-        'result' => false,
-        'dataResult' => false,
-    ],
-];
+describe('Callable', function () use($myClassTest) {
 
-Base::testTypeList($listTests);
+    it('True', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'anonymous function int'    => [_Callable::new(null, fn ($v) => ($v === 2)), 2, true, true],
+            'anonymous function string' => [_Callable::new(null, fn ($v) => ($v === 't')), 't', true, true],
+            'global function'           => [_Callable::new(null, '\MyFunc'), 'C', true, true],
+            'static method'             => [_Callable::new(null, [MyClassTest::class, 'verify']), 'A', true, true],
+            'instance method'           => [_Callable::new(null, [$myClassTest, 'verify']), 'A', true, true],
+        ]);
 
-Base::testSlice('_Callable/Slice#1', $listTests);
+    it('False', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'anonymous function int mismatch'         => [_Callable::new(null, fn ($v) => ($v === 'a')), 1, false, false],
+            'anonymous function string case mismatch' => [_Callable::new(null, fn ($v) => ($v === 'c')), 'C', false, false],
+            'static method mismatch'                  => [_Callable::new(null, [MyClassTest::class, 'verify']), 'Z', false, false],
+            'instance method mismatch'                => [_Callable::new(null, [$myClassTest, 'verify']), 'Z', false, false],
+        ]);
 
-Base::testMap('_Callable/Map#1', $listTests);
-
-Base::testStruct('_Callable/Struct#1', $listTests);
+});

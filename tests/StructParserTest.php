@@ -1,7 +1,6 @@
 <?php
 
 use Lucasjs7\SimpleValidator\StructParser;
-use Tests\Base;
 use Lucasjs7\SimpleValidator\Type\TypeParser;
 
 class user {
@@ -36,90 +35,59 @@ function rowFunc(
 ) {
 }
 
-$listTests = [
+describe('StructParser::new', function () {
 
-    // StructParser::new
-    'new#' . __LINE__ => [
-        'test' => StructParser::new(user::class),
-        'value' => ['name' => 'test', 'birth' => '2019-10-10'],
-        'dataResult' => true,
-    ],
-    'new#' . __LINE__ => [
-        'test' => StructParser::new(user::class),
-        'value' => ['name' => 'a', 'birth' => '2019-10-10'],
-        'dataResult' => false,
-    ],
-    'new#' . __LINE__ => [
-        'test' => StructParser::new(user::class),
-        'value' => ['name' => 'test', 'birth' => '2019-10-45'],
-        'dataResult' => false,
-    ],
-    'new#' . __LINE__ => [
-        'test' => StructParser::new(user::class),
-        'value' => ['name' => 'test'],
-        'dataResult' => true,
-    ],
-    'new#' . __LINE__ => [
-        'test' => StructParser::new(user::class),
-        'value' => ['birth' => '2019-10-10'],
-        'dataResult' => false,
-    ],
+    it('True', validateStructures())
+        ->with('structures')
+        ->with([
+            'valid user data' => [StructParser::new(user::class), ['name' => 'test', 'birth' => '2019-10-10'], true, true],
+            'valid name only' => [StructParser::new(user::class), ['name' => 'test'], true, true],
+        ]);
 
-    // StructParser::method
-    'new#' . __LINE__ => [
-        'test' => StructParser::method(row::class, 'define'),
-        'value' => ['name' => 'test', 'created' => '2019-10-10 00:00:00',  'updated' => '2019-10-10 00:00:00'],
-        'dataResult' => true,
-    ],
-    'new#' . __LINE__ => [
-        'test' => StructParser::method(row::class, 'define'),
-        'value' => ['name' => 'a', 'created' => '2019-10-10 00:00:00',  'updated' => '2019-10-10 00:00:00'],
-        'dataResult' => false,
-    ],
-    'new#' . __LINE__ => [
-        'test' => StructParser::method(row::class, 'define'),
-        'value' => ['name' => 'test', 'created' => '2019-10-10 99:00:00',  'updated' => 'asd'],
-        'dataResult' => false,
-    ],
-    'new#' . __LINE__ => [
-        'test' => StructParser::method(row::class, 'define'),
-        'value' => ['name' => 'test', 'created' => '2019-10-10 00:00:00'],
-        'dataResult' => true,
-    ],
-    'new#' . __LINE__ => [
-        'test' => StructParser::method(row::class, 'define'),
-        'value' => ['updated' => '2019-10-10 00:00:00'],
-        'dataResult' => false,
-    ],
+    it('False', validateStructures())
+        ->with('structures')
+        ->with([
+            'short name'    => [StructParser::new(user::class), ['name' => 'a', 'birth' => '2019-10-10'], true, false],
+            'invalid birth' => [StructParser::new(user::class), ['name' => 'test', 'birth' => '2019-10-45'], true, false],
+            'missing name'  => [StructParser::new(user::class), ['birth' => '2019-10-10'], true, false],
+        ]);
 
-    // StructParser::function
-    'new#' . __LINE__ => [
-        'test' => StructParser::function('rowFunc'),
-        'value' => ['name' => 'test', 'created' => '2019-10-10 00:00:00',  'updated' => '2019-10-10 00:00:00'],
-        'dataResult' => true,
-    ],
-    'new#' . __LINE__ => [
-        'test' => StructParser::function('rowFunc'),
-        'value' => ['name' => 'a', 'created' => '2019-10-10 00:00:00',  'updated' => '2019-10-10 00:00:00'],
-        'dataResult' => false,
-    ],
-    'new#' . __LINE__ => [
-        'test' => StructParser::function('rowFunc'),
-        'value' => ['name' => 'test', 'created' => '2019-10-10 99:00:00',  'updated' => '2019-10-10 00:00:00'],
-        'dataResult' => false,
-    ],
-    'new#' . __LINE__ => [
-        'test' => StructParser::function('rowFunc'),
-        'value' => ['name' => 'test', 'created' => '2019-10-10 00:00:00'],
-        'dataResult' => true,
-    ],
-    'new#' . __LINE__ => [
-        'test' => StructParser::function('rowFunc'),
-        'value' => ['updated' => '2019-10-10 00:00:00'],
-        'dataResult' => false,
-    ],
-];
+});
 
-Base::testStruct('StructParser/Struct', $listTests);
-Base::testSlice('StructParser/Slice', $listTests);
-Base::testMap('StructParser/Map', $listTests);
+describe('StructParser::method', function () {
+
+    it('True', validateStructures())
+        ->with('structures')
+        ->with([
+            'full valid row data' => [StructParser::method(row::class, 'define'), ['name' => 'test', 'created' => '2019-10-10 00:00:00',  'updated' => '2019-10-10 00:00:00'], true, true],
+            'valid optional row'  => [StructParser::method(row::class, 'define'), ['name' => 'test', 'created' => '2019-10-10 00:00:00'], true, true],
+        ]);
+
+    it('False', validateStructures())
+        ->with('structures')
+        ->with([
+            'short name row'   => [StructParser::method(row::class, 'define'), ['name' => 'a', 'created' => '2019-10-10 00:00:00',  'updated' => '2019-10-10 00:00:00'], true, false],
+            'invalid date row' => [StructParser::method(row::class, 'define'), ['name' => 'test', 'created' => '2019-10-10 99:00:00',  'updated' => 'asd'], true, false],
+            'missing required' => [StructParser::method(row::class, 'define'), ['updated' => '2019-10-10 00:00:00'], true, false],
+        ]);
+
+});
+
+describe('StructParser::function', function () {
+
+    it('True', validateStructures())
+        ->with('structures')
+        ->with([
+            'full valid func data' => [StructParser::function('rowFunc'), ['name' => 'test', 'created' => '2019-10-10 00:00:00',  'updated' => '2019-10-10 00:00:00'], true, true],
+            'valid optional func'  => [StructParser::function('rowFunc'), ['name' => 'test', 'created' => '2019-10-10 00:00:00'], true, true],
+        ]);
+
+    it('False', validateStructures())
+        ->with('structures')
+        ->with([
+            'short name func'   => [StructParser::function('rowFunc'), ['name' => 'a', 'created' => '2019-10-10 00:00:00',  'updated' => '2019-10-10 00:00:00'], true, false],
+            'invalid date func' => [StructParser::function('rowFunc'), ['name' => 'test', 'created' => '2019-10-10 99:00:00',  'updated' => '2019-10-10 00:00:00'], true, false],
+            'missing req func'  => [StructParser::function('rowFunc'), ['updated' => '2019-10-10 00:00:00'], true, false],
+        ]);
+
+});

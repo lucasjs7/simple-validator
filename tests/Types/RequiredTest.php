@@ -3,313 +3,68 @@
 use Lucasjs7\SimpleValidator\Map;
 use Lucasjs7\SimpleValidator\Slice;
 use Lucasjs7\SimpleValidator\Struct;
-use Tests\Base;
 use Lucasjs7\SimpleValidator\Type\{_Bool, _Date, _Float, _Int, _Interface, _String, TypeParser};
 
-$listTests = [
-    'Required#' . __LINE__ => [
-        'test' => _Bool::new()->required(),
-        'value' => false,
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Bool::new()->required(),
-        'value' => true,
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Int::new()->required(),
-        'value' => 0,
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Int::new()->required(),
-        'value' => -1,
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Float::new()->required(),
-        'value' => 0,
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Float::new()->required(),
-        'value' => -0.1,
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Date::new()->required(),
-        'value' => '0001-01-01',
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _String::new()->required(),
-        'value' => '.',
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Interface::new()->required(),
-        'value' => false,
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Interface::new()->required(),
-        'value' => [null],
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Slice::new('type: string'),
-        'value' => [],
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Map::new('type: string', 'type: string'),
-        'value' => [],
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Struct::new(['name' => 'type: string']),
-        'value' => [],
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Struct::new([
-            'name2' => Slice::new('type: string')
-        ]),
-        'value' => [],
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Struct::new([
-            'name2' => Map::new('type: string', 'type: string')
-        ]),
-        'value' => [],
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Struct::new([
-            'name2' => Struct::new(['name' => 'type: string'])
-        ]),
-        'value' => [],
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Bool::new()->required(),
-        'value' => null,
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Int::new()->required(),
-        'value' => null,
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Float::new()->required(),
-        'value' => null,
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Date::new()->required(),
-        'value' => '',
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Date::new()->required(),
-        'value' => ' ',
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Date::new()->required(),
-        'value' => null,
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _String::new()->required(),
-        'value' => '',
-        'result' => false,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _String::new()->required(),
-        'value' => ' ',
-        'result' => false,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _String::new()->required(),
-        'value' => null,
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Interface::new()->required(),
-        'value' => null,
-        'result' => false,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Interface::new()->required(),
-        'value' => '',
-        'result' => false,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Interface::new()->required(),
-        'value' => '   ',
-        'result' => false,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => _Interface::new()->required(),
-        'value' => [],
-        'result' => false,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Slice::new('type: string | required'),
-        'value' => [],
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Map::new('type: string', 'type: string | required'),
-        'value' => [],
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Struct::new(['name' => 'type: string | required']),
-        'value' => [],
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Struct::new([
-            'name2' => Slice::new('type: string | required')
-        ]),
-        'value' => [],
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Struct::new([
-            'name2' => Map::new('type: string', 'type: string | required')
-        ]),
-        'value' => [],
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Struct::new([
-            'name2' => Struct::new(['name' => 'type: string | required'])
-        ]),
-        'value' => [],
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Struct::new([
-            'name2' => Struct::new(['name' => 'type: string | required']),
-            'name3' => 'type: string',
-        ]),
-        'value' => ['name2' => ['name' => 'abc']],
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Struct::new([
-            'name2' => Map::new('type: string | required', 'type: string | required'),
-            'name3' => 'type: string',
-        ]),
-        'value' => ['name2' => ['sl' => 'abc']],
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Struct::new([
-            'name2' => Slice::new('type: string | required'),
-            'name3' => 'type: string',
-        ]),
-        'value' => ['name2' => ['abc']],
-        'result' => true,
-        'dataResult' => true,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Struct::new([
-            'name2' => Struct::new(['name' => 'type: string | required']),
-            'name3' => 'type: string',
-        ]),
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Struct::new([
-            'name2' => Map::new('type: string | required', 'type: string | required'),
-            'name3' => 'type: string',
-        ]),
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => Struct::new([
-            'name2' => Slice::new('type: string | required'),
-            'name3' => 'type: string',
-        ]),
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => TypeParser::new('type: int'),
-        'value' => null,
-        'result' => true,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => TypeParser::new('type: int | required'),
-        'value' => null,
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => TypeParser::new('type: int | required: true'),
-        'value' => null,
-        'result' => false,
-        'dataResult' => false,
-    ],
-    'Required#' . __LINE__ => [
-        'test' => TypeParser::new('type: int | required: false'),
-        'value' => null,
-        'result' => true,
-        'dataResult' => false,
-    ],
-];
+describe('Required', function () {
 
-Base::testTypeList($listTests);
+    it('True', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'bool false'             => [_Bool::new()->required(), false, true, true],
+            'bool true'              => [_Bool::new()->required(), true, true, true],
+            'int 0'                  => [_Int::new()->required(), 0, true, true],
+            'int negative'           => [_Int::new()->required(), -1, true, true],
+            'float 0'                => [_Float::new()->required(), 0, true, true],
+            'float negative'         => [_Float::new()->required(), -0.1, true, true],
+            'date valid string'      => [_Date::new()->required(), '0001-01-01', true, true],
+            'string valid'           => [_String::new()->required(), '.', true, true],
+            'interface bool'         => [_Interface::new()->required(), false, true, true],
+            'interface array'        => [_Interface::new()->required(), [null], true, true],
+            'slice empty optional'   => [Slice::new('type: string'), [], true, true],
+            'map empty optional'     => [Map::new('type: string', 'type: string'), [], true, true],
+            'struct empty optional'  => [Struct::new(['name' => 'type: string']), [], true, true],
+            'struct slice optional'  => [Struct::new(['name2' => Slice::new('type: string')]), [], true, true],
+            'struct map optional'    => [Struct::new(['name2' => Map::new('type: string', 'type: string')]), [], true, true],
+            'struct struct optional' => [Struct::new(['name2' => Struct::new(['name' => 'type: string'])]), [], true, true],
+            'struct nested required' => [Struct::new(['name2' => Struct::new(['name' => 'type: string | required']), 'name3' => 'type: string']), ['name2' => ['name' => 'abc']], true, true],
+            'struct map required'    => [Struct::new(['name2' => Map::new('type: string | required', 'type: string | required'), 'name3' => 'type: string']), ['name2' => ['sl' => 'abc']], true, true],
+            'struct slice required'  => [Struct::new(['name2' => Slice::new('type: string | required'), 'name3' => 'type: string']), ['name2' => ['abc']], true, true],
+        ]);
 
-Base::testSlice('Required/Slice', $listTests);
+    it('False', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'bool null'                    => [_Bool::new()->required(), null, false, false],
+            'int null'                     => [_Int::new()->required(), null, false, false],
+            'float null'                   => [_Float::new()->required(), null, false, false],
+            'date empty'                   => [_Date::new()->required(), '', false, false],
+            'date space'                   => [_Date::new()->required(), ' ', false, false],
+            'date null'                    => [_Date::new()->required(), null, false, false],
+            'string null'                  => [_String::new()->required(), null, false, false],
+            'slice empty required'         => [Slice::new('type: string | required'), [], false, false],
+            'map empty required'           => [Map::new('type: string', 'type: string | required'), [], false, false],
+            'struct field required'        => [Struct::new(['name' => 'type: string | required']), [], false, false],
+            'struct slice required empty'  => [Struct::new(['name2' => Slice::new('type: string | required')]), [], false, false],
+            'struct map required empty'    => [Struct::new(['name2' => Map::new('type: string', 'type: string | required')]), [], false, false],
+            'struct struct required empty' => [Struct::new(['name2' => Struct::new(['name' => 'type: string | required'])]), [], false, false],
+            'struct nested empty'          => [Struct::new(['name2' => Struct::new(['name' => 'type: string | required']), 'name3' => 'type: string']), [], false, false, false],
+            'struct map empty'             => [Struct::new(['name2' => Map::new('type: string | required', 'type: string | required'), 'name3' => 'type: string']), [], false, false, false],
+            'struct slice empty'           => [Struct::new(['name2' => Slice::new('type: string | required'), 'name3' => 'type: string']), [], false, false, false],
+            'type parser int req'          => [TypeParser::new('type: int | required'), null, false, false],
+            'type parser strict req'       => [TypeParser::new('type: int | required: true'), null, false, false],
+        ]);
 
-Base::testMap('Required/Map', $listTests);
+    it('Mixed', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'string empty'          => [_String::new()->required(), '', false, true],
+            'string spaces'         => [_String::new()->required(), ' ', false, true],
+            'interface null'        => [_Interface::new()->required(), null, false, true],
+            'interface empty'       => [_Interface::new()->required(), '', false, true],
+            'interface spaces'      => [_Interface::new()->required(), '   ', false, true],
+            'interface empty array' => [_Interface::new()->required(), [], false, true],
+            'parser type int'       => [TypeParser::new('type: int'), null, true, false],
+            'parser not required'   => [TypeParser::new('type: int | required: false'), null, true, false],
+        ]);
 
-Base::testStruct('Required/Struct', $listTests);
+});

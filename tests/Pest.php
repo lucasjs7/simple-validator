@@ -1,45 +1,128 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Test Case
-|--------------------------------------------------------------------------
-|
-| The closure you provide to your test functions is always bound to a specific PHPUnit test
-| case class. By default, that class is "PHPUnit\Framework\TestCase". Of course, you may
-| need to change it using the "uses()" function to bind a different classes or traits.
-|
-*/
-
-// uses(Tests\TestCase::class)->in('Feature');
+use Lucasjs7\SimpleValidator\{iDataStructure, Map, Slice, Struct};
+use Lucasjs7\SimpleValidator\Type\_String;
+use Lucasjs7\SimpleValidator\Type\iTypeBase;
 
 /*
 |--------------------------------------------------------------------------
-| Expectations
+| Datasets
 |--------------------------------------------------------------------------
-|
-| When you're writing tests, you often need to check that values meet certain conditions. The
-| "expect()" function gives you access to a set of "expectations" methods that you can use
-| to assert different things. Of course, you may extend the Expectation API at any time.
-|
 */
 
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
-});
+dataset('structures', [
+    'Slice'  => [validateSlice(...)],
+    'Map'    => [validateMap(...)],
+    'Struct' => [validateStruct(...)],
+]);
+
+dataset('struct-and-type', [
+    'Type'   => [validateType(...), false],
+    'Slice'  => [validateSlice(...), true],
+    'Map'    => [validateMap(...), true],
+    'Struct' => [validateStruct(...), true],
+]);
 
 /*
 |--------------------------------------------------------------------------
 | Functions
 |--------------------------------------------------------------------------
-|
-| While Pest is very powerful out-of-the-box, you may have some testing code specific to your
-| project that you don't want to repeat in every file. Here you can also expose helpers as
-| global functions to help you to reduce the number of lines of code in your test files.
-|
 */
 
-function something()
-{
-    // ..
+function validateStructures(): callable {
+    return function(
+        callable                 $executor,
+        iTypeBase|iDataStructure $test,
+        mixed                    $value,
+        bool                     $adaptedValue,
+        mixed                    $result,
+    ): void {
+        expect($executor($test, $value, $adaptedValue))->toBe($result);
+    };
+}
+
+function validateStructAndType(): callable {
+    return function(
+        callable                 $executor,
+        bool                     $isStructTest,
+        iTypeBase|iDataStructure $test,
+        mixed                    $value,
+        mixed                    $typeResult,
+        mixed                    $structResult,
+    ): void {
+
+        $expected = $isStructTest ? $structResult : $typeResult;
+
+        expect($executor($test, $value, true))->toBe($expected);
+    };
+}
+
+function validateType(
+    iTypeBase|iDataStructure $type,
+    mixed                    $value,
+): bool {
+    return $type->validate(
+        value: $value,
+        exception: false
+    );
+}
+
+function validateSlice(
+    iTypeBase|iDataStructure $type,
+    mixed                    $value,
+    bool                     $adaptedValue,
+): bool {
+    return Slice::new(
+        typeValues: $type
+    )->validate(
+        value    : $adaptedValue ? [$value]: $value,
+        exception: false
+    );
+}
+
+function validateMap(
+    iTypeBase|iDataStructure $type,
+    mixed                    $value,
+    bool                     $adaptedValue,
+): bool {
+    return Map::new(
+        typeKeys  : _String::new(),
+        typeValues: $type
+    )->validate(
+        value    : $adaptedValue ? ['name' => $value]: $value,
+        exception: false
+    );
+}
+
+function validateStruct(
+    iTypeBase|iDataStructure $type,
+    mixed                    $value,
+    bool                     $adaptedValue,
+): bool {
+    return Struct::new(
+        structure: ['A' => $type]
+    )->validate(
+        value    : $adaptedValue ? ['A' => $value]: $value,
+        exception: false
+    );
+}
+
+function genTmpFile(
+    string $filePath,
+): array {
+
+    $ext      = pathinfo($filePath, PATHINFO_EXTENSION);
+    $fileName = 'file-'.random_int(1000000000, 9999999999).'.'.$ext;
+    $tmpName  = sys_get_temp_dir().DIRECTORY_SEPARATOR.$fileName;
+
+    copy($filePath, $tmpName);
+
+    return [
+        'name'      => $fileName,
+        'full_path' => $tmpName,
+        'type'      => mime_content_type($tmpName),
+        'tmp_name'  => $tmpName,
+        'error'     => 0,
+        'size'      => filesize($filePath),
+    ];
 }

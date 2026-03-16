@@ -1,142 +1,43 @@
 <?php
 
-use Tests\Base;
 use Lucasjs7\SimpleValidator\Type\_Float;
 
-$listTests = [
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new()->max(10.3),
-		'value' => 10.3,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new()->min(10.3),
-		'value' => 10.3,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new()->unsigned(),
-		'value' => 0,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new()->max(10.3)->min(5.8),
-		'value' => 10.3,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new()->max(10.3)->min(5.8),
-		'value' => 5.8,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new()->max(10.3)->unsigned(),
-		'value' => 0,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new()->max(10.3)->unsigned(),
-		'value' => 10.3,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new()->max(10.3),
-		'value' => 10.4,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new()->min(10.3),
-		'value' => 10.2,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new()->unsigned(),
-		'value' => -0.1,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new()->max(10.3)->min(5.8),
-		'value' => 10.4,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new()->max(10.3)->min(5.8),
-		'value' => 5.7,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new()->max(10.3)->unsigned(),
-		'value' => -0.1,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new()->max(10.3)->unsigned(),
-		'value' => 10.4,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new(),
-		'value' => null,
-		'result' => true,
-		'dataResult' => false,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new(),
-		'value' => true,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new(),
-		'value' => '',
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new(),
-		'value' => 1,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new(),
-		'value' => 1.2,
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new(),
-		'value' => [],
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Float#' . __LINE__ => [
-		'test' => _Float::new(),
-		'value' => function () {
-		},
-		'result' => false,
-		'dataResult' => false,
-	],
-];
+describe('Float', function () {
 
-Base::testTypeList($listTests);
+    it('True', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'max exactly 10.3'           => [_Float::new()->max(10.3), 10.3, true, true],
+            'min exactly 10.3'           => [_Float::new()->min(10.3), 10.3, true, true],
+            'unsigned zero'              => [_Float::new()->unsigned(), 0, true, true],
+            'max 10.3 min 5.8 match max' => [_Float::new()->max(10.3)->min(5.8), 10.3, true, true],
+            'max 10.3 min 5.8 match min' => [_Float::new()->max(10.3)->min(5.8), 5.8, true, true],
+            'max 10.3 unsigned zero'     => [_Float::new()->max(10.3)->unsigned(), 0, true, true],
+            'max 10.3 unsigned 10.3'     => [_Float::new()->max(10.3)->unsigned(), 10.3, true, true],
+            'int 1 value'                => [_Float::new(), 1, true, true],
+            'float 1.2 value'            => [_Float::new(), 1.2, true, true],
+        ]);
 
-Base::testSlice('_Float/Slice#1', $listTests);
+    it('False', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'max 10.3 overflow 10.4'     => [_Float::new()->max(10.3), 10.4, false, false],
+            'min 10.3 underflow 10.2'    => [_Float::new()->min(10.3), 10.2, false, false],
+            'unsigned negative'          => [_Float::new()->unsigned(), -0.1, false, false],
+            'max 10.3 min 5.8 overflow'  => [_Float::new()->max(10.3)->min(5.8), 10.4, false, false],
+            'max 10.3 min 5.8 underflow' => [_Float::new()->max(10.3)->min(5.8), 5.7, false, false],
+            'max 10.3 unsigned negative' => [_Float::new()->max(10.3)->unsigned(), -0.1, false, false],
+            'max 10.3 unsigned 10.4'     => [_Float::new()->max(10.3)->unsigned(), 10.4, false, false],
+            'bool true'                  => [_Float::new(), true, false, false],
+            'empty string'               => [_Float::new(), '', false, false],
+            'empty array'                => [_Float::new(), [], false, false],
+            'closure'                    => [_Float::new(), function () {}, false, false],
+        ]);
 
-Base::testMap('_Float/Map#1', $listTests);
+    it('Mixed', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'null value' => [_Float::new(), null, true, false],
+        ]);
 
-Base::testStruct('_Float/Struct#1', $listTests);
+});

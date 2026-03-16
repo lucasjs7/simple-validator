@@ -1,172 +1,49 @@
 <?php
 
-use Tests\Base;
 use Lucasjs7\SimpleValidator\Type\_Date;
 
-$listTests = [
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('d/m/Y'),
-		'value' => '01/01/0001',
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('y-m-d'),
-		'value' => '01-01-01',
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('H'),
-		'value' => '1',
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('Y-m-d H:i:s'),
-		'value' => '2014-02-28 12:12:12',
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('Y-m-d'),
-		'value' => '2015-06-26',
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('d/m/Y'),
-		'value' => '28/02/2014',
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('H:i'),
-		'value' => '14:50',
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('H'),
-		'value' => '14',
-		'result' => true,
-		'dataResult' => true,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('H'),
-		'value' => 14,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('y-m-d'),
-		'value' => '1-1-1',
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('d/m/Y'),
-		'value' => '1/1/1',
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('d/m/Y'),
-		'value' => '1-1-1',
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('y-m-d'),
-		'value' => '1/1/1',
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('y-m-d'),
-		'value' => 'a1-a1-a1',
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('H'),
-		'value' => '-1',
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('Y-m-d H:i:s'),
-		'value' => '2014-02-30 12:12:12',
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('Y-m-d'),
-		'value' => '2015/06/26',
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('d/m/Y'),
-		'value' => '30/02/2014',
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new()->format('H:i'),
-		'value' => '14:77',
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new(),
-		'value' => null,
-		'result' => true,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new(),
-		'value' => true,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new(),
-		'value' => '',
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new(),
-		'value' => 1,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new(),
-		'value' => 1.2,
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new(),
-		'value' => [],
-		'result' => false,
-		'dataResult' => false,
-	],
-	'_Date#' . __LINE__ => [
-		'test' => _Date::new(),
-		'value' => function () {
-		},
-		'result' => false,
-		'dataResult' => false,
-	],
-];
+describe('Date', function () {
 
-Base::testTypeList($listTests);
+    it('True', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'short date DMY'      => [_Date::new()->format('d/m/Y'), '01/01/0001', true, true],
+            'short date YMD'      => [_Date::new()->format('y-m-d'), '01-01-01', true, true],
+            'hour only'           => [_Date::new()->format('H'), '1', true, true],
+            'full datetime'       => [_Date::new()->format('Y-m-d H:i:s'), '2014-02-28 12:12:12', true, true],
+            'standard date YMD'   => [_Date::new()->format('Y-m-d'), '2015-06-26', true, true],
+            'standard date DMY'   => [_Date::new()->format('d/m/Y'), '28/02/2014', true, true],
+            'hour and minute'     => [_Date::new()->format('H:i'), '14:50', true, true],
+            'two digit hour'      => [_Date::new()->format('H'), '14', true, true],
+        ]);
 
-Base::testSlice('_Date/Slice#1', $listTests);
+    it('False', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'integer instead of string' => [_Date::new()->format('H'), 14, false, false],
+            'invalid short year'        => [_Date::new()->format('y-m-d'), '1-1-1', false, false],
+            'invalid DMY format'        => [_Date::new()->format('d/m/Y'), '1/1/1', false, false],
+            'invalid separator DMY'     => [_Date::new()->format('d/m/Y'), '1-1-1', false, false],
+            'invalid separator YMD'     => [_Date::new()->format('y-m-d'), '1/1/1', false, false],
+            'letters in date'           => [_Date::new()->format('y-m-d'), 'a1-a1-a1', false, false],
+            'negative hour'             => [_Date::new()->format('H'), '-1', false, false],
+            'invalid leap day'          => [_Date::new()->format('Y-m-d H:i:s'), '2014-02-30 12:12:12', false, false],
+            'wrong separator slash'     => [_Date::new()->format('Y-m-d'), '2015/06/26', false, false],
+            'invalid day for month'     => [_Date::new()->format('d/m/Y'), '30/02/2014', false, false],
+            'invalid minute'            => [_Date::new()->format('H:i'), '14:77', false, false],
+            'boolean true'              => [_Date::new(), true, false, false],
+            'empty string'              => [_Date::new(), '', false, false],
+            'integer 1'                 => [_Date::new(), 1, false, false],
+            'float 1.2'                 => [_Date::new(), 1.2, false, false],
+            'empty array'               => [_Date::new(), [], false, false],
+            'callable'                  => [_Date::new(), function () {}, false, false],
+        ]);
 
-Base::testMap('_Date/Map#1', $listTests);
+    it('Mixed', validateStructAndType())
+        ->with('struct-and-type')
+        ->with([
+            'null' => [_Date::new(), null, true, false],
+        ]);
 
-Base::testStruct('_Date/Struct#1', $listTests);
+});
+

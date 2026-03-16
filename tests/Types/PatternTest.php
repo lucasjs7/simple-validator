@@ -3,7 +3,7 @@
 use Lucasjs7\SimpleValidator\Type\_Callable;
 use Lucasjs7\SimpleValidator\Type\TypeParser;
 
-it('Pattern#' . __LINE__, function () {
+it('Pattern required', function () {
 
     $attrRequired = TypeParser::new('type: string');
     $attrRequired->save('test_pattern_required');
@@ -14,7 +14,7 @@ it('Pattern#' . __LINE__, function () {
     expect($finalAttrRequired->getAttr()->required->getValue())->toBe(true);
 });
 
-it('Pattern#' . __LINE__, function () {
+it('Pattern unsigned', function () {
 
     $attrUnsigned = TypeParser::new('type: int');
     $attrUnsigned->save('test_pattern_unsigned');
@@ -25,7 +25,7 @@ it('Pattern#' . __LINE__, function () {
     expect($finalAttrUnsigned->getAttr()->unsigned->getValue())->toBe(true);
 });
 
-it('Pattern#' . __LINE__, function () {
+it('Pattern min', function () {
 
     $attrMin = TypeParser::new('type: int');
     $attrMin->save('test_pattern_min');
@@ -36,7 +36,7 @@ it('Pattern#' . __LINE__, function () {
     expect($finalAttrMin->getAttr()->min->getValue())->toBe(2.0);
 });
 
-it('Pattern#' . __LINE__, function () {
+it('Pattern max', function () {
 
     $attrMax = TypeParser::new('type: float');
     $attrMax->save('test_pattern_max');
@@ -47,7 +47,7 @@ it('Pattern#' . __LINE__, function () {
     expect($finalAttrMax->getAttr()->max->getValue())->toBe(3.0);
 });
 
-it('Pattern#' . __LINE__, function () {
+it('Pattern options', function () {
 
     $attrOptions = TypeParser::new('type: string');
     $attrOptions->save('test_pattern_options');
@@ -58,7 +58,7 @@ it('Pattern#' . __LINE__, function () {
     expect($finalAttrOptions->getAttr()->options->getValue())->toBe(['1']);
 });
 
-it('Pattern#' . __LINE__, function () {
+it('Pattern format', function () {
 
     $attrFormat = TypeParser::new('type: date');
     $attrFormat->save('test_pattern_format');
@@ -69,7 +69,7 @@ it('Pattern#' . __LINE__, function () {
     expect($finalAttrFormat->getAttr()->format->getValue())->toBe('Y');
 });
 
-it('Pattern#' . __LINE__, function () {
+it('Pattern regex', function () {
 
     $attrRegex = TypeParser::new('type: string');
     $attrRegex->save('test_pattern_regex');
@@ -80,7 +80,7 @@ it('Pattern#' . __LINE__, function () {
     expect($finalAttrRegex->getAttr()->regex->getValue())->toBe('/[^0-9]/');
 });
 
-it('Pattern#' . __LINE__, function () {
+it('Pattern label', function () {
 
     $attrLabel = TypeParser::new('type: string');
     $attrLabel->save('test_pattern_label');
@@ -91,7 +91,7 @@ it('Pattern#' . __LINE__, function () {
     expect($finalAttrLabel->getAttr()->label->getValue())->toBe('jorel');
 });
 
-it('Pattern#' . __LINE__, function () {
+it('Pattern callable', function () {
 
     $attrCallable = _Callable::new(null, null);
     $attrCallable->save('test_pattern_callable');

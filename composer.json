@@ -17,7 +17,6 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Lucasjs7\\": "src/",
 			"Tests\\": "tests/"
 		}
 	},
@@ -28,7 +27,7 @@
 		"ext-mbstring": "*"
 	},
 	"require-dev": {
-		"pestphp/pest": "^2.34"
+		"pestphp/pest": "^4.4.1"
 	},
 	"config": {
         "preferred-install": "dist",
