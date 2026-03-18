@@ -1,6 +1,10 @@
 name: Run Tests
 
-on: ['push', 'pull_request']
+on:
+  push:
+    branches: [main, feature]
+  pull_request:
+    branches: [main, feature]
 
 jobs:
   pest-tests:
