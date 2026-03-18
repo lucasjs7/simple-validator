@@ -45,6 +45,6 @@ class Language {
             $currentData = str_replace($tag, $value, $currentData);
         }
 
-        return is_string($currentData) ? $currentData : '';
+        return $currentData;
     }
 }

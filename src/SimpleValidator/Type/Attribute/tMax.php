@@ -27,6 +27,7 @@ trait tMax {
         $isValid = match ($type) {
             'int', 'float' => ($value <= $this->getAttr()->max->getValue()),
             'string'       => (mb_strlen($value) <= $this->getAttr()->max->getValue()),
+            default        => throw new \Exception,
         };
 
         if (!$isValid) {

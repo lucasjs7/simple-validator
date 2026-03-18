@@ -4,6 +4,8 @@ namespace Lucasjs7\SimpleValidator\Type;
 
 interface iTypeBase {
 
+    public function __construct(?string $label = null);
+
     public function validate(mixed $value, bool $exception = true): bool;
 
     public function attrsValidate(mixed $value): void;
@@ -12,5 +14,5 @@ interface iTypeBase {
 
     public function save(string $name): void;
 
-    public static function pattern(string $name): static;
+    public static function pattern(string $name): self;
 }

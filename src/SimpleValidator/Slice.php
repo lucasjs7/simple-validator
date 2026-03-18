@@ -2,7 +2,6 @@
 
 namespace Lucasjs7\SimpleValidator;
 
-use Exception;
 use Lucasjs7\SimpleValidator\Type\{TypeBase, TypeParser};
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
@@ -20,8 +19,8 @@ class Slice extends DataStructure {
 
     public static function new(
         string|DataStructure|TypeBase $typeValues
-    ): static {
-        return new static($typeValues);
+    ): self {
+        return new self($typeValues);
     }
 
     public function validate(

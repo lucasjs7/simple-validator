@@ -23,4 +23,24 @@ class TypeUtil {
     public static function Bool(): _Bool {
         return new _Bool();
     }
+
+    public static function Callable(): _Callable {
+        return new _Callable();
+    }
+
+    public static function File(): _File {
+        return new _File();
+    }
+
+    public static function Image(): _Image {
+        return new _Image();
+    }
+
+    public static function Interface(): _Interface {
+        return new _Interface();
+    }
+
+    public static function Mixed(): _Mixed {
+        return new _Mixed();
+    }
 }

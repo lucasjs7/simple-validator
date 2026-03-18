@@ -27,7 +27,8 @@
 		"ext-mbstring": "*"
 	},
 	"require-dev": {
-		"pestphp/pest": "^4.4.1"
+		"pestphp/pest": "^4.4.1",
+		"phpstan/phpstan": "^2.1"
 	},
 	"config": {
         "preferred-install": "dist",

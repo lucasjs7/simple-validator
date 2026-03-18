@@ -6,6 +6,8 @@ use Exception;
 use Lucasjs7\SimpleValidator\Core;
 use Lucasjs7\SimpleValidator\Type\Attribute\Attribute;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
+use Lucasjs7\SimpleValidator\Type\Attribute\AttrData;
+use ReflectionClass;
 
 abstract class TypeBase extends Core implements iTypeBase {
 
@@ -101,8 +103,17 @@ abstract class TypeBase extends Core implements iTypeBase {
 
         if (!$this->checkAttributes()) {
 
-            foreach ($this->getAttr() as $nameAttr => $attribute) {
-                if ($nameAttr != 'required' && $attribute->getValue() !== null) {
+            $rfClass = new ReflectionClass($this->getAttr());
+
+            foreach ($rfClass->getProperties() as $rfProp) {
+
+                $attribute = $rfProp->getValue($this->getAttr());
+
+                if (!$attribute instanceof AttrData) {
+                    continue;
+                }
+
+                if ($rfProp->getName() != 'required' && $attribute->getValue() !== null) {
                     $attribute->setError(true);
                 }
             }
@@ -151,8 +162,17 @@ abstract class TypeBase extends Core implements iTypeBase {
         $class = trim(substr(static::class, strrpos(static::class, '\\') + 1), '_');
         $rtn[] = 'type: ' . strtolower($class);
 
-        foreach ($this->getAttr() as $name => $value) {
-            $listAttr[$name] = $value->getValue();
+        $rfClass = new ReflectionClass($this->getAttr());
+
+        foreach ($rfClass->getProperties() as $rfProp) {
+
+            $attrData = $rfProp->getValue($this->getAttr());
+
+            if (!$attrData instanceof AttrData) {
+                continue;
+            }
+
+            $listAttr[$rfProp->getName()] = $attrData->getValue();
         }
 
         foreach ($listAttr as $k => $v) {

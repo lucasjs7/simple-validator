@@ -13,6 +13,7 @@ use ReflectionIntersectionType;
 use Lucasjs7\SimpleValidator\Type\TypeParser;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 use Lucasjs7\SimpleValidator\Type\TypeBase;
+use ReflectionNamedType;
 
 class StructParser {
 
@@ -45,7 +46,7 @@ class StructParser {
                 }
             }
 
-            $dataStruct = static::processParameters(
+            $dataStruct = self::processParameters(
                 rf: new ReflectionMethod($class, $method),
                 properties: $properties,
             );
@@ -78,7 +79,7 @@ class StructParser {
 
         try {
 
-            $dataStruct = static::processParameters(
+            $dataStruct = self::processParameters(
                 rf: new ReflectionFunction($function),
                 properties: [],
             );
@@ -129,7 +130,7 @@ class StructParser {
             $required   = (!$param->isOptional());
             $docComment = $properties[$param->name]['doc_comment'] ?? '';
 
-            $data[$param->name] = static::getType(
+            $data[$param->name] = self::getType(
                 param: $param,
                 required: $required,
                 attribute: $attribute,
@@ -155,7 +156,12 @@ class StructParser {
             throw new Exception;
         }
 
-        $type  = $param->getType();
+        $type = $param->getType();
+
+        if (!$type instanceof ReflectionNamedType) {
+            throw new Exception;
+        }
+
         $tName = $type->getName();
 
         $docValidate = null;
@@ -210,10 +216,6 @@ class StructParser {
 
         $strParser  = ($parserType === null) ? "type: $tName | $docValidate" : $docValidate;
         $typeParser = TypeParser::new($strParser);
-
-        if ($typeParser === false) {
-            throw new Exception;
-        }
 
         if ($required) {
             $typeParser->required();

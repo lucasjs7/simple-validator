@@ -41,6 +41,7 @@ trait tMin {
         $isValid = match ($type) {
             'int', 'float' => ($value >= $this->getAttr()->min->getValue()),
             'string'       => (mb_strlen($value) >= $this->getAttr()->min->getValue()),
+            default        => false,
         };
 
         if (!$isValid) {
@@ -48,6 +49,7 @@ trait tMin {
             $msgPath = match ($type) {
                 'int', 'float' => 'type.attribute.min.invalid.number',
                 'string'       => 'type.attribute.min.invalid.string',
+                default        => throw new \Exception,
             };
 
             throw new ValidatorException(

@@ -8,8 +8,6 @@ use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 class _File extends TypeBase {
 
-    private static array $patterns = [];
-
     use tPattern, tRequired, tMaxDataSize, tExt;
 
     public function typeValidate(

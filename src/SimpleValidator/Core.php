@@ -5,6 +5,7 @@ namespace Lucasjs7\SimpleValidator;
 use Exception;
 use Lucasjs7\SimpleCliTable;
 use Lucasjs7\SimpleValidator\Language\{Language, eLanguage};
+use Lucasjs7\SimpleValidator\Type\Attribute\AttrData;
 use Lucasjs7\SimpleValidator\Type\Attribute\Attribute;
 use Lucasjs7\SimpleValidator\Type\TypeBase;
 
@@ -151,17 +152,26 @@ abstract class Core {
         $attrTable->setContainsHeader(true);
         $attrTable->add(['Attribute', 'Value', 'Error']);
 
-        foreach ($attr as $kAttr => $vAttr) {
-            $attrValeu = match (gettype($vAttr->getValue())) {
-                'array', 'object' => json_encode($vAttr->getValue()),
+        $rfClass = new \ReflectionClass($attr);
+
+        foreach ($rfClass->getProperties() as $rfcProp) {
+
+            $attrData = $rfcProp->getValue($attr);
+
+            if (!$attrData instanceof AttrData) {
+                continue;
+            }
+
+            $attrValeu = match (gettype($attrData->getValue())) {
+                'array', 'object' => json_encode($attrData->getValue()),
                 'NULL'            => '',
-                default           => $vAttr->getValue(),
+                default           => $attrData->getValue(),
             };
 
             $attrTable->add([
-                $kAttr,
+                $rfcProp->getName(),
                 $attrValeu,
-                $vAttr->getError() ? '*' : '',
+                $attrData->getError() ? '*' : '',
             ]);
         }
 
@@ -223,6 +233,9 @@ abstract class Core {
         return false;
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function errorImplementation(): bool {
 
         if ($this->errorImplementation) {

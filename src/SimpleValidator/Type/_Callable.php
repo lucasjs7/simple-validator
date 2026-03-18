@@ -6,8 +6,6 @@ use Lucasjs7\SimpleValidator\Type\Attribute\tCallable;
 
 class _Callable extends TypeBase {
 
-    private static array $patterns = [];
-
     use tCallable, tPattern, tRequired;
 
     public function __construct(

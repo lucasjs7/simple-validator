@@ -4,8 +4,6 @@ namespace Lucasjs7\SimpleValidator\Type;
 
 class _Bool extends TypeBase {
 
-    private static array $patterns = [];
-
     use tPattern, tRequired;
 
     public function typeValidate(

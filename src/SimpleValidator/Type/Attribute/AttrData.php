@@ -23,7 +23,7 @@ class AttrData {
         $this->error = $value;
     }
 
-    public function getError(): string {
+    public function getError(): bool {
         return $this->error;
     }
 }

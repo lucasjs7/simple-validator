@@ -8,12 +8,15 @@ class _Date extends TypeBase {
 
     public static $defaultFormat = 'Y-m-d';
 
-    private static array $patterns = [];
-
     use tFormat, tPattern, tRequired;
 
-    public function __construct() {
-        parent::__construct();
+    public function __construct(
+        ?string $label = null,
+    ) {
+
+        parent::__construct(
+            label: $label,
+        );
 
         if ($this->getAttr()->format->getValue() === null) {
             $this->getAttr()->format->setValue(static::$defaultFormat);

@@ -98,12 +98,8 @@ class TypeParser {
 
         foreach ($dataVal as $subVal) {
             $optList = explode(':', $subVal, 2);
-            $optKey  = $optList[0] ?? null;
+            $optKey  = $optList[0];
             $optVal  = $optList[1] ?? null;
-
-            if ($optKey === null) {
-                continue;
-            }
 
             $fmtKey = trim($optKey);
             $fmtVal = ($optVal !== null) ? trim($optVal) : $optVal;

@@ -6,8 +6,6 @@ use Lucasjs7\SimpleValidator\Type\Attribute\{tHeight, tWidth, tMaxDataSize};
 
 class _Image extends _File {
 
-    private static array $patterns = [];
-
     use tPattern, tRequired, tMaxDataSize, tWidth, tHeight;
 
     public function typeValidate(

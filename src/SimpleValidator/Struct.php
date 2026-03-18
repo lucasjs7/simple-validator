@@ -49,7 +49,7 @@ class Struct extends DataStructure {
 
     public static function new(
         array $structure,
-    ): static {
+    ): self {
         return new self($structure);
     }
 

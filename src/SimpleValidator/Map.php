@@ -24,8 +24,8 @@ class Map extends DataStructure {
     public static function new(
         string|TypeBase               $typeKeys,
         string|TypeBase|DataStructure $typeValues
-    ): static {
-        return new static($typeKeys, $typeValues);
+    ): self {
+        return new self($typeKeys, $typeValues);
     }
 
     public function validate(
@@ -47,7 +47,7 @@ class Map extends DataStructure {
             return true;
         }
 
-        if (!is_array($value) || !is_array($value)) {
+        if (!is_array($value)) {
             $this->setError(
                 message: Lng::get('map.key_value'),
             );
