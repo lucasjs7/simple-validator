@@ -21,9 +21,9 @@ class Struct extends DataStructure {
     ) {
         parent::__construct();
 
-        $newStructure = $structure;
+        $newStructure = [];
 
-        foreach ($newStructure as $key => &$val) {
+        foreach ($structure as $key => $val) {
 
             if (!is_string($key)) {
                 static::exitError(
@@ -49,11 +49,10 @@ class Struct extends DataStructure {
                 return;
             }
 
-            if (is_string($val)) {
-                $val = TypeParser::new(
-                    value: $val,
-                );
-            }
+            $newStructure[$key] = match (true) {
+                is_string($val) => TypeParser::new(value: $val),
+                default => $val,
+            };
         }
 
         $this->structure = $newStructure;

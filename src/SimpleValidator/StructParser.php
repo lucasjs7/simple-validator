@@ -17,12 +17,23 @@ use ReflectionNamedType;
 
 class StructParser {
 
+    /**
+     * @param object|class-string $class
+     *
+     * @return Struct
+     */
     public static function new(
         object|string $class,
     ): Struct {
         return static::method($class, '__construct');
     }
 
+    /**
+     * @param object|class-string $class
+     * @param string $method
+     *
+     * @return Struct
+     */
     public static function method(
         object|string $class,
         string        $method,
@@ -38,11 +49,15 @@ class StructParser {
 
                 foreach ($rfClass->getProperties() as $prop) {
 
-                    if (strpos($prop->getDocComment(), '@validate') === false) {
+                    $comment = $prop->getDocComment();
+
+                    if ($comment === false) {
+                        continue;
+                    } elseif (strpos($comment, '@validate') === false) {
                         continue;
                     }
 
-                    $properties[$prop->name]['doc_comment'] = $prop->getDocComment();
+                    $properties[$prop->name]['doc_comment'] = $comment;
                 }
             }
 
@@ -175,7 +190,11 @@ class StructParser {
             $docValidate = $attribute;
         } elseif (!empty($docComment)) {
 
-            preg_match('/@validate\s+(.*)$/m', $docComment, $mtDoc);
+            $pregMatch = preg_match('/@validate\s+(.*)$/m', $docComment, $mtDoc);
+
+            if (!$pregMatch) {
+                throw new Exception;
+            }
 
             $docValidate = $mtDoc[1];
 

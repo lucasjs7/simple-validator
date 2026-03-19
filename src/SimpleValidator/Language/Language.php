@@ -7,7 +7,7 @@ use Lucasjs7\SimpleValidator\Core;
 class Language {
 
     /**
-     * @var array<string, mixed>
+     * @var array<eLanguage, array<string, mixed>>
      */
     private static array $data = [];
 

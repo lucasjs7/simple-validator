@@ -9,7 +9,7 @@ use Lucasjs7\SimpleValidator\Language\Language as Lng;
 class ValidatorException extends Exception {
 
     /**
-     * @var array<int, string|int>
+     * @var array<string|int, mixed>
      */
     private readonly array $errorPath;
 
@@ -17,7 +17,7 @@ class ValidatorException extends Exception {
      * @param string $message
      * @param int $code
      * @param Throwable|null $previous
-     * @param array<int, string|int> $errorPath
+     * @param array<string|int, mixed> $errorPath
      */
     public function __construct(
         string     $message = '',
@@ -30,7 +30,7 @@ class ValidatorException extends Exception {
     }
 
     /**
-     * @return array<int, string|int>
+     * @return array<string|int, mixed>
      */
     public function getErrorPath(): array {
         return $this->errorPath;

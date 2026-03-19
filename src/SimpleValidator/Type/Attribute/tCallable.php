@@ -7,7 +7,15 @@ use Exception;
 use Lucasjs7\SimpleValidator\ValidatorException;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
+/**
+ * @phpstan-require-extends \Lucasjs7\SimpleValidator\Type\TypeBase
+ */
 trait tCallable {
+
+    /**
+     * @return \Lucasjs7\SimpleValidator\Type\TypeBase
+     */
+    abstract public function getAttr(): \Lucasjs7\SimpleValidator\Type\TypeBase;
 
     public function function(
         callable $value,
