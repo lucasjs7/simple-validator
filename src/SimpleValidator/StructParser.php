@@ -12,7 +12,7 @@ use ReflectionParameter;
 use ReflectionIntersectionType;
 use Lucasjs7\SimpleValidator\Type\TypeParser;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
-use Lucasjs7\SimpleValidator\Type\TypeBase;
+use Lucasjs7\SimpleValidator\Type\iTypeBase;
 use ReflectionNamedType;
 
 class StructParser {
@@ -125,7 +125,7 @@ class StructParser {
      * @param ReflectionMethod|ReflectionFunction $rf
      * @param array<string, array<string, string>> $properties
      *
-     * @return array<string, TypeBase>
+     * @return array<string, iTypeBase>
      */
     private static function processParameters(
         ReflectionMethod|ReflectionFunction $rf,
@@ -164,7 +164,7 @@ class StructParser {
         bool                $required,
         ?string             $attribute,
         string              $docComment,
-    ): TypeBase {
+    ): iTypeBase {
 
         if (!$param->hasType()) {
             throw new Exception;
@@ -236,7 +236,12 @@ class StructParser {
             throw new Exception;
         }
 
-        $strParser  = ($parserType === null) ? "type: $tName | $docValidate" : $docValidate;
+        $strParser = ($parserType === null) ? "type: $tName | $docValidate" : $docValidate;
+
+        if ($strParser === null) {
+            throw new Exception;
+        }
+
         $typeParser = TypeParser::new($strParser);
 
         if ($required) {

@@ -2,7 +2,7 @@
 
 namespace Lucasjs7\SimpleValidator\Type;
 
-use Attribute;
+use Lucasjs7\SimpleValidator\Type\Attribute\Attribute;
 
 interface iTypeBase {
 
@@ -18,7 +18,7 @@ interface iTypeBase {
 
     public function label(string $value): static;
 
-    public static function new(?string $label = null): static;
+    public static function new(?string $label = null): TypeBase;
 
     public function required(bool $value = true): static;
 
@@ -28,5 +28,13 @@ interface iTypeBase {
 
     public function save(string $name): void;
 
-    public static function pattern(string $name): self;
+    public static function pattern(string $name): TypeBase;
+
+    public function getError(): string;
+
+    public function attrError(Attribute $attr, string $errorMessage): void;
+
+    public function isRequired(): bool;
+
+    public function errorImplementation(): bool;
 }

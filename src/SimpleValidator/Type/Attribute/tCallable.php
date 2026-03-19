@@ -6,16 +6,17 @@ use Closure;
 use Exception;
 use Lucasjs7\SimpleValidator\ValidatorException;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
+use Lucasjs7\SimpleValidator\Type\TypeBase;
 
 /**
- * @phpstan-require-extends \Lucasjs7\SimpleValidator\Type\TypeBase
+ * @phpstan-require-extends TypeBase
  */
 trait tCallable {
 
     /**
-     * @return \Lucasjs7\SimpleValidator\Type\TypeBase
+     * @return TypeBase
      */
-    abstract public function getAttr(): \Lucasjs7\SimpleValidator\Type\TypeBase;
+    abstract public function getAttr(): TypeBase;
 
     public function function(
         callable $value,
@@ -42,7 +43,20 @@ trait tCallable {
         }
 
         if ($callable instanceof Closure) {
+
             $callable = $callable->bindTo($this);
+
+            if ($callable === null) {
+                static::exitError(
+                    title: 'Callable Error',
+                    message: Lng::get('type.attribute.callable.invalid'),
+                    exception: new Exception,
+                    backtrace: true,
+                    tables: null,
+                );
+                $this->errorImplementation = true;
+                return;
+            }
         }
 
         $isValid = ($callable($value) === true);

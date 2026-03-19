@@ -26,19 +26,7 @@ class TypeParser {
                 );
             }
 
-            $className = match ($dataOpt['type']) {
-                'string'    => _String::class,
-                'int'       => _Int::class,
-                'float'     => _Float::class,
-                'bool'      => _Bool::class,
-                'date'      => _Date::class,
-                'interface' => _Interface::class,
-                'mixed'     => _Mixed::class,
-                'callable'  => _Callable::class,
-                'file'      => _File::class,
-                'image'     => _Image::class,
-                default     => null,
-            };
+            $className = static::getFromString($dataOpt['type']);
 
             if ($className === null) {
                 throw new Exception(
@@ -73,6 +61,7 @@ class TypeParser {
             }
 
             return $instance;
+
         } catch (Exception $e) {
 
             Core::exitError(
@@ -88,6 +77,27 @@ class TypeParser {
 
             return $typeError;
         }
+    }
+
+    /**
+     * @return class-string<iTypeBase>|null
+     */
+    public static function getFromString(
+        string $type,
+    ): ?string {
+        return match ($type) {
+            'string'    => _String::class,
+            'int'       => _Int::class,
+            'float'     => _Float::class,
+            'bool'      => _Bool::class,
+            'date'      => _Date::class,
+            'interface' => _Interface::class,
+            'mixed'     => _Mixed::class,
+            'callable'  => _Callable::class,
+            'file'      => _File::class,
+            'image'     => _Image::class,
+            default     => null,
+        };
     }
 
     /**
