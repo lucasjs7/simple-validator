@@ -8,12 +8,22 @@ use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 class Struct extends DataStructure {
 
+    /**
+     * @var array<string, DataStructure|TypeBase>
+     */
+    protected array $structure;
+
+    /**
+     * @param array<string|int, mixed> $structure
+     */
     public function __construct(
-        public array $structure
+        array $structure
     ) {
         parent::__construct();
 
-        foreach ($this->structure as $key => &$val) {
+        $newStructure = $structure;
+
+        foreach ($newStructure as $key => &$val) {
 
             if (!is_string($key)) {
                 static::exitError(
@@ -45,12 +55,24 @@ class Struct extends DataStructure {
                 );
             }
         }
+
+        $this->structure = $newStructure;
     }
 
+    /**
+     * @param array<string|int, mixed> $structure
+     */
     public static function new(
         array $structure,
     ): self {
         return new self($structure);
+    }
+
+    /**
+     * @return array<string, DataStructure|TypeBase>
+     */
+    public function getStructure(): array {
+        return $this->structure;
     }
 
     public function validate(
@@ -113,6 +135,9 @@ class Struct extends DataStructure {
         return true;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function info(): array {
         $rtn = [];
 

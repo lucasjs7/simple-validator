@@ -8,6 +8,9 @@ enum eLanguage {
     case PT;
     case EN;
 
+    /**
+     * @return array<eLanguage, array<string, mixed>>
+     */
     public function data(): array {
         return match ($this) {
             self::PT => Pt::get(),

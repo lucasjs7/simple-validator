@@ -90,6 +90,9 @@ class TypeParser {
         }
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public static function checkOptions(
         string $value,
     ): array {

@@ -4,6 +4,9 @@ namespace Lucasjs7\SimpleValidator\Language\Data;
 
 class En extends Data {
 
+    /**
+     * @return array<string, mixed>
+     */
     public static function get(): array {
         return [
             'implementation' => 'An error occurred during validation.',

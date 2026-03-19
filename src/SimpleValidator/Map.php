@@ -92,6 +92,9 @@ class Map extends DataStructure {
         return true;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function info(): array {
         return [
             'key'   => $this->typeKeys->info(),

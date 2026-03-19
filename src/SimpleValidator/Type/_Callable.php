@@ -44,7 +44,7 @@ class _Callable extends TypeBase {
 
     public function error(
         string $message
-    ) {
+    ): void {
         $this->setError(
             message: $message,
             label: $this->getAttr()->label->getValue(),

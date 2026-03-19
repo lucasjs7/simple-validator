@@ -6,12 +6,18 @@ use Lucasjs7\SimpleValidator\Type\TypeBase;
 
 abstract class DataStructure extends Core implements iDataStructure {
 
+    /**
+     * @var array<int, string|int>
+     */
     protected array $errorPath = [];
 
     public function __construct() {
         parent::__construct();
     }
 
+    /**
+     * @return array<int, string|int>
+     */
     public function getErrorPath(): array {
         return $this->errorPath;
     }

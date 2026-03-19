@@ -6,6 +6,9 @@ use Lucasjs7\SimpleValidator\Core;
 
 class Language {
 
+    /**
+     * @var array<string, mixed>
+     */
     private static array $data = [];
 
     public static function defaultLang(): void {
@@ -19,6 +22,10 @@ class Language {
         Core::$language = $language;
     }
 
+    /**
+     * @param string $path
+     * @param array<string, string> $dataReplace
+     */
     public static function get(
         string $path,
         array  $dataReplace = [],

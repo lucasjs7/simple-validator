@@ -107,7 +107,10 @@ class StructParser {
     }
 
     /**
-     * @return TypeBase[]
+     * @param ReflectionMethod|ReflectionFunction $rf
+     * @param array<string, array<string, string>> $properties
+     *
+     * @return array<string, TypeBase>
      */
     private static function processParameters(
         ReflectionMethod|ReflectionFunction $rf,

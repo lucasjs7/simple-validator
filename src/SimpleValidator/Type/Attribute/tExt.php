@@ -18,6 +18,9 @@ trait tExt {
         return $this;
     }
 
+    /**
+     * @param array<string, mixed> $value
+     */
     public function validateExt(
         array $value,
     ): void {

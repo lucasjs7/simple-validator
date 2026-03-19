@@ -6,7 +6,7 @@ use Lucasjs7\SimpleValidator\Type\Attribute\{tFormat};
 
 class _Date extends TypeBase {
 
-    public static $defaultFormat = 'Y-m-d';
+    public static string $defaultFormat = 'Y-m-d';
 
     use tFormat, tPattern, tRequired;
 

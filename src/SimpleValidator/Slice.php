@@ -65,9 +65,9 @@ class Slice extends DataStructure {
 
             if (!$this->typeValues->validate(...$dataValidateValue)) {
                 $this->setErrorPath(
-                    message: $this->typeValues->getError(),
-                    currentPath: $key,
-                    field: $this->typeValues,
+                    message    : $this->typeValues->getError(),
+                    currentPath: (string) $key,
+                    field      : $this->typeValues,
                 );
                 return false;
             }
@@ -76,6 +76,9 @@ class Slice extends DataStructure {
         return true;
     }
 
+    /**
+     * @return array<int, mixed>
+     */
     public function info(): array {
         return [
             $this->typeValues->info()

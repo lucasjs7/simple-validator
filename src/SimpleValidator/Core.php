@@ -13,6 +13,9 @@ abstract class Core {
 
     public static eMode $mode = eMode::PRODUCTION;
 
+    /**
+     * @var array<string|int, mixed>
+     */
     protected array  $path = [];
     protected string $errorMsg  = '';
     protected bool   $exception = true;
@@ -26,10 +29,22 @@ abstract class Core {
         }
     }
 
+    /**
+     * @param array<string|int, mixed> $value
+     *
+     * @return void
+     */
     protected function setPath(array $value): void {
         $this->path = $value;
     }
 
+    /**
+     * @param string $message
+     * @param array<string|int, mixed> $errorPath
+     * @param string|null $label
+     *
+     * @return void
+     */
     protected function setError(
         string  $message,
         array   $errorPath = [],
@@ -219,7 +234,7 @@ abstract class Core {
                 return true;
             }
         } elseif ($this instanceof Struct) {
-            foreach ($this->structure as $stcVal) {
+            foreach ($this->getStructure() as $stcVal) {
                 if ($stcVal->isRequired()) {
                     return true;
                 }
@@ -241,7 +256,7 @@ abstract class Core {
         if ($this->errorImplementation) {
             return true;
         } elseif ($this instanceof Struct) {
-            foreach ($this->structure as $stcVal) {
+            foreach ($this->getStructure() as $stcVal) {
                 if ($stcVal->errorImplementation()) {
                     return true;
                 }

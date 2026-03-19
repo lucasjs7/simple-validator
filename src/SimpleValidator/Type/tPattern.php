@@ -8,6 +8,9 @@ use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
 trait tPattern {
 
+    /**
+     * @var array<string, self>
+     */
     private static array $patterns = [];
 
     public function save(
