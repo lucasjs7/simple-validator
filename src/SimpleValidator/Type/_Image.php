@@ -8,6 +8,9 @@ class _Image extends _File {
 
     use tPattern, tRequired, tMaxDataSize, tWidth, tHeight;
 
+    /**
+     * @phpstan-assert-if-true array{name: string, type: string, size: int, tmp_name: string, full_path: string, error: int} $value
+     */
     public function typeValidate(
         mixed $value,
     ): bool {
@@ -33,6 +36,9 @@ class _Image extends _File {
         return true;
     }
 
+    /**
+     * @throws ValidatorException
+     */
     public function attrsValidate(
         mixed $value,
     ): void {

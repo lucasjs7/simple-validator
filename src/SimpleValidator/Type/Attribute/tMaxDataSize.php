@@ -6,6 +6,9 @@ use Lucasjs7\ConvertDataSize\ConvertDataSize;
 use Lucasjs7\SimpleValidator\ValidatorException;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
+/**
+ * @phpstan-require-extends \Lucasjs7\SimpleValidator\Type\TypeBase
+ */
 trait tMaxDataSize {
 
     public function max(
@@ -28,6 +31,9 @@ trait tMaxDataSize {
         return $this;
     }
 
+    /**
+     * @throws ValidatorException
+     */
     public function validateMax(
         mixed  $value,
     ): void {

@@ -5,6 +5,9 @@ namespace Lucasjs7\SimpleValidator\Type\Attribute;
 use Lucasjs7\SimpleValidator\ValidatorException;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
+/**
+ * @phpstan-require-extends \Lucasjs7\SimpleValidator\Type\TypeBase
+ */
 trait tHeight {
 
     public function height(
@@ -14,6 +17,9 @@ trait tHeight {
         return $this;
     }
 
+    /**
+     * @throws ValidatorException
+     */
     public function validateHeight(
         mixed $value,
     ): void {

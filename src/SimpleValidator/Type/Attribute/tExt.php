@@ -5,6 +5,9 @@ namespace Lucasjs7\SimpleValidator\Type\Attribute;
 use Lucasjs7\SimpleValidator\ValidatorException;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
+/**
+ * @phpstan-require-extends \Lucasjs7\SimpleValidator\Type\TypeBase
+ */
 trait tExt {
 
     public function ext(
@@ -20,9 +23,11 @@ trait tExt {
 
     /**
      * @param array<string, mixed> $value
+     *
+     * @throws ValidatorException
      */
     public function validateExt(
-        array $value,
+        mixed $value,
     ): void {
 
         if (static::isEmpty($this->getAttr()->ext->getValue())) {

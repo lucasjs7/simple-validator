@@ -10,9 +10,16 @@ class _File extends TypeBase {
 
     use tPattern, tRequired, tMaxDataSize, tExt;
 
+    /**
+     * @phpstan-assert-if-true array{name: string, type: string, size: int, tmp_name: string, full_path: string, error: int} $value
+     */
     public function typeValidate(
         mixed $value,
     ): bool {
+
+        if (!is_array($value)) {
+            return false;
+        }
 
         $sFile = Struct::new([
             'name'      => 'type: string | required',
@@ -25,7 +32,7 @@ class _File extends TypeBase {
 
         $isValid = $sFile->validate($value, false);
 
-        if (!$isValid || !is_uploaded_file($value['tmp_name'])) {
+        if (!$isValid || !is_string($value['tmp_name']) || !is_uploaded_file($value['tmp_name'])) {
             $this->setError(Lng::get('type.attribute.file.invalid'));
             return false;
         }
@@ -33,6 +40,9 @@ class _File extends TypeBase {
         return true;
     }
 
+    /**
+     * @param array<string, mixed> $value
+     */
     public function attrsValidate(
         mixed $value,
     ): void {

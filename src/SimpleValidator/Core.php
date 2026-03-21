@@ -44,6 +44,8 @@ abstract class Core {
      * @param string|null $label
      *
      * @return void
+     *
+     * @throws ValidatorException
      */
     protected function setError(
         string  $message,

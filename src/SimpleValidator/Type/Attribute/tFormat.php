@@ -6,6 +6,9 @@ use DateTime;
 use Lucasjs7\SimpleValidator\ValidatorException;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
+/**
+ * @phpstan-require-extends \Lucasjs7\SimpleValidator\Type\TypeBase
+ */
 trait tFormat {
 
     public function format(
@@ -16,6 +19,9 @@ trait tFormat {
         return $this;
     }
 
+    /**
+     * @throws ValidatorException
+     */
     public function validateFormat(
         string $value,
     ): void {

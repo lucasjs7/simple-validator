@@ -5,6 +5,9 @@ namespace Lucasjs7\SimpleValidator\Type\Attribute;
 use Lucasjs7\SimpleValidator\ValidatorException;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
+/**
+ * @phpstan-require-extends \Lucasjs7\SimpleValidator\Type\TypeBase
+ */
 trait tMax {
 
     public function max(
@@ -15,6 +18,9 @@ trait tMax {
         return $this;
     }
 
+    /**
+     * @throws ValidatorException
+     */
     public function validateMax(
         mixed  $value,
         string $type,

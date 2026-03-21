@@ -74,6 +74,9 @@ class Struct extends DataStructure {
         return $this->structure;
     }
 
+    /**
+     * @phpstan-assert-if-true array<string, mixed> $value
+     */
     public function validate(
         mixed  $value,
         bool   $exception = true,

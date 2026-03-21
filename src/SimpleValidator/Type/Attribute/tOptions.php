@@ -5,6 +5,9 @@ namespace Lucasjs7\SimpleValidator\Type\Attribute;
 use Lucasjs7\SimpleValidator\ValidatorException;
 use Lucasjs7\SimpleValidator\Language\Language as Lng;
 
+/**
+ * @phpstan-require-extends \Lucasjs7\SimpleValidator\Type\TypeBase
+ */
 trait tOptions {
 
     public function options(
@@ -14,8 +17,11 @@ trait tOptions {
         return $this;
     }
 
+    /**
+     * @throws ValidatorException
+     */
     public function validateOptions(
-        string $value,
+        mixed $value,
     ): void {
         if (static::isEmpty($this->getAttr()->options->getValue())) {
             return;

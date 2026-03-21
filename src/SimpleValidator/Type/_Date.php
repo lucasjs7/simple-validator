@@ -27,6 +27,9 @@ class _Date extends TypeBase {
         return is_string($value);
     }
 
+    /**
+     * @param string $value
+     */
     public function attrsValidate(mixed $value): void {
         $this->validateFormat($value);
     }
