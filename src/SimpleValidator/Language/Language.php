@@ -24,7 +24,7 @@ class Language {
 
     /**
      * @param string $path
-     * @param array<string, string> $dataReplace
+     * @param array<string, mixed> $dataReplace
      */
     public static function get(
         string $path,

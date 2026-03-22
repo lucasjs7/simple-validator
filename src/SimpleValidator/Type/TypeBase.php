@@ -113,7 +113,7 @@ abstract class TypeBase extends Core implements iTypeBase {
                     continue;
                 }
 
-                if ($rfProp->getName() != 'required' && $attribute->getValue() !== null) {
+                if ($rfProp->getName() !== 'required' && $attribute->getValue() !== null) {
                     $attribute->setError(true);
                 }
             }
@@ -150,8 +150,8 @@ abstract class TypeBase extends Core implements iTypeBase {
 
         $invalidGroups += (int) (!$emptyUnsigned && !$emptyMin);
 
-        $noGroupUsed = ($countGroups == 0);
-        $validGroups = ($countGroups == 1 && $invalidGroups == 0);
+        $noGroupUsed = ($countGroups === 0);
+        $validGroups = ($countGroups === 1 && $invalidGroups === 0);
 
         return ($noGroupUsed || $validGroups);
     }
