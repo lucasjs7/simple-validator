@@ -59,6 +59,7 @@ class Struct extends DataStructure {
     ): bool {
 
         $this->exception = $exception;
+        $this->errorMsg = '';
 
         if ($this->errorImplementation()) {
             $this->setError(Lng::get('implementation'));
